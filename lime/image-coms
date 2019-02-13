@@ -1,0 +1,37 @@
+3D numpy array : tableau a 2d correspondant aux pixels, la profonder correspond au différentes couleurs/alpha ?
+segement = megapixel ?
+
+get_image_and_mask(self, label, positive_only=True, hide_rest=False, num_features=5, min_weight=0.)
+
+label : ce qu'on veut expliquer
+positive_only : montrer que ce qui contribue positivement à la prediction de ce label. sinon montrer num_feature superpixels (positifs ou negatifs)
+hide_rest : cacher ce qui ne contribue pas à m'explication
+num_feature : nombre de super pixel dans l'explication
+min_weigth : poids minimal pour etre pris en compte ?
+
+return image en 3d numpy array et mask 2d numpy array
+
+---------------------------------------------------------------------------------------------------------
+shape = format du tableau (2,2) si c'est un carré de 2x2
+(3,8) si xxxxxxxx
+         xxxxxxxx
+         xxxxxxxx
+
+segment.shape = forme des superpixels ?
+
+fs est égal à un array de num_features labels qui ont un poids superieur à min_weight
+
+
+
+
+
+
+
+
+
+
+
+
+kernel width = pour gérer la distance ? + c'est grand, plus les elemt eloignés auront un poids faible
+feature selection ?
+
