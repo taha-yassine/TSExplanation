@@ -57,8 +57,8 @@ class App(QWidget):
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(400, 200, 500, 450)  
-        #self.setFixedSize(400, 331)
         self.setMinimumSize(500, 450)
+        self.setWindowIcon(QtGui.QIcon(QtCore.QDir.currentPath() + "\\icons\\TSExplanation.ico"))
         self.tabWidget = QtWidgets.QTabWidget(self)
         self.tabWidget.setGeometry(QtCore.QRect(0, 2, 502, 450))
         self.tabWidget.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
@@ -76,36 +76,30 @@ class App(QWidget):
         self.formLayout_Classifier.setContentsMargins(18, 18, 18, 18)
 
         self.lbl_Classifier_SelectTS = QtWidgets.QLabel(self.tab_Classifier)
-        #self.lbl_Classifier_SelectTS.setGeometry(QtCore.QRect(10, 10, 150, 13))
         self.lbl_Classifier_SelectTS.setText("Fichier des ST d'entraînement")
         self.formLayout_Classifier.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lbl_Classifier_SelectTS)
 
         self.cb_Classifier_SelectTS = QtWidgets.QComboBox(self.tab_Classifier)
-        #self.cb_Classifier_SelectTS.setGeometry(QtCore.QRect(200, 10, 151, 23))
         self.cb_Classifier_SelectTS.addItem("")
         self.cb_Classifier_SelectTS.setItemText(0, "Charger mon fichier ...")
         self.cb_Classifier_SelectTS.activated.connect(self.openTSFile)
         self.formLayout_Classifier.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.cb_Classifier_SelectTS)
 
         self.lbl_Classifier = QtWidgets.QLabel(self.tab_Classifier)
-        #self.lbl_Classifier.setGeometry(QtCore.QRect(10, 40, 150, 16))
         self.lbl_Classifier.setText("Type du classifieur")
         self.formLayout_Classifier.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lbl_Classifier)
 
         self.cb_Classifier = QtWidgets.QComboBox(self.tab_Classifier)
-        #self.cb_Classifier.setGeometry(QtCore.QRect(200, 40, 151, 22))
         self.cb_Classifier.addItem("")
         self.cb_Classifier.setItemText(0, "1NN-DTW")
         self.cb_Classifier.addItem("Learning Shapelet")
         self.formLayout_Classifier.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.cb_Classifier)
 
         self.lbl_Classifier_Save = QtWidgets.QLabel(self.tab_Classifier)
-        #self.lbl_Classifier_Save.setGeometry(QtCore.QRect(10, 70, 150, 16))
         self.lbl_Classifier_Save.setText("Construction et sauvegarde")
         self.formLayout_Classifier.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.lbl_Classifier_Save)
 
         self.btn_Classifier_Save = QtWidgets.QPushButton(self.tab_Classifier)
-        #self.btn_Classifier_Save.setGeometry(QtCore.QRect(200, 70, 151, 23))
         self.btn_Classifier_Save.setText("Sauvegarder ...                     ")
         self.btn_Classifier_Save.clicked.connect(self.saveClassifier) 
         self.formLayout_Classifier.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.btn_Classifier_Save)
@@ -139,9 +133,6 @@ class App(QWidget):
         self.lbl_TS_Index.setText("Indice :")
         self.horizontalLayout_TS.addWidget(self.lbl_TS_Index)  
 
-        #self.txt_TS_Index = QtWidgets.QLineEdit(self.verticalLayoutWidget_2)
-        #self.txt_TS_Index.setGeometry(QtCore.QRect(180, 20, 50, 20))
-        #self.txt_TS_Index.setText("54")
         self.txt_TS_Index = QtWidgets.QSpinBox(self.tab_TS)
         self.txt_TS_Index.setMinimum(1)
         self.txt_TS_Index.setEnabled(False)
@@ -149,7 +140,6 @@ class App(QWidget):
         self.horizontalLayout_TS.addWidget(self.txt_TS_Index)
 
         self.btn_TS_Affiche = QtWidgets.QPushButton(self.tab_TS)
-        #self.btn_TS_Affiche.setGeometry(QtCore.QRect(290, 20, 75, 23))
         self.btn_TS_Affiche.setText("Afficher")
         self.btn_TS_Affiche.clicked.connect(self.showTSPlot)
         self.horizontalLayout_TS.addWidget(self.btn_TS_Affiche)
@@ -187,8 +177,6 @@ class App(QWidget):
         self.lbl_Shapelet_IndexSh = QtWidgets.QLabel(self.tab_Shapelet)
         self.lbl_Shapelet_IndexSh.setText("Indice :")
         self.formLayout_Shapelet_Sh.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lbl_Shapelet_IndexSh)
-        #self.txt_Shapelet_IndexSh = QtWidgets.QLineEdit(self.tab_Shapelet)
-        #self.txt_Shapelet_IndexSh.setText("8")
         self.txt_Shapelet_IndexSh = QtWidgets.QSpinBox(self.tab_Shapelet)
         self.txt_Shapelet_IndexSh.setMinimum(1)
         self.txt_Shapelet_IndexSh.setEnabled(False)
@@ -199,7 +187,7 @@ class App(QWidget):
 
         self.img_Shapelet_Shapelet = QtWidgets.QLabel(self.tab_Shapelet) 
         fileName = QtCore.QDir.currentPath() + "\\icons\\ShapeletDistance.JPG"
-        self.img_Shapelet_Shapelet.setPixmap(QPixmap(fileName).scaled(100, 70, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation))
+        #self.img_Shapelet_Shapelet.setPixmap(QPixmap(fileName).scaled(100, 70, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation))
         self.horizontalLayout_Shapelet.addWidget(self.img_Shapelet_Shapelet)
 
         self.line = QtWidgets.QFrame(self.tab_Shapelet)
@@ -217,8 +205,6 @@ class App(QWidget):
         self.lbl_Shapelet_IndexTS = QtWidgets.QLabel(self.tab_Shapelet)
         self.lbl_Shapelet_IndexTS.setText("Indice :")
         self.formLayout_Shapelet_TS.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lbl_Shapelet_IndexTS)
-        #self.txt_Shapelet_IndexTS = QtWidgets.QLineEdit(self.tab_Shapelet)
-        #self.txt_Shapelet_IndexTS.setText("54")
         self.txt_Shapelet_IndexTS = QtWidgets.QSpinBox(self.tab_Shapelet)
         self.txt_Shapelet_IndexTS.setMinimum(1)
         self.txt_Shapelet_IndexTS.setEnabled(False)
@@ -231,7 +217,7 @@ class App(QWidget):
 
         self.img_Shapelet_TS = QtWidgets.QLabel(self.tab_Shapelet)
         fileName = QtCore.QDir.currentPath() + "\\icons\\ShapeletDistance.JPG"
-        self.img_Shapelet_TS.setPixmap(QPixmap(fileName).scaled(100, 70, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation))
+        #self.img_Shapelet_TS.setPixmap(QPixmap(fileName).scaled(100, 70, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation))
         self.horizontalLayout_Shapelet.addWidget(self.img_Shapelet_TS)
 
         self.verticalLayout_Shapelet.addLayout(self.horizontalLayout_Shapelet)
@@ -286,8 +272,6 @@ class App(QWidget):
         self.lbl_LIME_Index = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_Index.setText("Indice de la ST à expliquer")
         self.formLayout_LIME.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_Index)        
-        #self.txt_LIME_Index = QtWidgets.QLineEdit(self.tab_LIME)
-        #self.txt_LIME_Index.setText("8")
         self.txt_LIME_Index = QtWidgets.QSpinBox(self.tab_LIME)
         self.txt_LIME_Index.setMinimum(1)
         self.txt_LIME_Index.setEnabled(False)
@@ -374,29 +358,14 @@ class App(QWidget):
                 self.txt_LIME_Index.setMaximum(num_lines)
                 self.txt_LIME_Index.setEnabled(True)
 
-
-    def test(self, tab):
-        print(tab)
-
-
     # Action of the button 'Sauvegarder' of the Classifier tab
     def saveClassifier(self):
         fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier",QtCore.QDir.currentPath(),"Saved classifiers (*.sav)") 
 
     # Action of the button 'Afficher' of the TS tab
-    #def showTSPlot(self):
-    #    data = [random.random() for i in range(11)]
-    #    self.figure_TS.clear()
-    #    ax = self.figure_TS.add_subplot(111)
-    #    ax.plot(data, '*-')
-    #    self.canvas_TS.draw()
-
-    # Action of the button 'Afficher' of the TS tab
     def showTSPlot(self):
-        #if App.fileNameTS != '' and self.txt_TS_Index.text().isdigit():
         if App.fileNameTS != '':
             with open(App.fileNameTS,'r') as file:
-                #for i in range(int(self.txt_TS_Index.text())):                
                 for i in range(self.txt_TS_Index.value()):
                     line = file.readline()
                 l = line.split(",")
@@ -405,7 +374,6 @@ class App(QWidget):
                 ax = self.figure_TS.add_subplot(111)
                 ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
                 self.canvas_TS.draw()
-                ############# changer la taille des points, possibilité de zoomer ??, gestion des exc ? 1 par défaut ? Spiner ?
 
     # Action of the button 'Charger Shapelet' of the Shapelet tab
     def openShFile(self):
