@@ -12,9 +12,17 @@ from . import lime_base
 
 class TSDomainMapper(explanation.DomainMapper):
 
-    def __init__():
+    def __init__(self, ts_seg):
+        # sous serie de base ou sous serie segmentee ?
+        self.ts_seg = ts
 
     def map_exp_ids(ts, positions=False):
+        if positions:
+            exp = [(self.mTS[x[0]],x[0], x[1])
+                   for x in exp]
+        else:
+            exp = [(self.mTS[x[0]], x[1]) for x in exp]
+        return exp
 
     def visualize_instance_html(ts):
 
@@ -69,9 +77,10 @@ class IndexedTS(object):
             return self.timeseries_start[[self.positions[id_]]]
 
 
-    def tsSegmentation(segmentationType):
+    def tsSegmentation(self, seg_length=5, segmentationType=None):
         """ Fait-on plusieurs types de segmentation?"""
-
+        res = [self.raw[x:x+seg_length] for x in range(0,len(self.raw),seg_length)]
+        return res
 
     def inverse_removing(self, sub_ts_to_remove):
         """Returns a time series after removing the appropriate sub-time-series.
@@ -108,3 +117,15 @@ class TSExplainer(object):
     def explain_instance(tsToExplain, classifier, label, numFeatures, numSamples, distance\_metric):
 
     def data_labels_distances(index, classifier, numSamples, distance_metric):
+
+""" OTHER USEFULL FUNCTIONS """
+
+def generateTS(size=100,min=0,max=10):
+    mlist = []
+    for i in range(size):
+        mlist.append(round(uniform(min,max),2))
+    return mlist
+
+def generateMockExp(ts):
+    res = [(x,uniform(0,1)) for x in range(0,len(ts))]
+    return res
