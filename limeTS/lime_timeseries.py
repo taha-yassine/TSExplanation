@@ -91,15 +91,15 @@ class IndexedTS(object):
         mask = np.ones(self.as_np.shape[0], dtype='bool')
         mask[self.__get_idxs(values_to_remove)] = False
         if not self.bow:
-            return ''.join([self.as_list[i] if mask[i]
-                            else chr(0) for i in range(mask.shape[0])])
-        return ''.join([self.as_list[v] for v in mask.nonzero()[0]])
+            return ''.join(str([self.as_list[i] if mask[i]
+                            else 'UNKNOW_TS' for i in range(mask.shape[0])]))
+        return ''.join(str([self.as_list[v] for v in mask.nonzero()[0]]))
 
     def __get_idxs(self, values):
         """Returns indexes to appropriate values."""
         if self.bow:
-            return list(for i in range(len(values)):
-                [self.positions[z] for z in values])))
+            return list(itertools.chain.from_iterable(
+                [self.positions[z] for z in values]))
         else:
             return self.positions[values]
 
@@ -134,14 +134,14 @@ print (myTS)
 myindexedTS = IndexedTS(myTS)
 mysegts = myindexedTS.tsSegmentation()
 #TS brute
-print (myindexedTS.raw_timeSeries())
+print ("TS BRUTE" , myindexedTS.raw_timeSeries())
 #TS segmentation
-print (mysegts)
+print ("TS Segmentation", mysegts)
 #longueur TS
-print (myindexedTS.num_timeSubSeries())
+print ("Longeur TS", myindexedTS.num_timeSubSeries())
 #rendre une valeur en fonction de son id 
-print (myindexedTS.timeSubSeries(2))
+print ("valeur de l'id 2", myindexedTS.timeSubSeries(2))
 #rendre toutes les positions de l'indice passe en param
-print (myindexedTS.timeSeries_position(1))
+print ("positions de l'indice 1 ", myindexedTS.timeSeries_position(1))
 #Enlever les mots aux indices donnes
-print (myindexedTS.inverse_removing([0,1]))
+print ("enleve mots indice 0 et 1", myindexedTS.inverse_removing([0,1]))
