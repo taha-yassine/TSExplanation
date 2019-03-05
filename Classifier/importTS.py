@@ -7,15 +7,13 @@ import numpy
 import os
 
 
-
-def fileImportTS(fileName):
-    X_train = load_timeseries_txt("TimeSeriesFiles/" + fileName + ".txt")
-    return X_train
-
-"""def dataImport(name):
-    X_train, y_train,_,_ = CachedDatasets().load_dataset(name)
+def fileImportTS(filePath):
+    data_train = numpy.loadtxt(filePath)
+    X_train = to_time_series_dataset(data_train[:, 1:])
+    y_train = data_train[:, 0].astype(numpy.int)
     X_train = TimeSeriesScalerMinMax().fit_transform(X_train)
-    return X_train, y_train"""
+    return X_train, y_train
+
 
 def dataImport(name):
     
