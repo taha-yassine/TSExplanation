@@ -1,5 +1,6 @@
 from tslearn.shapelets import ShapeletModel, grabocka_params_to_shapelet_size_dict
 from tslearn.neighbors import KNeighborsTimeSeriesClassifier
+from keras.optimizers import Adagrad
 
 
 def NN1_DTWClassifieur(X_train,Y_train):

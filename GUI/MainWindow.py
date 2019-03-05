@@ -19,40 +19,8 @@ class App(QWidget):
         super().__init__()
         self.title='TSExplanation'
         self.initUI()
-        '''f = QtCore.QFile(QtCore.QDir.currentPath() + "/StyleSheet.qss")
-        ts = QtCore.QTextStream(f)
-        stylesheet = ts.readAll()
-        self.setStyleSheet(stylesheet)'''
-        self.setStyleSheet("""
-            QTabWidget::tab-bar {
-                left: 5px; /* Move to the right by 5px */
-            }
-            QTabBar::tab {
-                border: 1px solid #B8CDDE;
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
-                min-width: 8ex;
-                padding: 2px;
-                width: 70px; /* Each tab has the same width */
-                height: 20px;
-                background: #D5ECFA;
-                margin-top: 5px;
-                font: bold 12px;
-                color: #40728B; /* Text color */
-            }
-            QTabBar::tab:hover {
-                background: #9EC8FF;
-            }
-            QTabBar::tab:selected {
-                background: #53A9C1;
-                border-color: #9B9B9B;
-                margin-top: 4px;
-                color: white;
-            }
-            QTabWidget::pane {
-                background: red;
-            }
-        """)
+        self.setStyleSheet(open("style.qss", "r").read())
+
         
     def initUI(self):
         self.setWindowTitle(self.title)
@@ -125,7 +93,6 @@ class App(QWidget):
 
         self.btn_TS_Charge = QtWidgets.QPushButton(self.tab_TS)
         self.btn_TS_Charge.setText("Charger ...")
-        #self.btn_TS_Charge.clicked.connect(self.openTSFile)
         self.btn_TS_Charge.clicked.connect(lambda idx="TS": self.openTSFile("TS"))
         self.horizontalLayout_TS.addWidget(self.btn_TS_Charge)
 
@@ -185,11 +152,6 @@ class App(QWidget):
         self.verticalLayout_Shapelet_Sh.addLayout(self.formLayout_Shapelet_Sh)
         self.horizontalLayout_Shapelet.addLayout(self.verticalLayout_Shapelet_Sh)
 
-        self.img_Shapelet_Shapelet = QtWidgets.QLabel(self.tab_Shapelet) 
-        fileName = QtCore.QDir.currentPath() + "\\icons\\ShapeletDistance.JPG"
-        #self.img_Shapelet_Shapelet.setPixmap(QPixmap(fileName).scaled(100, 70, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation))
-        self.horizontalLayout_Shapelet.addWidget(self.img_Shapelet_Shapelet)
-
         self.line = QtWidgets.QFrame(self.tab_Shapelet)
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -198,7 +160,6 @@ class App(QWidget):
         self.verticalLayout_Shapelet_TS = QtWidgets.QVBoxLayout()
         self.btn_Shapelet_ChargeTS = QtWidgets.QPushButton(self.tab_Shapelet)
         self.btn_Shapelet_ChargeTS.setText("Charger\nST")
-        #self.btn_Shapelet_ChargeTS.clicked.connect(self.openTSFile)
         self.btn_Shapelet_ChargeTS.clicked.connect(lambda idx="Shapelet": self.openTSFile("Shapelet"))
         self.verticalLayout_Shapelet_TS.addWidget(self.btn_Shapelet_ChargeTS)
         self.formLayout_Shapelet_TS = QtWidgets.QFormLayout()
@@ -210,16 +171,9 @@ class App(QWidget):
         self.txt_Shapelet_IndexTS.setEnabled(False)
         self.txt_Shapelet_IndexTS.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
-
         self.formLayout_Shapelet_TS.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.txt_Shapelet_IndexTS)
         self.verticalLayout_Shapelet_TS.addLayout(self.formLayout_Shapelet_TS)
         self.horizontalLayout_Shapelet.addLayout(self.verticalLayout_Shapelet_TS)
-
-        self.img_Shapelet_TS = QtWidgets.QLabel(self.tab_Shapelet)
-        fileName = QtCore.QDir.currentPath() + "\\icons\\ShapeletDistance.JPG"
-        #self.img_Shapelet_TS.setPixmap(QPixmap(fileName).scaled(100, 70, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation))
-        self.horizontalLayout_Shapelet.addWidget(self.img_Shapelet_TS)
-
         self.verticalLayout_Shapelet.addLayout(self.horizontalLayout_Shapelet)
 
         self.btn_Shapelet_Show = QtWidgets.QPushButton(self.tab_Shapelet)
@@ -265,7 +219,6 @@ class App(QWidget):
         self.formLayout_LIME.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_SelectTS)        
         self.btn_LIME_SelectTS = QtWidgets.QPushButton(self.tab_LIME)
         self.btn_LIME_SelectTS.setText("Charger ...")
-        #self.btn_LIME_SelectTS.clicked.connect(self.openTSFile) 
         self.btn_LIME_SelectTS.clicked.connect(lambda idx="LIME": self.openTSFile("LIME"))
         self.formLayout_LIME.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.btn_LIME_SelectTS)
 
@@ -295,18 +248,32 @@ class App(QWidget):
 
         self.lbl_LIME_Segm = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_Segm.setText("Algorithme de segmentation")
-        self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_Segm)        
+        self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_Segm) 
+
+
+        self.horizontalLayout_LIME_Widget = QtWidgets.QWidget(self.tab_LIME)
+        self.horizontalLayout_LIME = QtWidgets.QHBoxLayout(self.horizontalLayout_LIME_Widget)
+
         self.cb_LIME_Segm = QtWidgets.QComboBox(self.tab_LIME)
         self.cb_LIME_Segm.addItem("")
-        self.cb_LIME_Segm.setItemText(0, "??")
-        self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.cb_LIME_Segm)
+        self.cb_LIME_Segm.setItemText(0, "Uniforme") 
+        self.cb_LIME_Segm.addItem("Autre")
+        self.cb_LIME_Segm.currentIndexChanged.connect(self.selectionSegmChange)
+        self.horizontalLayout_LIME.addWidget(self.cb_LIME_Segm)
+        self.txt_LIME_Segm = QtWidgets.QSpinBox(self.tab_LIME)	# (pas toujours nécessaire selon l'option choisie)
+        #self.txt_LIME_Segm.setMinimum(1)
+        self.txt_LIME_Segm.setMinimumWidth(75)
+        self.txt_LIME_Segm.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.horizontalLayout_LIME.addWidget(self.txt_LIME_Segm)
+        self.horizontalLayout_LIME.setContentsMargins(0, 0, 0, 0)
+        self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_LIME_Widget)
 
         self.lbl_LIME_RempSS = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_RempSS.setText("Remplacement des sous-séries")
         self.formLayout_LIME.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_RempSS)        
         self.cb_LIME_RempSS = QtWidgets.QComboBox(self.tab_LIME)
         self.cb_LIME_RempSS.addItem("")
-        self.cb_LIME_RempSS.setItemText(0, "Segments nuls")
+        self.cb_LIME_RempSS.setItemText(0, "Segments nuls") # Voir les autres possibilités
         self.formLayout_LIME.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.cb_LIME_RempSS)
 
         self.lbl_LIME_Distance = QtWidgets.QLabel(self.tab_LIME)
@@ -402,12 +369,19 @@ class App(QWidget):
     def execLIME(self): # Show explanation
         App.explanation = "..."
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(explanation)# + result (classifier.predict(myTS))
+        self.UIexplanation.showUI(App.explanation)# + result (classifier.predict(myTS))
     
     # Binding between the size of the tab widget and the size of the window
     def resizeEvent(self, resizeEvent):
         self.tabWidget.setGeometry(0, 2, self.geometry().width() + 2, self.geometry().height())
         QtWidgets.QWidget.resizeEvent(self, resizeEvent)
+
+    # Action when there is a change in the type of segmentation, in the LIME tab
+    def selectionSegmChange(self):
+    	if self.cb_LIME_Segm.currentText() == "Uniforme":
+    		self.txt_LIME_Segm.setEnabled(True)
+    	else:
+    		self.txt_LIME_Segm.setEnabled(False)
 
 
     ###########################################################################################
