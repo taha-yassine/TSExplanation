@@ -6,9 +6,9 @@ import numpy as np
 import scipy as sp
 import sklearn
 from sklearn.utils import check_random_state
-"""
-from . import explanation
-from . import lime_base
+
+import lime.explanation as explanation
+#import lime.lime_base as 
 
 class TSDomainMapper(explanation.DomainMapper):
 
@@ -27,7 +27,7 @@ class TSDomainMapper(explanation.DomainMapper):
     def visualize_instance_html(ts):
         return 0
 
-"""
+
 class IndexedTS(object):
 
     def __init__(self, raw_ts, bow=True):
@@ -129,19 +129,20 @@ def generateMockExp(ts):
 
 
 """TEST"""
-myTS = [0.0, 0.21, 1.24, 1.21, 0.21 , 0.85, 1.96]
+myTS = [0.0, 0.21, 1.24, 1.21, 0.21, 0.85, 1.96]
+myTS2 = [[0.0, 0.21, 1.24, 1.21, 0.21, 0.85, 1.96],[1.33, 0.56 , 0.99]]
 print (myTS)
 myindexedTS = IndexedTS(myTS)
 mysegts = myindexedTS.tsSegmentation()
 #TS brute
-print ("TS BRUTE" , myindexedTS.raw_timeSeries())
+print ("TS BRUTE:" , myindexedTS.raw_timeSeries())
 #TS segmentation
-print ("TS Segmentation", mysegts)
+print ("TS Segmentation:", mysegts)
 #longueur TS
-print ("Longeur TS", myindexedTS.num_timeSubSeries())
+print ("Longeur TS:", myindexedTS.num_timeSubSeries())
 #rendre une valeur en fonction de son id 
-print ("valeur de l'id 2", myindexedTS.timeSubSeries(2))
+print ("valeur de l'id 2:", myindexedTS.timeSubSeries(2))
 #rendre toutes les positions de l'indice passe en param
-print ("positions de l'indice 1 ", myindexedTS.timeSeries_position(1))
+print ("positions de l'indice 1: ", myindexedTS.timeSeries_position(1))
 #Enlever les mots aux indices donnes
-print ("enleve mots indice 0 et 1", myindexedTS.inverse_removing([0,1]))
+print ("enleve mots indice 0 et 1:", myindexedTS.inverse_removing([0,1]))
