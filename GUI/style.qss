@@ -23,6 +23,6 @@ QTabBar::tab:selected {
     margin-top: 4px;
     color: white;
 }
-QTabWidget::pane {
+/*QTabWidget::pane {
     background: red;
-}
+}*/
