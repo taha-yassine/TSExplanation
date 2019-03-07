@@ -6,15 +6,22 @@ import numpy as np
 import scipy as sp
 import sklearn
 from sklearn.utils import check_random_state
+from matplotlib import pyplot as plt
+
+from random import *
+from decimal import Decimal
+
+
 
 import lime.explanation as explanation
 #import lime.lime_base as 
 
 class TSDomainMapper(explanation.DomainMapper):
 
-    def __init__(self, ts_seg):
+    def __init__(self, raw, ts_seg):
         # sous serie de base ou sous serie segmentee ?
-        self.ts_seg = ts
+        self.ts_seg = ts_seg
+        self.raw = raw
 
     def map_exp_ids(ts, positions=False):
         if positions:
@@ -24,7 +31,10 @@ class TSDomainMapper(explanation.DomainMapper):
             exp = [(self.mTS[x[0]], x[1]) for x in exp]
         return exp
 
-    def visualize_instance_html(ts):
+    def visualize_instance_html(self):
+        plt.plot(self.raw)
+        #plt.show()
+        plt.savefig('temp.png')
         return 0
 
 
@@ -129,6 +139,7 @@ def generateMockExp(ts):
 
 
 """TEST"""
+"""
 myTS = [0.0, 0.21, 1.24, 1.21, 0.21, 0.85, 1.96]
 myTS2 = [[0.0, 0.21, 1.24, 1.21, 0.21, 0.85, 1.96],[1.33, 0.56 , 0.99]]
 print (myTS)
@@ -146,3 +157,20 @@ print ("valeur de l'id 2:", myindexedTS.timeSubSeries(2))
 print ("positions de l'indice 1: ", myindexedTS.timeSeries_position(1))
 #Enlever les mots aux indices donnes
 print ("enleve mots indice 0 et 1:", myindexedTS.inverse_removing([0,1]))
+"""
+print("testing...")
+"""
+plt.plot([0.7, 0.64, 0.62, 0.06, 0.89, 0.07, 0.46, 0.12, 0.55, 0.33])
+plt.ylabel('some numbers')
+plt.show()
+plt.savefig('test.png')
+"""
+
+myTS = generateTS(10,0,1)
+myindexedTS = IndexedTS(myTS)
+
+myDomainMapper = TSDomainMapper(myindexedTS.raw_timeSeries(), myindexedTS.tsSegmentation())
+print ("TS BRUTE:" , myDomainMapper.raw)
+print ("TS Segmentation:", myDomainMapper.ts_seg)
+
+myDomainMapper.visualize_instance_html()

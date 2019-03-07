@@ -17,6 +17,7 @@ class TSDomainMapper():
 
     def visualize_instance_html(self,ts):
         # TODO : html = aie
+        return 0
 
 def generateTS(size=100,min=0,max=10):
     mlist = []
@@ -36,11 +37,11 @@ def generateMockExp(ts):
 ts = generateTS(7,0,2)
 ts_seg = segmentationTS(ts)
 exp = generateMockExp(ts_seg)
-print ts
-print ts_seg
-print exp
-print "----------------------------"
+print (ts)
+print (ts_seg)
+print (exp)
+print ("----------------------------")
 
 TSDM = TSDomainMapper(ts_seg)
 mapids = TSDM.map_exp_ids(exp,positions=True)
-print mapids
+print (mapids)
