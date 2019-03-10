@@ -1,6 +1,7 @@
 """
 Functions for explaining time series classifiers.
 """
+from functools import partial
 import itertools
 import numpy as np
 import scipy as sp
@@ -126,7 +127,6 @@ class TSExplainer(object):
                  bow=True,
                  random_state=None):
         """Init function.
-
         Args:
             kernel_width: kernel width for the exponential kernel.
             kernel: similarity kernel that takes euclidean distances and kernel
@@ -166,7 +166,6 @@ class TSExplainer(object):
 
     def data_labels_distances(self, indexed_ts, classifier_fn, num_samples, distance_metric='cosine'):
         """Generates a neighborhood around a prediction.
-
         Generates neighborhood data by randomly removing sub time series from
         the instance, and predicting with the classifier. Uses cosine distance
         to compute distances between original and perturbed instances.
@@ -178,8 +177,6 @@ class TSExplainer(object):
             num_samples: size of the neighborhood to learn the linear model
             distance_metric: the distance metric to use for sample weighting,
                 defaults to cosine similarity.
-
-
         Returns:
             A tuple (data, labels, distances), where:
                 data: dense num_samples * K binary matrix, where K is the
@@ -220,12 +217,10 @@ class TSExplainer(object):
                         distance_metric='cosine',
                         model_regressor=None):
         """Generates explanations for a prediction.
-
         First, we generate neighborhood data by randomly hiding features from
         the instance (see __data_labels_distance_mapping). We then learn
         locally weighted linear models on this neighborhood data to explain
         each of the classes in an interpretable way (see lime_base.py).
-
         Args:
             tsToExplain: raw time series to be explained.
             classifier_fn: classifier prediction probability function, which
