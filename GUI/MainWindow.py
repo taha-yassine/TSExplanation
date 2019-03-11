@@ -1,12 +1,16 @@
 import sys
+sys.path.insert(0, "../Classifier")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSizePolicy, QSpinBox
 from PyQt5.QtGui import QIcon, QPixmap
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import numpy as np
 import matplotlib.pyplot as plt
 import random
+import csv
 import ExplanationWindow
+import importTS
 
 class App(QWidget):
 
@@ -26,12 +30,14 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(400, 200, 500, 450)  
         self.setMinimumSize(500, 450)
-        self.setWindowIcon(QtGui.QIcon(QtCore.QDir.currentPath() + "\\icons\\TSExplanation.ico"))
+        self.setWindowIcon(QtGui.QIcon("icons/TSExplanation.ico"))
         self.tabWidget = QtWidgets.QTabWidget(self)
         self.tabWidget.setGeometry(QtCore.QRect(0, 2, 502, 450))
         self.tabWidget.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
-
         
+        with open("ListeTS.csv","r") as file:
+            listeTS = file.readline().split(";")
+
         #-----------------------------------------------------------------------------------------------
         # Tab 1 : Classifier        
         #-----------------------------------------------------------------------------------------------
@@ -50,7 +56,9 @@ class App(QWidget):
         self.cb_Classifier_SelectTS = QtWidgets.QComboBox(self.tab_Classifier)
         self.cb_Classifier_SelectTS.addItem("")
         self.cb_Classifier_SelectTS.setItemText(0, "Charger mon fichier ...")
-        self.cb_Classifier_SelectTS.activated.connect(self.openTSFile)
+        for ts in listeTS:
+            self.cb_Classifier_SelectTS.addItem(ts)
+        self.cb_Classifier_SelectTS.activated.connect(lambda idx="Classifier": self.selectionTSChange("Classifier"))
         self.formLayout_Classifier.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.cb_Classifier_SelectTS)
 
         self.lbl_Classifier = QtWidgets.QLabel(self.tab_Classifier)
@@ -91,10 +99,18 @@ class App(QWidget):
         self.verticalLayout_TS.setSpacing(20)
         self.horizontalLayout_TS = QtWidgets.QHBoxLayout()
 
-        self.btn_TS_Charge = QtWidgets.QPushButton(self.tab_TS)
-        self.btn_TS_Charge.setText("Charger ...")
-        self.btn_TS_Charge.clicked.connect(lambda idx="TS": self.openTSFile("TS"))
-        self.horizontalLayout_TS.addWidget(self.btn_TS_Charge)
+        self.cb_TS_SelectTS = QtWidgets.QComboBox(self.tab_TS)
+        self.cb_TS_SelectTS.addItem("")
+        self.cb_TS_SelectTS.setItemText(0, "Charger mon fichier ...")
+        for ts in listeTS:
+            self.cb_TS_SelectTS.addItem(ts)
+        self.cb_TS_SelectTS.activated.connect(lambda idx="TS": self.selectionTSChange("TS"))
+        self.horizontalLayout_TS.addWidget(self.cb_TS_SelectTS)
+
+        #self.btn_TS_Charge = QtWidgets.QPushButton(self.tab_TS)
+        #self.btn_TS_Charge.setText("Charger ...")
+        #self.btn_TS_Charge.clicked.connect(lambda idx="TS": self.openTSFile("TS"))
+        #self.horizontalLayout_TS.addWidget(self.btn_TS_Charge)
 
         self.lbl_TS_Index = QtWidgets.QLabel(self.tab_TS)
         self.lbl_TS_Index.setText("Indice :")
@@ -260,7 +276,7 @@ class App(QWidget):
         self.cb_LIME_Segm.addItem("Autre")
         self.cb_LIME_Segm.currentIndexChanged.connect(self.selectionSegmChange)
         self.horizontalLayout_LIME.addWidget(self.cb_LIME_Segm)
-        self.txt_LIME_Segm = QtWidgets.QSpinBox(self.tab_LIME)	# (pas toujours nécessaire selon l'option choisie)
+        self.txt_LIME_Segm = QtWidgets.QSpinBox(self.tab_LIME)    # (pas toujours nécessaire selon l'option choisie)
         #self.txt_LIME_Segm.setMinimum(1)
         self.txt_LIME_Segm.setMinimumWidth(75)
         self.txt_LIME_Segm.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -311,7 +327,7 @@ class App(QWidget):
     #           the button 'Charger ST' of the Shapelet tab 
     #           the button 'Charger' for the TS file of the LIME tab
     def openTSFile(self, tab):
-        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier",QtCore.QDir.currentPath(),"Text files (*.txt)")
+        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
         if fileName:
             App.fileNameTS = fileName
             num_lines = sum(1 for line in open(App.fileNameTS))
@@ -327,24 +343,38 @@ class App(QWidget):
 
     # Action of the button 'Sauvegarder' of the Classifier tab
     def saveClassifier(self):
-        fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier",QtCore.QDir.currentPath(),"Saved classifiers (*.sav)") 
+        fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
+        if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
+            print("Mon fichier : " + App.fileNameTS) # Quel format?
+            data_train = np.loadtxt(App.fileNameTS)
+            print("data_train = " + str(data_train[0,]))
+            #X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
+            #print("X_train = " + str(X_train))
+            #print("Y_train = " + str(Y_train))
+        else:
+            print("TODO")
+            #X_train, Y_train, X_test, Y_test= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
+        #print("X_train[1] = " + str(X_train[1]))
+        #clLS  = LearningClassifier.learningShapeletClassifier(X_train,Y_train)
+        #print("Résultat LS : " + str(clLS.predict(X_test[1].ravel().tolist())))
+        #LearningClassifier.saveClassifierLS(clLS,"LS")
 
     # Action of the button 'Afficher' of the TS tab
     def showTSPlot(self):
-        if App.fileNameTS != '':
-            with open(App.fileNameTS,'r') as file:
-                for i in range(self.txt_TS_Index.value()):
-                    line = file.readline()
-                l = line.split(",")
-                l = list(map(float, l))
+        if self.cb_TS_SelectTS.currentText() == "Charger mon fichier ...":
+            if App.fileNameTS != '':
+                data_train = np.loadtxt(App.fileNameTS)
+                l = data_train[self.txt_TS_Index.value()-1,].tolist()
                 self.figure_TS.clear()
                 ax = self.figure_TS.add_subplot(111)
                 ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
                 self.canvas_TS.draw()
+        else:
+        	print("TODO")
 
     # Action of the button 'Charger Shapelet' of the Shapelet tab
     def openShFile(self):
-        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier",QtCore.QDir.currentPath(),"Text files (*.txt)")
+        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
         if fileName:
             App.fileNameSh = fileName
             num_lines = sum(1 for line in open(App.fileNameSh))
@@ -361,7 +391,7 @@ class App(QWidget):
 
     # Action of the button 'Charger' for the classifier of the LIME tab
     def openClassifier(self):
-        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier",QtCore.QDir.currentPath(),"Saved classifiers (*.sav)")
+        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
         if fileName:
             App.fileNameCl = fileName
 
@@ -376,12 +406,17 @@ class App(QWidget):
         self.tabWidget.setGeometry(0, 2, self.geometry().width() + 2, self.geometry().height())
         QtWidgets.QWidget.resizeEvent(self, resizeEvent)
 
+    # Action when there is a change in the TS file, in the Classifier tab
+    def selectionTSChange(self, tab):
+        if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
+            App.openTSFile(self, tab)
+
     # Action when there is a change in the type of segmentation, in the LIME tab
     def selectionSegmChange(self):
-    	if self.cb_LIME_Segm.currentText() == "Uniforme":
-    		self.txt_LIME_Segm.setEnabled(True)
-    	else:
-    		self.txt_LIME_Segm.setEnabled(False)
+        if self.cb_LIME_Segm.currentText() == "Uniforme":
+            self.txt_LIME_Segm.setEnabled(True)
+        else:
+            self.txt_LIME_Segm.setEnabled(False)
 
 
     ###########################################################################################
