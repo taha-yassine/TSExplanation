@@ -11,6 +11,7 @@ import random
 import csv
 import ExplanationWindow
 import importTS
+import LearningClassifier
 
 class App(QWidget):
 
@@ -124,7 +125,7 @@ class App(QWidget):
 
         self.btn_TS_Affiche = QtWidgets.QPushButton(self.tab_TS)
         self.btn_TS_Affiche.setText("Afficher")
-        self.btn_TS_Affiche.clicked.connect(self.showPlots)
+        self.btn_TS_Affiche.clicked.connect(self.showTSPlot)
         self.horizontalLayout_TS.addWidget(self.btn_TS_Affiche)
 
         self.verticalLayout_TS.addLayout(self.horizontalLayout_TS)
@@ -345,32 +346,42 @@ class App(QWidget):
     def saveClassifier(self):
         fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
         if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
-            print("Mon fichier : " + App.fileNameTS) # Quel format?
-            data_train = np.loadtxt(App.fileNameTS)
-            print("data_train = " + str(data_train[0,]))
-            #X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
-            #print("X_train = " + str(X_train))
-            #print("Y_train = " + str(Y_train))
+            X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
+            if self.cb_Classifier.currentText() == "Learning Shapelet":
+                clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifierLS(clLS, fileName)
+            else:
+                cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(cl,fileName)
         else:
-            print("TODO")
-            #X_train, Y_train, X_test, Y_test= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
-        #print("X_train[1] = " + str(X_train[1]))
-        #clLS  = LearningClassifier.learningShapeletClassifier(X_train,Y_train)
-        #print("Résultat LS : " + str(clLS.predict(X_test[1].ravel().tolist())))
-        #LearningClassifier.saveClassifierLS(clLS,"LS")
+            X_train, Y_train, _, _= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
+            if self.cb_Classifier.currentText() == "Learning Shapelet":
+                clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifierLS(clLS, fileName)
+            else:
+                cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(cl, fileName)
 
     # Action of the button 'Afficher' of the TS tab
     def showTSPlot(self):
         if self.cb_TS_SelectTS.currentText() == "Charger mon fichier ...":
             if App.fileNameTS != '':
-                data_train = np.loadtxt(App.fileNameTS)
-                l = data_train[self.txt_TS_Index.value()-1,].tolist()
+                X_train,_ = importTS.fileImportTS(App.fileNameTS)
+                l = X_train[self.txt_TS_Index.value()-1].ravel().tolist()
                 self.figure_TS.clear()
                 ax = self.figure_TS.add_subplot(111)
                 ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
                 self.canvas_TS.draw()
         else:
-        	print("TODO")
+            X_train, _, _, _= importTS.dataImport(self.cb_TS_SelectTS.currentText())
+            self.txt_TS_Index.setMaximum(len(X_train))
+            self.txt_TS_Index.setEnabled(True)
+            l = X_train[self.txt_TS_Index.value() - 1].ravel().tolist()
+            self.figure_TS.clear()
+            ax = self.figure_TS.add_subplot(111)
+            ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
+            self.canvas_TS.draw()
+
 
     # Action of the button 'Charger Shapelet' of the Shapelet tab
     def openShFile(self):
@@ -443,8 +454,15 @@ class App(QWidget):
 
     # Action when there is a change in the TS file, in the Classifier tab
     def selectionTSChange(self, tab):
-        if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
+        if (tab == "Classifier") and (self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ..."):
             App.openTSFile(self, tab)
+        if (tab == "TS") and (self.cb_TS_SelectTS.currentText() == "Charger mon fichier ..."):
+            App.openTSFile(self, tab)
+        if (tab == "Shapelet") and (self.cb_Shapelet_SelectTS.currentText() == "Charger mon fichier ..."):
+            App.openTSFile(self, tab)
+        if (tab == "LIME") and (self.cb_LIME_SelectTS.currentText() == "Charger mon fichier ..."):
+            App.openTSFile(self, tab)
+
 
     # Action when there is a change in the type of segmentation, in the LIME tab
     def selectionSegmChange(self):
