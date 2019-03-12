@@ -15,12 +15,12 @@ def fileImportTS(filePath):
 
 def dataImport(name):
     
-    if not os.path.exists("TimeSeriesFiles/"+name):
+    if not os.path.exists("../Classifier/TimeSeriesFiles/"+name):
         url = "http://www.timeseriesclassification.com/Downloads/%s.zip" % name
-        extract_from_zip_url(url, "TimeSeriesFiles/"+name +"/", verbose=False)
+        extract_from_zip_url(url, "../Classifier/TimeSeriesFiles/"+name +"/", verbose=False)
 
-    data_train = numpy.loadtxt("TimeSeriesFiles/"+name +"/"+name+"_TRAIN.txt")
-    data_test = numpy.loadtxt("TimeSeriesFiles/"+name +"/"+name+"_TEST.txt")
+    data_train = numpy.loadtxt("../Classifier/TimeSeriesFiles/"+name +"/"+name+"_TRAIN.txt")
+    data_test = numpy.loadtxt("../Classifier/TimeSeriesFiles/"+name +"/"+name+"_TEST.txt")
     X_train = to_time_series_dataset(data_train[:, 1:])
     y_train = data_train[:, 0].astype(numpy.int)
     X_test = to_time_series_dataset(data_test[:, 1:])
