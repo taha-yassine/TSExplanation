@@ -124,7 +124,7 @@ class App(QWidget):
 
         self.btn_TS_Affiche = QtWidgets.QPushButton(self.tab_TS)
         self.btn_TS_Affiche.setText("Afficher")
-        self.btn_TS_Affiche.clicked.connect(self.showTSPlot)
+        self.btn_TS_Affiche.clicked.connect(self.showPlots)
         self.horizontalLayout_TS.addWidget(self.btn_TS_Affiche)
 
         self.verticalLayout_TS.addLayout(self.horizontalLayout_TS)
@@ -381,12 +381,47 @@ class App(QWidget):
             self.txt_Shapelet_IndexSh.setMaximum(num_lines)
             self.txt_Shapelet_IndexSh.setEnabled(True)
 
+    # Compute the min distance between a Shapelet and a TS
+    def minDistance(self, shapelet, ts):
+        if len(ts) >= len(shapelet):
+            debut = 0
+            distanceMin = sys.maxsize
+            for i in range(0, len(ts) - len(shapelet) + 1):
+                distance = 0
+                for j in range(0, len(shapelet)):
+                    distance += abs(ts[i+j] - shapelet[j])
+                if distance < distanceMin:
+                    distanceMin = distance
+                    debut = i
+            return debut
+        else:
+            return -1
+
     # Action of the button 'Afficher' of the Shapelet tab
     def showPlots(self):
-        data = [random.random() for i in range(11)]
+        #shapelet = (importTS.fileImportTS(App.fileNameSh))[self.txt_Shapelet_IndexSh.value()-1,].tolist()
+        #ts = importTS.fileImportTS(App.fileNameTS)[self.txt_Shapelet_IndexTS.value()-1,].tolist()
+        #shapelet = [-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211]   
+        shapelet = [-0.31604,-0.2864,-0.2864,-0.32098,-0.29134,-0.29134,-0.3111]   
+        ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652]
+        debut = self.minDistance(shapelet, ts)
+        listeG = []
+        for i in range(0,debut):
+            listeG.append(0)
+        listeD = []
+        for i in range(debut + len(shapelet), len(ts)):
+            listeD.append(0)
+        listeG.extend(shapelet)
+        listeG.extend(listeD)
+        l2 = listeG   #l2 = [0,0,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,0,0,0,0,0,0,0,0,0,0,0,0]        
+        x = np.arange(0.0, len(ts), 1)
+        y2 = np.ma.masked_where((x<debut), l2)
+        y = np.ma.masked_where((x>(debut + len(shapelet) - 1)), y2)
         self.figure_Sh.clear()
         ax = self.figure_Sh.add_subplot(111)
-        ax.plot(data, '*-')
+        ax.plot(ts, linestyle='-')
+        ax.plot(y, linestyle='-', color='red')
+        ax.fill_between(x, ts, y, facecolor='#b7b7b7')
         self.canvas_Sh.draw()
 
     # Action of the button 'Charger' for the classifier of the LIME tab
