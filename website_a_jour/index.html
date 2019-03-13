@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Home</title>
+		<link rel="icon" href="images/favicon.ico">
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/camera.css">
+		<link rel="stylesheet" href="css/form.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/jquery-migrate-1.1.1.js"></script>
+		<script src="js/superfish.js"></script>
+		<script src="js/forms.js"></script>
+		<script src="js/jquery.ui.totop.js"></script>
+		<script src="js/jquery.equalheights.js"></script>
+		<script src="js/jquery.easing.1.3.js"></script>
+		<script src="js/jquery.ui.totop.js"></script>
+		<script src="js/tms-0.4.1.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('.slider_wrapper')._TMS({
+					show:0,
+					pauseOnHover:false,
+					prevBu:'.prev',
+					nextBu:'.next',
+					playBu:false,
+					duration:800,
+					preset:'fade',
+					pagination:true,//'.pagination',true,'<ul></ul>'
+					pagNums:false,
+					slideshow:8000,
+					numStatus:false,
+					banners: 'fade',
+					waitBannerAnimation:false,
+					progressBar:false
+				});
+			});
+			$(document).ready(function(){
+				!function(){
+			var map=[]
+			 ,names=[]
+			 ,win=$(window)
+			 ,header=$('header')
+			 ,currClass
+			$('.content').each(function(n){
+			 map[n]=this.offsetTop
+			 names[n]=$(this).attr('id')
+			})
+			win
+			 .on('scroll',function(){
+				var i=0
+				while(map[i++]<=win.scrollTop());
+				if(currClass!==names[i-2])
+				currClass=names[i-2]
+				header.removeAttr("class").addClass(names[i-2])
+			 })
+			}(); });
+					function goToByScroll(id){
+				$('html,body').animate({scrollTop: $("#"+id).offset().top},'slow');
+				}
+				$(document).ready(function(){
+					$().UItoTop({ easingType: 'easeOutQuart' });
+				});
+		</script>
+		<!--[if lt IE 8]>
+			<div style=' clear: both; text-align:center; position: relative;'>
+				<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+					<img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+				</a>
+			</div>
+		<![endif]-->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+			<link rel="stylesheet" media="screen" href="css/ie.css">
+		<![endif]-->
+	</head>
+	<body class="">
+<!--==============================header=================================-->
+		<header class="page1">
+			<div class="container_12">
+				<div class="grid_12">
+					<h1><a href="#" onClick="goToByScroll('page1'); return false;"><img src="images/logo.png" alt="Logo"></a></h1>
+					<div class="menu_block">
+						<nav class="">
+							<ul class="sf-menu">
+								<li class="current men"><a onClick="goToByScroll('page1'); return false;" href="#">Accueil</a> <strong class="hover"></strong></li>
+								<li class="men1"><a onClick="goToByScroll('page2'); return false;" href="#">Projet</a><strong class="hover"></strong></li>
+								<li class="men2"><a onClick="goToByScroll('page3'); return false;" href="#">Fonctionnalités</a> <strong class="hover"></strong></li>
+								<li class="men3"><a onClick="goToByScroll('page4'); return false;" href="#">Interface</a><strong class="hover"></strong></li>
+								<li class="men4"><a onClick="goToByScroll('page5'); return false;" href="#">Équipe</a><strong class="hover"></strong></li>
+								<li class="flag"><a href="#"><img src="images/france.png" alt="Francais"></a><strong class="hover"></strong></li>
+								<li class="flag"><a href="#"><img src="images/english.png" alt="English"></a><strong class="hover"></strong></li>
+							</ul>
+						</nav>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+<!--=======content================================-->
+		<div id="page1" class="content">
+			<div class="ic"></div>
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slider_wrapper">
+						<ul class="items">
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Let Us Show You the Way to Success</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Interminable Energy for Your Project</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>We know how to solve your problems!</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Make your business a booming one!</h2>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="socials">
+						<a href="#"></a> <!--LIEN DU GIT-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="page2" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>Le projet</h3>
+						<div class="clear"></div>
+						<img id="logoTSE" src="images/TSExplanation.png" alt="TSExplanation">
+						<div class="clear"></div>
+						<div class="text1">
+							<p>Le projet TSExplanation s’inscrit dans le cadre de la formation en cycle ingénieur à l’INSA de Rennes. 
+							Il est réalisé par un groupe de huit étudiants de deuxième année du département Informatique et s’étend sur l’ensemble de l’année scolaire 2018-2019.</br></br>
+							Le but de ce projet est d’implémenter un interpréteur de classifieur de séries temporelles, c’est-à-dire un outil capable d’expliquer une décision prise par un classifieur.
+							Cette explication doit être claire et relativement simple pour qu’elle soit comprise par un utilisateur quelconque.</br></br>
+							Pour vulgariser cet objectif, on peut prendre l’exemple d’un classifieur qui place des images dans les classes "image de chat" et "image de poisson". 
+							Un utilisateur sans compétence technique particulière souhaiterait savoir sur quels critères le classifieur a décidé de se baser pour placer une image de chat dans la classe "image de chat".</br> 
+							L'outil doit alors être en mesure d’expliquer simplement son choix mais de manière suffisamment précise pour convaincre l’utilisateur de la justesse de sa décision. </br></br>
+							Ce principe sera appliqué à des données appelées "séries temporelles".
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div id="page3" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>Les fonctionnalités</h3>
+						<div class="text1">
+							L'outil TSExplanation possède 4 fonctionnalités principales permettant à un utilisateur d'appliquer l'ensemble des principes de la classification aux séries temporelles.</br></br>
+							TSExplanation permet de construire un classifieur de séries temporelles en partant de son entrainement jusqu'à son application sur des séries temporelles et l'explication de ses choix de classification.</br></br>
+							Ces différentes étapes sont visualisables par l'utilisateur grâce à l'interface graphique de l'outil, qui simplifie son utilisation.
+						</div>
+					</div>
+				</div>			
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/box1_img1.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte1'); return false;" href="#">Entrainer un classifieur de ST</a></div>TSExplanation permet d'entrainer un classifieur à partir d'un ensemble d'entrainement constitué de séries temporelles.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/box1_img2.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte2'); return false;" href="#">Afficher une ST</a></div>L'outil possède une interface graphique qui permet à l'utilisateur de visualiser les données qu'il cherche à classifier.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/box1_img3.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte3'); return false;" href="#">Classifier une ST</a></div>Après avoir entrainer un classifieur de séries temporelles, TSExplanation peut l'utiliser pour classifier de nouvelles données.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/box1_img4.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte4'); return false;" href="#">Afficher l'explication de la classification d'une ST</a></div>L'outil peut justifier un choix de classification grâce à son adaptation de l'algorithme LIME.
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			<div id="texte1">
+				
+					<h3>Entrainer un classifieur de ST</h3>
+					<p></p>
+					<p></p>
+					
+					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
+					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
+					Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
+					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.
+					</p>
+					<p>Pour réaliser ce travail, un classifieur doit connaitre les attributs caractéristiques de chaque classe. 
+					Pour cela, il a besoin qu'on lui fournisse des exemples c'est à dire des objets dont on connait les classes. 
+					A partir de cet ensemble d'entrainement, le classifieur va pouvoir trouver les attributs les plus caractéristiques de chaque classe.
+					</p>
+					<p>L'outil TSExplanation permet d'entrainer des classifieurs de séries temporelles. Au sein des séries temporelles d'un jeu d'entrainement, il est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
+					On appelle ces sous-séries temporelles des Shapelets.
+					</p>
+			</div>
+			
+			<div id="texte2">
+				
+					<h3>Afficher une ST</h3>
+					<p></p>
+					<p></p>
+					
+					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
+					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
+					Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
+					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.
+					</p>
+			</div>
+			
+			<div id="texte3">
+				
+					<h3>Classifier une ST</h3>
+					<p></p>
+					<p></p>
+					
+					<p>Lors de la phase d'entrainement du classifieur, l'outil TSExplanation a défini les Shapelets que le classifieur doit chercher à l'intérieur des séries temporelles à classifier.</br></br>
+					Pour chaque Shapelet, l'outil va mesurer la distance minimale entre cette Shapelet et la série temporelle à classifier. Si cette distance est inférieure à un certain seuil (défini par l'utilisateur), la Shapelet sera considérée comme présente dans la série temporelle à classifier.
+					A partir de ces mesures, le classifieur va donc déterminer les Shapelets qui sont présentes dans la série temporelle à classifier et celles qui ne le sont pas. </br></br>
+					L'outil va alors comparer les Shapelets présentes aux Shapelets caractéristiques de chaque classe afin d'attribuer une classe à la série temporelle que l'on cherche à classifier.
+					</p>
+			</div>
+			
+			<div id="texte4">
+				
+					<h3>Afficher l'explication de la classification d'une ST</h3>
+					<p></p>
+					<p></p>
+					
+					
+					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
+					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
+					Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
+					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.
+					</p>
+			</div>
+			
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		<div id="page4" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<h3>L'interface graphique</h3>
+				</div>
+				<div class="companies">
+					<div class="grid_3">
+						<img src="images/logo1.jpg" alt="">
+						<div class="text1">Company Name</div>Aliquam nibh ante, egestas id dictum  wrecommodo luctus liberoaesent.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="grid_3">
+						<img src="images/logo2.jpg" alt="">
+						<div class="text1">Company Name</div>Fusce adipiscing quam id risus gittis, non consequat lacus interdumoin.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="grid_3">
+						<img src="images/logo3.jpg" alt="">
+						<div class="text1">Company Name</div>Quisque viverra nulla nunc, eu ultrices wertlibero ultricies egetasellus um.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="grid_3">
+						<img src="images/logo4.jpg" alt="">
+						<div class="text1">Company Name</div>Courrewerwe abitur vel lorem sit amet ulla ullamcorper fermentumn vitae.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="clear"></div>
+					<div class="grid_3">
+						<img src="images/logo5.jpg" alt="">
+						<div class="text1">Company Name</div>Oiliquam nibh ante, egestas id dictum  wrecommodo luctus liberoaesente.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="grid_3">
+						<img src="images/logo6.jpg" alt="">
+						<div class="text1">Company Name</div>Gusce adipiscing quam id risus gittis, non consequat lacus interdumoiju.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="grid_3">
+						<img src="images/logo7.jpg" alt="">
+						<div class="text1">Company Name</div>Niuisque viverra nulla nunc, eu ultrices wertlibero ultricies egetasellus ol.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+					<div class="grid_3">
+						<img src="images/logo8.jpg" alt="">
+						<div class="text1">Company Name</div>Fouerourrewerwe abitur vel lorem sit amet ulla ullamcorper fermentum.
+						<br>
+						<a href="#">Go to Site</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="page5" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>Notre équipe</h3>
+						<div class="text1">
+							L'équipe en charge de ce projet est constituée de 8 étudiants du département Informatique de l'INSA de Rennes.</br>
+							Ces étudiants sont encadrés par un enseignant de l'INSA également chercheur à l'IRISA et par un chercheur de l'IRISA employé par l'entreprise Energiency.
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img1.jpg" alt="">
+						<div class="text1"><a href="#">Lisa Relion</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/lisa-relion?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZ3XJTK%2FZTPW9b%2BpKLGZASQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img2.jpg" alt="">
+						<div class="text1"><a href="#">Tangi Mendes</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/tangimendes?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZUR7bP0pRbuQ8nHtmaVcPQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img3.jpg" alt="">
+						<div class="text1"><a href="#">Isabelle Guillou </a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/isabelle-guillou?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BNt4u2aC%2FSqKH%2FOEw7XCJsA%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Yohan Couanon</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/yohan-couanon-235a2517a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVjPnzk1aSdaruFofFPskVw%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/adrien.jpg" alt="">
+						<div class="text1"><a href="#">Adrien Buridant</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/adrien-buridant?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9qsQefzRRmmFfHomHRI0vw%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img2.jpg" alt="">
+						<div class="text1"><a href="#">Morgane Cam</a></div> 
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/morgane-cam-ba4260132?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BqGo08iDkTlSKrDsciAV6CQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img3.jpg" alt="">
+						<div class="text1"><a href="#">Taha Yassine </a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/taha-yassine?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BT5jXgiMHT6qdXQNVPZF3SA%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Antoine Chaffin</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/antoine-chaffin?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BuqvF2762T5KiWfhAjKAs6w%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!--==============================footer=================================-->
+		<footer>
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="copy">
+						<a onClick="goToByScroll('page1'); return false;" href="#"><img src="images/footer_logo.png" alt=""></a>  &copy; 2019 <br>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</footer>
+	</body>
+</html>
