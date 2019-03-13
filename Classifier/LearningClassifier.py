@@ -28,17 +28,17 @@ def learningShapeletClassifier(X_train,Y_train):
     return shp_clf
 
 def saveClassifierLS(classifier, name):
-    classifier.save("SaveClassifierFiles/" + name + ".sav")
-    pickle.dump(classifier.label_binarizer ,open("SaveClassifierFiles/" + name + "label.sav",'wb'))
+    classifier.save(name)
+    pickle.dump(classifier.label_binarizer ,open(name[0:len(name)-4] + "label.sav",'wb'))
 
 def saveClassifier1NN(classifier, name):
-    joblib.dump(classifier, open("SaveClassifierFiles/" + name + ".sav", 'wb'))
+    joblib.dump(classifier, open(name, 'wb'))
 
 def loadClassifieur1NN(name):
-    return joblib.load("SaveClassifierFiles/" + name + ".sav")
+    return joblib.load(name)
 
 def loadClassifieurLS(name):
-    return shapelets.load_model("SaveClassifierFiles/" + name + ".sav"), pickle.load(open("SaveClassifierFiles/" + name + "label.sav",'rb'))
+    return shapelets.load_model(name), pickle.load(open(name[0:len(name)-4] + "label.sav",'rb'))
 
     
 

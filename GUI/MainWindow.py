@@ -11,6 +11,7 @@ import random
 import csv
 import ExplanationWindow
 import importTS
+import LearningClassifier
 
 class App(QWidget):
 
@@ -345,32 +346,42 @@ class App(QWidget):
     def saveClassifier(self):
         fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
         if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
-            print("Mon fichier : " + App.fileNameTS) # Quel format?
-            data_train = np.loadtxt(App.fileNameTS)
-            print("data_train = " + str(data_train[0,]))
-            #X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
-            #print("X_train = " + str(X_train))
-            #print("Y_train = " + str(Y_train))
+            X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
+            if self.cb_Classifier.currentText() == "Learning Shapelet":
+                clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifierLS(clLS, fileName)
+            else:
+                cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(cl,fileName)
         else:
-            print("TODO")
-            #X_train, Y_train, X_test, Y_test= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
-        #print("X_train[1] = " + str(X_train[1]))
-        #clLS  = LearningClassifier.learningShapeletClassifier(X_train,Y_train)
-        #print("Résultat LS : " + str(clLS.predict(X_test[1].ravel().tolist())))
-        #LearningClassifier.saveClassifierLS(clLS,"LS")
+            X_train, Y_train, _, _= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
+            if self.cb_Classifier.currentText() == "Learning Shapelet":
+                clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifierLS(clLS, fileName)
+            else:
+                cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(cl, fileName)
 
     # Action of the button 'Afficher' of the TS tab
     def showTSPlot(self):
         if self.cb_TS_SelectTS.currentText() == "Charger mon fichier ...":
             if App.fileNameTS != '':
-                data_train = np.loadtxt(App.fileNameTS)
-                l = data_train[self.txt_TS_Index.value()-1,].tolist()
+                X_train,_ = importTS.fileImportTS(App.fileNameTS)
+                l = X_train[self.txt_TS_Index.value()-1].ravel().tolist()
                 self.figure_TS.clear()
                 ax = self.figure_TS.add_subplot(111)
                 ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
                 self.canvas_TS.draw()
         else:
-        	print("TODO")
+            X_train, _, _, _= importTS.dataImport(self.cb_TS_SelectTS.currentText())
+            self.txt_TS_Index.setMaximum(len(X_train))
+            self.txt_TS_Index.setEnabled(True)
+            l = X_train[self.txt_TS_Index.value() - 1].ravel().tolist()
+            self.figure_TS.clear()
+            ax = self.figure_TS.add_subplot(111)
+            ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
+            self.canvas_TS.draw()
+
 
     # Action of the button 'Charger Shapelet' of the Shapelet tab
     def openShFile(self):
@@ -381,12 +392,47 @@ class App(QWidget):
             self.txt_Shapelet_IndexSh.setMaximum(num_lines)
             self.txt_Shapelet_IndexSh.setEnabled(True)
 
+    # Compute the min distance between a Shapelet and a TS
+    def minDistance(self, shapelet, ts):
+        if len(ts) >= len(shapelet):
+            debut = 0
+            distanceMin = sys.maxsize
+            for i in range(0, len(ts) - len(shapelet) + 1):
+                distance = 0
+                for j in range(0, len(shapelet)):
+                    distance += abs(ts[i+j] - shapelet[j])
+                if distance < distanceMin:
+                    distanceMin = distance
+                    debut = i
+            return debut
+        else:
+            return -1
+
     # Action of the button 'Afficher' of the Shapelet tab
     def showPlots(self):
-        data = [random.random() for i in range(11)]
+        #shapelet = (importTS.fileImportTS(App.fileNameSh))[self.txt_Shapelet_IndexSh.value()-1,].tolist()
+        #ts = importTS.fileImportTS(App.fileNameTS)[self.txt_Shapelet_IndexTS.value()-1,].tolist()
+        #shapelet = [-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211]   
+        shapelet = [-0.31604,-0.2864,-0.2864,-0.32098,-0.29134,-0.29134,-0.3111]   
+        ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652]
+        debut = self.minDistance(shapelet, ts)
+        listeG = []
+        for i in range(0,debut):
+            listeG.append(0)
+        listeD = []
+        for i in range(debut + len(shapelet), len(ts)):
+            listeD.append(0)
+        listeG.extend(shapelet)
+        listeG.extend(listeD)
+        l2 = listeG   #l2 = [0,0,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,0,0,0,0,0,0,0,0,0,0,0,0]        
+        x = np.arange(0.0, len(ts), 1)
+        y2 = np.ma.masked_where((x<debut), l2)
+        y = np.ma.masked_where((x>(debut + len(shapelet) - 1)), y2)
         self.figure_Sh.clear()
         ax = self.figure_Sh.add_subplot(111)
-        ax.plot(data, '*-')
+        ax.plot(ts, linestyle='-')
+        ax.plot(y, linestyle='-', color='red')
+        ax.fill_between(x, ts, y, facecolor='#b7b7b7')
         self.canvas_Sh.draw()
 
     # Action of the button 'Charger' for the classifier of the LIME tab
@@ -408,8 +454,15 @@ class App(QWidget):
 
     # Action when there is a change in the TS file, in the Classifier tab
     def selectionTSChange(self, tab):
-        if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
+        if (tab == "Classifier") and (self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ..."):
             App.openTSFile(self, tab)
+        if (tab == "TS") and (self.cb_TS_SelectTS.currentText() == "Charger mon fichier ..."):
+            App.openTSFile(self, tab)
+        if (tab == "Shapelet") and (self.cb_Shapelet_SelectTS.currentText() == "Charger mon fichier ..."):
+            App.openTSFile(self, tab)
+        if (tab == "LIME") and (self.cb_LIME_SelectTS.currentText() == "Charger mon fichier ..."):
+            App.openTSFile(self, tab)
+
 
     # Action when there is a change in the type of segmentation, in the LIME tab
     def selectionSegmChange(self):
