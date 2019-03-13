@@ -149,7 +149,7 @@
 						<div class="text1">
 							<p>Le projet TSExplanation s’inscrit dans le cadre de la formation en cycle ingénieur à l’INSA de Rennes. 
 							Il est réalisé par un groupe de huit étudiants de deuxième année du département Informatique et s’étend sur l’ensemble de l’année scolaire 2018-2019.</br></br>
-							Le but de ce projet est d’implémenter un interpréteur de classifieur de séries temporelles, c’est-à-dire un outil capable d’expliquer une décision prise par un classifieur.
+							Le but de ce projet est d’implémenter un outil capable d'expliquer une décision prise par un classifieur de séries temporelles.
 							Cette explication doit être claire et relativement simple pour qu’elle soit comprise par un utilisateur quelconque.</br></br>
 							Pour vulgariser cet objectif, on peut prendre l’exemple d’un classifieur qui place des images dans les classes "image de chat" et "image de poisson". 
 							Un utilisateur sans compétence technique particulière souhaiterait savoir sur quels critères le classifieur a décidé de se baser pour placer une image de chat dans la classe "image de chat".</br> 
@@ -179,7 +179,7 @@
 				<div class="grid_3">
 					<div class="box maxheight1">
 						<img src="images/box1_img1.png" alt="">
-						<div class="text1"><a onClick="goToByScroll('texte1'); return false;" href="#">Entrainer un classifieur de ST</a></div>TSExplanation permet d'entrainer un classifieur à partir d'un ensemble d'entrainement constitué de séries temporelles.
+						<div class="text1"><a onClick="goToByScroll('texte1'); return false;" href="#">Entrainer et sauvegarder un classifieur de ST</a></div>TSExplanation permet d'entrainer un classifieur à partir d'un ensemble d'entrainement constitué de séries temporelles.
 					</div>
 				</div>
 				<div class="grid_3">
@@ -191,7 +191,7 @@
 				<div class="grid_3">
 					<div class="box maxheight1">
 						<img src="images/box1_img3.png" alt="">
-						<div class="text1"><a onClick="goToByScroll('texte3'); return false;" href="#">Classifier une ST</a></div>Après avoir entrainer un classifieur de séries temporelles, TSExplanation peut l'utiliser pour classifier de nouvelles données.
+						<div class="text1"><a onClick="goToByScroll('texte3'); return false;" href="#">Afficher la distance entre une Shapelet et une série temporelle</a></div>Après avoir entrainer un classifieur de séries temporelles, TSExplanation peut l'utiliser pour classifier de nouvelles données.
 					</div>
 				</div>
 				<div class="grid_3">
@@ -206,9 +206,11 @@
 			
 			<div id="texte1">
 				
-					<h3>Entrainer un classifieur de ST</h3>
+					<h3>Entrainer et sauvegarder un classifieur de ST</h3>
 					<p></p>
 					<p></p>
+					<p>Parler de 1NN-DTW !!!!!
+					</p>
 					
 					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
 					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
@@ -226,22 +228,22 @@
 			
 			<div id="texte2">
 				
-					<h3>Afficher une ST</h3>
+					<h3>Afficher une série temporelle</h3>
 					<p></p>
 					<p></p>
 					
-					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
-					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
-					Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
-					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.
+					<p>
 					</p>
 			</div>
 			
 			<div id="texte3">
 				
-					<h3>Classifier une ST</h3>
+					<h3>Afficher la distance entre une Shapelet et une série temporelle</h3>
 					<p></p>
 					<p></p>
+					<p>Pour chaque classe, on dispose de sous-séries temporelles caractéristiques des classe (qu'on appelle Shapelets).</br>
+					L'outil permet d'afficher une série temporelle et de visualiser la distance (minimale) entre n'importe qu'elle Shapelet et cette série temporelle.
+					</p>
 					
 					<p>Lors de la phase d'entrainement du classifieur, l'outil TSExplanation a défini les Shapelets que le classifieur doit chercher à l'intérieur des séries temporelles à classifier.</br></br>
 					Pour chaque Shapelet, l'outil va mesurer la distance minimale entre cette Shapelet et la série temporelle à classifier. Si cette distance est inférieure à un certain seuil (défini par l'utilisateur), la Shapelet sera considérée comme présente dans la série temporelle à classifier.
@@ -252,16 +254,15 @@
 			
 			<div id="texte4">
 				
-					<h3>Afficher l'explication de la classification d'une ST</h3>
+					<h3>Classifier une série temporelle et afficher l'explication de la classification</h3>
 					<p></p>
 					<p></p>
-					
-					
-					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
-					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
-					Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
-					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.
+					<p>La classification d'une série temporelle va se baser sur les Shapelets : la série temporelle ira dans la classe dont les Shapelets sont les plus proches de la série temporelle.</br>
+					Pour expliquer le choix de classification, l'outil va mettre en avant les Shapelets présentes dans la série temporelle qui ont permis de prendre la décision.</br>
+					Ces Shapelets seront mises en couleur (les couleurs virent du vert au rouge) : couleur verte quand la Shapelet appartient à la classe choisie (impact positif sur la classification), 
+					couleur rouge quand la Shapelet appartient à une autre classe (impact négatif sur la classification).
 					</p>
+					
 			</div>
 			
 		</div>
