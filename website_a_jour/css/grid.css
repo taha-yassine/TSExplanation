@@ -384,9 +384,9 @@ body {
 }*/
 
 #texte1{
-	border: 5px solid #FA8072;
-	border-radius: 30px;
-	width: 70%;
+	border: 5px solid #334960;
+	border-radius: 20px;
+	width: 80%;
 	margin: auto;
 	margin-top: 5%;
 	padding-left: 1%;
@@ -398,9 +398,20 @@ body {
 #texte1 h3{
 	/*width: 30px;
 	margin: auto;*/
-	color: #DAA520;
-	font-family: 'Comic Sans MS', cursive;
+	color: #DC143C;
+	/*font-family: 'Comic Sans MS', cursive;*/
 	font-size: 30px;
+}
+
+#texte1 ul{
+	margin-left: 2%;
+}
+
+#texte1 li{
+	color: #DC143C;
+	font-size: 22px;
+	text-align: left;
+	list-style-type: disc;
 }
 
 #texte1 p{
@@ -409,18 +420,17 @@ body {
 	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	text-justify: auto;
-	font-family: 'Bookman Old Style', serif;
+	/*text-justify: auto;*/
+	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
-	text-align: center;
 }	
 
 
 
 #texte2{
-	border: 5px solid #FA8072;
-	border-radius: 30px;
-	width: 70%;
+	border: 5px solid #334960;
+	border-radius: 20px;
+	width: 80%;
 	margin: auto;
 	margin-top: 5%;
 	padding-left: 1%;
@@ -432,7 +442,7 @@ body {
 #texte2 h3{
 	/*width: 200px;
 	margin: auto;*/
-	color: #DAA520;
+	color: #DC143C;
 	font-family: 'Comic Sans MS', cursive;
 	font-size: 30px;
 }
@@ -443,17 +453,16 @@ body {
 	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	text-justify: auto;
-	font-family: 'Bookman Old Style', serif;
+	/*text-justify: auto;*/
+	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
-	text-align: center;
 }
 
 
 #texte3{
-	border: 5px solid #FA8072;
-	border-radius: 30px;
-	width: 70%;
+	border: 5px solid #334960;
+	border-radius: 20px;
+	width: 80%;
 	margin: auto;
 	margin-top: 5%;
 	padding-left: 1%;
@@ -465,7 +474,7 @@ body {
 #texte3 h3{
 	/*width: 200px;
 	margin: auto;*/
-	color: #FF5900;
+	color: #DC143C;
 	font-family: 'Comic Sans MS', cursive;
 	font-size: 30px;
 }
@@ -476,33 +485,42 @@ body {
 	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	text-justify: auto;
-	font-family: 'Bookman Old Style', serif;
+	/*text-justify: auto;*/
+	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
-	text-align: center;
 }
 
 
 
 #texte4{
-	border: 5px solid #DC143C;
-	border-radius: 30px;
-	width: 70%;
+	border: 5px solid #334960;
+	border-radius: 20px;
+	width: 80%;
 	margin: auto;
 	margin-top: 5%;
 	padding-left: 1%;
 	padding-right: 1%;
 	padding-bottom: 6%;
 	padding-top: 6%;
-	background-color: #FA8072;
 }
 
 #texte4 h3{
 	/*width: 200px;
 	margin: auto;*/
-	color: #FF5900;
+	color: #DC143C;
 	font-family: 'Comic Sans MS', cursive;
 	font-size: 30px;
+}
+
+#texte4 ul{
+	margin-left: 2%;
+}
+
+#texte4 li{
+	color: #DC143C;
+	font-size: 22px;
+	text-align: left;
+	list-style-type: disc;
 }
 
 #texte4 p{
@@ -511,10 +529,9 @@ body {
 	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	text-justify: auto;
-	font-family: 'Bookman Old Style', serif;
+	/*text-justify: auto;*/
+	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
-	text-align: center;
 }
 
 
