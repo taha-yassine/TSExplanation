@@ -170,28 +170,28 @@
 					<div class="slogan">
 						<h3>Les fonctionnalités</h3>
 						<div class="text1">
-							L'outil TSExplanation possède 4 fonctionnalités principales permettant à un utilisateur d'appliquer l'ensemble des principes de la classification aux séries temporelles.</br></br>
-							TSExplanation permet de construire un classifieur de séries temporelles en partant de son entrainement jusqu'à son application sur des séries temporelles et l'explication de ses choix de classification.</br></br>
-							Ces différentes étapes sont visualisables par l'utilisateur grâce à l'interface graphique de l'outil, qui simplifie son utilisation.
+							L'outil TSExplanation possède 4 fonctionnalités principales.</br>
+							Ces fonctionnalités sont liées à l'entrainement d'un classifieur de séries temporelles, à la sauvegarde d'un tel classifieur ainsi qu'à l'affichage, via une interface graphique, de l'explication d'une classification de série temporelle et des détails liés à cette classification.
+							
 						</div>
 					</div>
 				</div>			
 				<div class="grid_3">
 					<div class="box maxheight1">
 						<img src="images/box1_img1.png" alt="">
-						<div class="text1"><a onClick="goToByScroll('texte1'); return false;" href="#">Entrainer et sauvegarder un classifieur de ST</a></div>TSExplanation permet d'entrainer un classifieur à partir d'un ensemble d'entrainement constitué de séries temporelles.
+						<div class="text1"><a onClick="goToByScroll('texte1'); return false;" href="#">Entrainer et sauvegarder un classifieur de ST</a></div>TSExplanation permet d'entrainer un classifieur à partir d'un ensemble d'entrainement constitué de séries temporelles. L'outil permet également de sauvegarder un classifieur entrainé afin de l'utiliser ultérieurement sur de nouvelles données.
 					</div>
 				</div>
 				<div class="grid_3">
 					<div class="box maxheight1">
 						<img src="images/box1_img2.png" alt="">
-						<div class="text1"><a onClick="goToByScroll('texte2'); return false;" href="#">Afficher une ST</a></div>L'outil possède une interface graphique qui permet à l'utilisateur de visualiser les données qu'il cherche à classifier.
+						<div class="text1"><a onClick="goToByScroll('texte2'); return false;" href="#">Afficher une ST</a></div>L'outil possède une interface graphique qui permet à l'utilisateur de visualiser les données (séries temporelles) qu'il cherche à classifier.
 					</div>
 				</div>
 				<div class="grid_3">
 					<div class="box maxheight1">
 						<img src="images/box1_img3.png" alt="">
-						<div class="text1"><a onClick="goToByScroll('texte3'); return false;" href="#">Afficher la distance entre une Shapelet et une série temporelle</a></div>Après avoir entrainer un classifieur de séries temporelles, TSExplanation peut l'utiliser pour classifier de nouvelles données.
+						<div class="text1"><a onClick="goToByScroll('texte3'); return false;" href="#">Afficher la distance entre une Shapelet et une série temporelle</a></div>L'interface graphique de TSExplanation permet de sélectionner une série temporelle et une Shapelet particulière et de visualiser la distance entre ces deux éléments.
 					</div>
 				</div>
 				<div class="grid_3">
@@ -209,21 +209,45 @@
 					<h3>Entrainer et sauvegarder un classifieur de ST</h3>
 					<p></p>
 					<p></p>
-					<p>Parler de 1NN-DTW !!!!!
-					</p>
 					
 					<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
 					Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
 					Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
-					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.
+					Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.</br>
+					Dans un premier temprs, le classifieur a besoin qu'on lui fournisse des exemples c'est à dire des objets dont on connait les classes. On parle alors d'entrainement du classifieur.
+					Avec TSExplanation, il est possible d'entrainer un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
+					Deux types de classifieurs peuvent ainsi être construits : un classifieur basé sur l'algorithme 1NN-DTW et un classifieur basé sur TsLearn.
 					</p>
-					<p>Pour réaliser ce travail, un classifieur doit connaitre les attributs caractéristiques de chaque classe. 
-					Pour cela, il a besoin qu'on lui fournisse des exemples c'est à dire des objets dont on connait les classes. 
+					
+					<ul>
+						<li>Classifieur 1NN-DTW :</li>
+						<p>Le fonctionnement d'un classifieur 1NN-DTW est simple. Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entrainement.
+						Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entrainement.</br>
+						La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entrainement qui lui ressemble le plus.
+						</p>
+						
+						<li>Classifieur TsLearn : </li>
+						<p>Au sein des séries temporelles du jeu d'entrainement, le classifieur est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
+						Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
+						On appelle ces sous-séries temporelles des Shapelets.</br>
+						Lors de son entrainement, le classifieur va identifier les Shapelets de chaque classe.
+						</p>
+					</ul>
+					
+					<!--
+					<p>Parler de 1NN-DTW !!!!!
+					</p>
+					
+					<p>
+					</p>
+					<p> 
+					 
 					A partir de cet ensemble d'entrainement, le classifieur va pouvoir trouver les attributs les plus caractéristiques de chaque classe.
 					</p>
 					<p>L'outil TSExplanation permet d'entrainer des classifieurs de séries temporelles. Au sein des séries temporelles d'un jeu d'entrainement, il est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
 					On appelle ces sous-séries temporelles des Shapelets.
 					</p>
+					-->
 			</div>
 			
 			<div id="texte2">
@@ -232,7 +256,8 @@
 					<p></p>
 					<p></p>
 					
-					<p>
+					<p>L'outil TSExplanation possède une interface graphique pour faciliter le travail de l'utilisateur et rendre l'interaction entre l'outil et l'humain plus visuelle.</br>
+					Ainsi, l'utilisateur a la possibilité d'afficher à l'écran n'importe quelle série temporelle, qu'il s'agisse de la série temporelle à classifier ou d'une série temporelle du jeu d'entrainement du classifieur.
 					</p>
 			</div>
 			
@@ -241,6 +266,12 @@
 					<h3>Afficher la distance entre une Shapelet et une série temporelle</h3>
 					<p></p>
 					<p></p>
+					
+					<p>L'interface graphique de TSExplanation permet également à l'utilisateur d'afficher une série temporelle ainsi qu'une Shapelet quelconque et de visualiser la distance minimale entre ces deux éléments.</br>
+					L'utilisateur peut ainsi connaitre la partie de la série temporelle qui ressemble le plus à la Shapelet. Il peut alors déterminer par lui-même, visuellement, si la Shapelet peut être considérée comme étant présente dans la série temporelle ou non.
+					</p>
+					
+					<!--
 					<p>Pour chaque classe, on dispose de sous-séries temporelles caractéristiques des classe (qu'on appelle Shapelets).</br>
 					L'outil permet d'afficher une série temporelle et de visualiser la distance (minimale) entre n'importe qu'elle Shapelet et cette série temporelle.
 					</p>
@@ -250,6 +281,7 @@
 					A partir de ces mesures, le classifieur va donc déterminer les Shapelets qui sont présentes dans la série temporelle à classifier et celles qui ne le sont pas. </br></br>
 					L'outil va alors comparer les Shapelets présentes aux Shapelets caractéristiques de chaque classe afin d'attribuer une classe à la série temporelle que l'on cherche à classifier.
 					</p>
+					-->
 			</div>
 			
 			<div id="texte4">
@@ -257,12 +289,30 @@
 					<h3>Classifier une série temporelle et afficher l'explication de la classification</h3>
 					<p></p>
 					<p></p>
-					<p>La classification d'une série temporelle va se baser sur les Shapelets : la série temporelle ira dans la classe dont les Shapelets sont les plus proches de la série temporelle.</br>
-					Pour expliquer le choix de classification, l'outil va mettre en avant les Shapelets présentes dans la série temporelle qui ont permis de prendre la décision.</br>
-					Ces Shapelets seront mises en couleur (les couleurs virent du vert au rouge) : couleur verte quand la Shapelet appartient à la classe choisie (impact positif sur la classification), 
-					couleur rouge quand la Shapelet appartient à une autre classe (impact négatif sur la classification).
+					
+					<p>L'outil peut entrainer deux types de classifieurs : un classifieur 1NN-DTW et un classifieur TsLearn.</br>
+					Une fois un classifieur entrainé et sauvegardé, il peut être utiliser pour classifier de nouvelles série temporelles. 
+					Une fois la classification effectuée, TSExplanation fournit à l'utilisateur une explication du choix de classification. Cette explication dépendra du type de classifieur utilisé.
 					</p>
 					
+					<ul>
+						<li>Classifieur 1NN-DTW :</li>
+						<p>Si un classifieur 1NN-DTW a été utilisé, alors la classification s'en faite en comparant la série temporelle à classifier avec celles du jeu d'entrainement. 
+						C'est la série temporelle du jeu d'entrainement la plus proche (en terme de distance) de la série temporelle à classifier qui aura transmis sa classe à cette dernière.</br> 
+						L'explication que va alors afficher l'outil sera tout simplement un affichage de cette série temporelle du jeu d'entrainement.
+						</p>
+						
+						<li>Classifieur TsLearn : </li>
+						<p>Si le classifieur utilise l'algorithme TsLearn, alors la classification se base sur la notion de Shapelet.</br>
+						Lors de sa phase d'entrainement, le classifieur a déterminé les Shapelets de chaque classe. 
+						Pour attribuer une classe à une nouvelle série temporelle, il va donc regarder si ces Shapelets sont présentes dans cette dernière ou non.
+						Si plusieurs Shapelets sont présentes, c'est la classe qui en possèdera la majorité qui sera attribuée à la série temporelle.</br>
+						
+						Pour expliquer le choix de classification à l'utilisateur, l'outil va mettre en avant les Shapelets présentes dans la série temporelle qui ont permis de prendre la décision.</br>
+						Ces Shapelets seront mises en couleur dans la série temporelle : les Shapelets appartenant à la classe choisie seront coloriées en vert (impact positif sur la classification) 
+						et les Shapelets appartenant à une autre classe seront coloriées en rouge (impact négatif sur la classification).
+						</p>
+					</ul>
 			</div>
 			
 		</div>
