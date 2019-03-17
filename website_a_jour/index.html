@@ -89,6 +89,7 @@
 								<li class="men2"><a onClick="goToByScroll('page3'); return false;" href="#">Fonctionnalités</a> <strong class="hover"></strong></li>
 								<li class="men3"><a onClick="goToByScroll('page4'); return false;" href="#">Interface</a><strong class="hover"></strong></li>
 								<li class="men4"><a onClick="goToByScroll('page5'); return false;" href="#">Équipe</a><strong class="hover"></strong></li>
+								<li class="flag"><a href="https://github.com/tangimds/TSExplanation" target="_blank"><img src="images/github.png" alt="GitHub"></a><strong class="hover"></strong></li>
 								<li class="flag"><a href="#"><img src="images/france.png" alt="Francais"></a><strong class="hover"></strong></li>
 								<li class="flag"><a href="#"><img src="images/english.png" alt="English"></a><strong class="hover"></strong></li>
 							</ul>
@@ -131,9 +132,6 @@
 								</div>
 							</li>
 						</ul>
-					</div>
-					<div class="socials">
-						<a href="#"></a> <!--LIEN DU GIT-->
 					</div>
 				</div>
 			</div>
@@ -364,67 +362,46 @@
 		
 		
 		
-		
-		
-		
+
 		<div id="page4" class="content">
 			<div class="container_12">
 				<div class="grid_12">
 					<h3>L'interface graphique</h3>
 				</div>
-				<div class="companies">
-					<div class="grid_3">
-						<img src="images/logo1.jpg" alt="">
-						<div class="text1">Company Name</div>Aliquam nibh ante, egestas id dictum  wrecommodo luctus liberoaesent.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="grid_3">
-						<img src="images/logo2.jpg" alt="">
-						<div class="text1">Company Name</div>Fusce adipiscing quam id risus gittis, non consequat lacus interdumoin.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="grid_3">
-						<img src="images/logo3.jpg" alt="">
-						<div class="text1">Company Name</div>Quisque viverra nulla nunc, eu ultrices wertlibero ultricies egetasellus um.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="grid_3">
-						<img src="images/logo4.jpg" alt="">
-						<div class="text1">Company Name</div>Courrewerwe abitur vel lorem sit amet ulla ullamcorper fermentumn vitae.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="clear"></div>
-					<div class="grid_3">
-						<img src="images/logo5.jpg" alt="">
-						<div class="text1">Company Name</div>Oiliquam nibh ante, egestas id dictum  wrecommodo luctus liberoaesente.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="grid_3">
-						<img src="images/logo6.jpg" alt="">
-						<div class="text1">Company Name</div>Gusce adipiscing quam id risus gittis, non consequat lacus interdumoiju.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="grid_3">
-						<img src="images/logo7.jpg" alt="">
-						<div class="text1">Company Name</div>Niuisque viverra nulla nunc, eu ultrices wertlibero ultricies egetasellus ol.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
-					<div class="grid_3">
-						<img src="images/logo8.jpg" alt="">
-						<div class="text1">Company Name</div>Fouerourrewerwe abitur vel lorem sit amet ulla ullamcorper fermentum.
-						<br>
-						<a href="#">Go to Site</a>
-					</div>
+				
+				<div class="gui">
+					<img id="interface" src="images/interface1.png" alt="" width="518" usemap="#map"/>
 				</div>
+				<map name="map" align="center" class="descriptionInter">
+					<area shape="rect" coords="7,39,80,62" title="Entraînement et sauvegarde d'un classifieur" onclick="changeImg('images/interface1.png')">
+					<area shape="rect" coords="83,39,156,62" title="Affichage d'une série temporelle" onclick="changeImg('images/interface2.png')">
+					<area shape="rect" coords="159,39,232,62" title="Affichage de la distance minimale entre une Shapelet et une série temporelle" onclick="changeImg('images/interface3.png')">
+					<area shape="rect" coords="235,39,308,62" title="Classification d'une série temporelle et affichage de l'explication" onclick="changeImg('images/interface4.png')">
+					<!--area shape="rect" coords="196,331,495,351" onclick="changeImg('images/interface5.png')"-->
+					<!--area shape="rect" coords="71,411,446,431" title="Enregistrement de l'explication"-->
+					<!--area shape="rect" coords="414,83,458,111" onclick="changeImg('images/interface4.png')"-->
+				</map>
+				<script>
+					function changeImg(img) {
+						document.getElementById("interface").src = img;
+					}
+				</script>
+				<!--script>	
+					function changeImgExplication() {
+						var image =  document.getElementById("interface");
+						if(image.src == "images/interface4.png"){
+							changeImg("images/interface5.png");
+						}
+						if(image.src == "images/interface5.png"){
+							changeImg("images/interface4.png");
+						}
+					}
+				</script-->
 			</div>
 		</div>
+		
+		
+		
 		<div id="page5" class="content">
 			<div class="container_12">
 				<div class="grid_12">
@@ -441,7 +418,7 @@
 						<img src="images/box_img1.jpg" alt="">
 						<div class="text1"><a href="#">Lisa Relion</a></div>
 						<div class="socials1">
-							<a href="https://www.linkedin.com/in/lisa-relion?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZ3XJTK%2FZTPW9b%2BpKLGZASQ%3D%3D"></a>
+							<a href="https://www.linkedin.com/in/lisa-relion"></a>
 						</div>
 					</div>
 				</div>
@@ -457,7 +434,7 @@
 				<div class="grid_3">
 					<div class="box maxheight">
 						<img src="images/box_img3.jpg" alt="">
-						<div class="text1"><a href="#">Isabelle Guillou </a></div>
+						<div class="text1"><a href="#">Isabelle Guillou</a></div>
 						<div class="socials1">
 							<a href="https://www.linkedin.com/in/isabelle-guillou?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BNt4u2aC%2FSqKH%2FOEw7XCJsA%3D%3D"></a>
 						</div>
@@ -494,7 +471,7 @@
 				<div class="grid_3">
 					<div class="box maxheight">
 						<img src="images/box_img3.jpg" alt="">
-						<div class="text1"><a href="#">Taha Yassine </a></div>
+						<div class="text1"><a href="#">Taha Yassine</a></div>
 						<div class="socials1">
 							<a href="https://www.linkedin.com/in/taha-yassine?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BT5jXgiMHT6qdXQNVPZF3SA%3D%3D"></a>
 						</div>
