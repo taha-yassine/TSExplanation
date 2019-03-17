@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Home</title>
+		<link rel="icon" href="images/favicon.ico">
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/camera.css">
+		<link rel="stylesheet" href="css/form.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/jquery-migrate-1.1.1.js"></script>
+		<script src="js/superfish.js"></script>
+		<script src="js/forms.js"></script>
+		<script src="js/jquery.ui.totop.js"></script>
+		<script src="js/jquery.equalheights.js"></script>
+		<script src="js/jquery.easing.1.3.js"></script>
+		<script src="js/jquery.ui.totop.js"></script>
+		<script src="js/tms-0.4.1.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('.slider_wrapper')._TMS({
+					show:0,
+					pauseOnHover:false,
+					prevBu:'.prev',
+					nextBu:'.next',
+					playBu:false,
+					duration:800,
+					preset:'fade',
+					pagination:true,//'.pagination',true,'<ul></ul>'
+					pagNums:false,
+					slideshow:8000,
+					numStatus:false,
+					banners: 'fade',
+					waitBannerAnimation:false,
+					progressBar:false
+				});
+			});
+			$(document).ready(function(){
+				!function(){
+			var map=[]
+			 ,names=[]
+			 ,win=$(window)
+			 ,header=$('header')
+			 ,currClass
+			$('.content').each(function(n){
+			 map[n]=this.offsetTop
+			 names[n]=$(this).attr('id')
+			})
+			win
+			 .on('scroll',function(){
+				var i=0
+				while(map[i++]<=win.scrollTop());
+				if(currClass!==names[i-2])
+				currClass=names[i-2]
+				header.removeAttr("class").addClass(names[i-2])
+			 })
+			}(); });
+					function goToByScroll(id){
+				$('html,body').animate({scrollTop: $("#"+id).offset().top},'slow');
+				}
+				$(document).ready(function(){
+					$().UItoTop({ easingType: 'easeOutQuart' });
+				});
+		</script>
+		<!--[if lt IE 8]>
+			<div style=' clear: both; text-align:center; position: relative;'>
+				<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+					<img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+				</a>
+			</div>
+		<![endif]-->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+			<link rel="stylesheet" media="screen" href="css/ie.css">
+		<![endif]-->
+	</head>
+	<body class="">
+<!--==============================header=================================-->
+		<header class="page1">
+			<div class="container_12">
+				<div class="grid_12">
+					<h1><a href="#" onClick="goToByScroll('page1'); return false;"><img src="images/logo.png" alt="Logo"></a></h1>
+					<div class="menu_block">
+						<nav class="">
+							<ul class="sf-menu">
+								<li class="men1"><a onClick="goToByScroll('page2'); return false;" href="#">Projet</a><strong class="hover"></strong></li>
+								<li class="men2"><a onClick="goToByScroll('page3'); return false;" href="#">Fonctionnalités</a> <strong class="hover"></strong></li>
+								<li class="men3"><a onClick="goToByScroll('page1'); return false;" href="#">Interface</a><strong class="hover"></strong></li>
+								<li class="men4"><a onClick="goToByScroll('page5'); return false;" href="#">Équipe</a><strong class="hover"></strong></li>
+								<li class="flag"><a href="#"><img src="images/france.png" alt="Francais"></a><strong class="hover"></strong></li>
+								<li class="flag"><a href="#"><img src="images/english.png" alt="English"></a><strong class="hover"></strong></li>
+								<li class="flag"><a href="https://github.com/tangimds/TSExplanation"><img src="images/socials.png" width="65%" alt="Git"></a><strong class="hover"></strong></li>
+
+							</ul>
+						</nav>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+<!--=======content================================-->
+		<div id="page1" class="content">
+			<div class="ic"></div>
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slider_wrapper">
+						<ul class="items">
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Let Us Show You the Way to Success</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Interminable Energy for Your Project</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>We know how to solve your problems!</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Make your business a booming one!</h2>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="page2" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<div class="clear"></div>
+						<img id="logoTSE" src="images/TSExplanation.png" alt="TSExplanation">
+						<div class="clear"></div>
+						<h3>Le projet</h3>
+						<div class="text1">
+							<p>Le projet TSExplanation (TimesSeriesExplanation) s’inscrit dans le cadre de la formation en cycle ingénieur à l’INSA de Rennes. 
+							Il est réalisé par un groupe de huit étudiants de deuxième année du département Informatique et s’étend sur l’ensemble de l’année scolaire 2018-2019.</br></br>
+							Les domaines abordés sont ceux du Machine Learning, de la classification et des séries temporelles</br></br>
+							Lors de l'utilisation d'un classifieur, le résultat ne comporte aucune explication. L'humain ne peut donc pas connaitre les raisons pour lesquels le classifieur a choisi ce résultat là. Une explication pourrait apporter de la confiance au classifieur </br></br>
+							</p>
+						</div>
+						<div>
+							<img src="images/imagedoc.png"/>
+						</div>
+						<div class="text1">
+							<p>
+							</br></br>
+							L'objectif du projet est d'implémenter un outil capable d'expliquer une décision prise par un classifieur de séries temporelles.
+							Cette explication doit être claire et relativement simple pour qu’elle soit comprise par un utilisateur quelconque. L'outil TSExplanation devra alors convaincre l’utilisateur de la justesse de la décision du classifieur. </br></br>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div id="page3" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>Les fonctionnalités de TSExplanation</h3>
+					</div>
+				</div>			
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction1.png" alt="">
+						<div class="text00"><a onClick="goToByScroll('texte11'); return false;" href="#">Entrainer et sauvegarder un classifieur de séries temporelles</a></div></br></br>
+						<div class="text01">TSExplanation permet d'entrainer un classifieur à partir de données d'entrainement constitué de séries temporelles. L'outil permet également de le sauvegarder afin de l'utiliser ultérieurement.</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction2.png" alt="">
+						<div class="text00"><a onClick="goToByScroll('texte22'); return false;" href="#">Afficher une série temporelle</a></div></br></br>L'outil possède une interface graphique permet à l'utilisateur de visualiser des séries temporelles.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction3.png" alt="">
+						<div class="text00"><a onClick="goToByScroll('texte33'); return false;" href="#">Afficher la distance entre une Shapelet et une série temporelle</a></div></br></br>L'interface graphique de TSExplanation permet de sélectionner une série temporelle et une Shapelet particulière et de visualiser la distance entre ces deux éléments.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction4.png" alt="">
+						<div class="text00"><a onClick="goToByScroll('texte44'); return false;" href="#">Classifier et afficher l'explication</a></div></br></br>L'outil peut classifier une série temprelle et justifier graphiquement son choix de classification.
+					</div>
+				</div>
+			</div>
+			
+
+			<div id="texte11">
+				<hr color="#FEA61E" size=4 align=center width=70%>
+				<br>
+				<h3>Entrainer et sauvegarder un classifieur de séries temporelles</h3>
+						<p></p>
+						<p></p>
+				<div id="texte1">
+					<div class="element1">
+						
+						
+						<p>Pour rappel en apprentissage supervisé, le but consiste à récupérer des données annotées, c'est à dire avec un label, et d'entrainer un modèle (classifieur) dessus afin que ce classifieur puisse
+						prédire le label d'une nouvelle donnée non annotée. Il existe plusieurs type de classifieur (KNN, Random Forest, Réseau de Neurones...).</br>
+						Dans notre cas, l'utilisateur aura la possibilité d'importer le jeu de série temporelles d'entrainement via deux méthodes : </p>
+						<ul>
+							<li>Importation via un fichier texte</li><br>
+							<li>Importation d'un jeu de donnée présent sur le site <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
+						</ul>
+						
+						<p>Une fois les données importées, l'utilsateur aura le choix entre deux classifieur :</p>
+						<ul>
+								<li>1NN-DTW :
+								Grace à l'algorithme DTW, le classifieur va calculer la distance entre la série temporelle à classer et les séries d'entrainement. Il va garder le label de la série la plus 
+								proche (1er voisin)  </li><br>
+								<li>Learning Shapelet :
+								Ce classifieur plus complexe se base sur des sous-séries temporelles caractéristiques des différentes classes. Ces sous-séries, appelés Shapelets, va permettre la classication de la série temporelle.</br></li>
+						</ul>
+						<p>L'utilisateur pourra alors sauvegarder ce classifieur dans un fichier afin de le réutiliser.</p>
+						
+					</div>
+					<div class="element1">
+						<img src="images/imageapp.png"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			<div id="texte22">
+				<hr color="#FEA61E" size=4 align=center width=70%>
+				<h3>Afficher une série temporelle</h3>
+				<p></p>
+				<p></p>
+				<div id="texte2">
+					<div class="element2">
+						<p>Une série temporelle est une suite de valeurs mesurées au cours du temps durant une certaine durée. Cette durée peut varier ainsi que l'intervalle de temps entre chaque mesure.
+						De telles données peuvent être représentées sous forme graphique pour les rendre plus lisibles par un humain.	</p>					
+						<br>
+						<p>L'outil TSExplanation possède une interface graphique pour faciliter le travail de l'utilisateur et rendre l'interaction entre l'outil et l'humain plus visuelle.
+						Ainsi, l'utilisateur a la possibilité d'afficher à l'écran n'importe quelle série temporelle sous forme de graphique.
+						</p>
+					</div>
+					<div class="element2">
+						<img src="images/ST.png"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<div id="texte33">
+				<hr color="#FEA61E" size=4 align=center width=70%>
+				<h3>Afficher la distance entre une Shapelet et une série temporelle</h3>
+				<p></p>
+				<p></p>
+				<div id="texte1">
+					<div class="element1">
+						<p>L'interface graphique de TSExplanation permet également à l'utilisateur d'afficher une série temporelle ainsi qu'une Shapelet quelconque et de visualiser la distance minimale entre ces deux éléments.</br></br>
+						L'utilisateur peut ainsi connaitre la partie de la série temporelle qui ressemble le plus à la Shapelet. Il peut alors déterminer par lui-même, visuellement, si la Shapelet peut être considérée comme étant présente dans la série temporelle ou non.
+						</p>
+						
+						<!--
+						<p>Pour chaque classe, on dispose de sous-séries temporelles caractéristiques des classe (qu'on appelle Shapelets).</br>
+						L'outil permet d'afficher une série temporelle et de visualiser la distance (minimale) entre n'importe qu'elle Shapelet et cette série temporelle.
+						</p>
+						
+						<p>Lors de la phase d'entrainement du classifieur, l'outil TSExplanation a défini les Shapelets que le classifieur doit chercher à l'intérieur des séries temporelles à classifier.</br></br>
+						Pour chaque Shapelet, l'outil va mesurer la distance minimale entre cette Shapelet et la série temporelle à classifier. Si cette distance est inférieure à un certain seuil (défini par l'utilisateur), la Shapelet sera considérée comme présente dans la série temporelle à classifier.
+						A partir de ces mesures, le classifieur va donc déterminer les Shapelets qui sont présentes dans la série temporelle à classifier et celles qui ne le sont pas. </br></br>
+						L'outil va alors comparer les Shapelets présentes aux Shapelets caractéristiques de chaque classe afin d'attribuer une classe à la série temporelle que l'on cherche à classifier.
+						</p>
+						-->
+					</div>
+					
+					<div class="element1">
+						<img src="images/comparaison.png"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			<div id="texte44">
+				<hr color="#FEA61E" size=4 align=center width=70%>
+				<h3>Classifier une série temporelle et afficher l'explication de la classification</h3>
+				<p></p>
+				<p></p>
+				<div id="texte2">
+					<div class="element2">
+						
+						<p>C'est la principal fonctionnalité de notre outil TSExplanation. L'utilisateur va pouvoir classifier une nouvelle série 
+						temporelle et avoir l'explication de cette classification. Pour cela il va donner à TSExplanation une série temporelles non étiqueté
+						et un classifieur déja entrainé.  
+						</p><br>
+						<p>L'outil va alors lui donner la classification de la série et son explication. L'explication sera donnée sous forme graphique. Les parties
+						de la série temporelle qui ont le plus contribuées à la classifiction seront mises en avant. Les parties qui, au contraire,  ont contribuées le moins seront plus effacées.
+						L'utilisateur jugera alors du résultat et pourra avoir confiance, ou non, au classifieur. 
+						</p><br>
+						<p>Pour effectuer ce travail, TSExplanation utilise l'algorithme LIMEShape. Cette algorithme se base sur celui de LIME.
+							LIMEShape est l'adaptation de LIME aux séries temporelles</p>
+					</div>
+					
+					<div class="element2">
+						<img src="images/imageLime.png"/>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+		
+
+		<!--<div id="page1" class="content">
+				<h3>L'interface graphique</h3><br><br>
+				<div class="ic"></div>
+				<div class="container_12">
+					<div class="grid_12">
+						
+						<div class="slider_wrapper">
+							<ul class="items">
+								<li>
+									<img src="images/IG1.png" alt="">
+									-<div class="caption banner">
+										<h2>Let Us Show You the Way to Success</h2>
+									</div>
+								</li>
+								<li>
+									<img src="images/IG2.png" alt="">
+								</li>
+								<li>
+									<img src="images/IG3.png" alt="">
+								</li>
+								<li>
+									<img src="images/IG4.png" alt="">
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>-->
+		
+		
+			
+			<div id="page4" class="content">
+				<div class="container_12">
+					<div class="grid_12">
+						<h3>L'interface graphique</h3>
+					</div>
+					
+					<div class="gui">
+						<img id="interface" src="images/interface1.png" alt="" width="518" usemap="#map"/>
+					</div>
+					<map name="map" align="center" class="descriptionInter">
+						<area shape="rect" coords="7,39,80,62" title="Entraînement et sauvegarde d'un classifieur" onclick="changeImg('images/interface1.png')">
+						<area shape="rect" coords="83,39,156,62" title="Affichage d'une série temporelle" onclick="changeImg('images/interface2.png')">
+						<area shape="rect" coords="159,39,232,62" title="Affichage de la distance minimale entre une Shapelet et une série temporelle" onclick="changeImg('images/interface3.png')">
+						<area shape="rect" coords="235,39,308,62" title="Classification d'une série temporelle et affichage de l'explication" onclick="changeImg('images/interface4.png')">
+						<!--area shape="rect" coords="196,331,495,351" onclick="changeImg('images/interface5.png')"-->
+						<!--area shape="rect" coords="71,411,446,431" title="Enregistrement de l'explication"-->
+						<!--area shape="rect" coords="414,83,458,111" onclick="changeImg('images/interface4.png')"-->
+					</map>
+					<script>
+						function changeImg(img) {
+							document.getElementById("interface").src = img;
+						}
+					</script>
+					<!--script>	
+						function changeImgExplication() {
+							var image =  document.getElementById("interface");
+							if(image.src == "images/interface4.png"){
+								changeImg("images/interface5.png");
+							}
+							if(image.src == "images/interface5.png"){
+								changeImg("images/interface4.png");
+							}
+						}
+					</script-->
+				</div>
+			</div>
+		<div id="page5" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>Notre équipe</h3>
+						<div class="text1">
+							L'équipe en charge de ce projet est constituée de 8 étudiants du département Informatique de l'INSA de Rennes.
+							Ces étudiants sont encadrés par un enseignant de l'INSA également chercheur à l'IRISA et par un chercheur de l'IRISA employé par l'entreprise Energiency.
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img1.jpg" alt="">
+						<div class="text1"><a href="#">Lisa Relion</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/lisa-relion?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZ3XJTK%2FZTPW9b%2BpKLGZASQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img2.jpg" alt="">
+						<div class="text1"><a href="#">Tangi Mendes</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/tangimendes?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZUR7bP0pRbuQ8nHtmaVcPQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img3.jpg" alt="">
+						<div class="text1"><a href="#">Isabelle Guillou </a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/isabelle-guillou?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BNt4u2aC%2FSqKH%2FOEw7XCJsA%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Yohan Couanon</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/yohan-couanon-235a2517a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVjPnzk1aSdaruFofFPskVw%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/adrien.jpg" alt="">
+						<div class="text1"><a href="#">Adrien Buridant</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/adrien-buridant?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9qsQefzRRmmFfHomHRI0vw%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img2.jpg" alt="">
+						<div class="text1"><a href="#">Morgane Cam</a></div> 
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/morgane-cam-ba4260132?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BqGo08iDkTlSKrDsciAV6CQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img3.jpg" alt="">
+						<div class="text1"><a href="#">Taha Yassine </a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/taha-yassine?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BT5jXgiMHT6qdXQNVPZF3SA%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Antoine Chaffin</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/antoine-chaffin?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BuqvF2762T5KiWfhAjKAs6w%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+<!--==============================footer=================================-->
+		<footer>
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="copy">
+						<a onClick="goToByScroll('page1'); return false;" href="#"><img src="images/footer_logo.png" alt=""></a>  &copy; 2019 <br>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</footer>
+	</body>
+</html>
