@@ -308,7 +308,7 @@ plt.ylabel('some numbers')
 plt.show()
 plt.savefig('test.png')
 """
-
+"""
 myTS = generateTS(10,0,1)
 myindexedTS = IndexedTS(myTS)
 
@@ -317,3 +317,4 @@ print ("TS BRUTE:" , myDomainMapper.raw)
 print ("TS Segmentation:", myDomainMapper.ts_seg)
 
 myDomainMapper.visualize_instance_html()
+"""
