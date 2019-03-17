@@ -17,6 +17,8 @@ class App(QWidget):
 
     fileNameTS = ''
     fileNameSh = ''
+    X_train = None 
+    X_trainSh = None
     fileNameCl = ''
     explanation = ''
 
@@ -108,11 +110,6 @@ class App(QWidget):
         self.cb_TS_SelectTS.activated.connect(lambda idx="TS": self.selectionTSChange("TS"))
         self.horizontalLayout_TS.addWidget(self.cb_TS_SelectTS)
 
-        #self.btn_TS_Charge = QtWidgets.QPushButton(self.tab_TS)
-        #self.btn_TS_Charge.setText("Charger ...")
-        #self.btn_TS_Charge.clicked.connect(lambda idx="TS": self.openTSFile("TS"))
-        #self.horizontalLayout_TS.addWidget(self.btn_TS_Charge)
-
         self.lbl_TS_Index = QtWidgets.QLabel(self.tab_TS)
         self.lbl_TS_Index.setText("Indice :")
         self.horizontalLayout_TS.addWidget(self.lbl_TS_Index)  
@@ -175,10 +172,18 @@ class App(QWidget):
         self.horizontalLayout_Shapelet.addWidget(self.line)
 
         self.verticalLayout_Shapelet_TS = QtWidgets.QVBoxLayout()
-        self.btn_Shapelet_ChargeTS = QtWidgets.QPushButton(self.tab_Shapelet)
-        self.btn_Shapelet_ChargeTS.setText("Charger\nST")
-        self.btn_Shapelet_ChargeTS.clicked.connect(lambda idx="Shapelet": self.openTSFile("Shapelet"))
-        self.verticalLayout_Shapelet_TS.addWidget(self.btn_Shapelet_ChargeTS)
+
+        self.lbl_Shapelet_ChargerTS = QtWidgets.QLabel(self.tab_Shapelet)
+        self.lbl_Shapelet_ChargerTS.setText("Charger ST :")
+        self.verticalLayout_Shapelet_TS.addWidget(self.lbl_Shapelet_ChargerTS)
+        self.cb_Shapelet_SelectTS = QtWidgets.QComboBox(self.tab_Shapelet)
+        self.cb_Shapelet_SelectTS.addItem("")
+        self.cb_Shapelet_SelectTS.setItemText(0, "Charger mon fichier ...")
+        for ts in listeTS:
+            self.cb_Shapelet_SelectTS.addItem(ts)
+        self.cb_Shapelet_SelectTS.activated.connect(lambda idx="Shapelet": self.selectionTSChange("Shapelet"))
+        self.verticalLayout_Shapelet_TS.addWidget(self.cb_Shapelet_SelectTS)
+
         self.formLayout_Shapelet_TS = QtWidgets.QFormLayout()
         self.lbl_Shapelet_IndexTS = QtWidgets.QLabel(self.tab_Shapelet)
         self.lbl_Shapelet_IndexTS.setText("Indice :")
@@ -199,7 +204,7 @@ class App(QWidget):
         self.verticalLayout_Shapelet.addWidget(self.btn_Shapelet_Show)
 
         self.lbl_Shapelet = QtWidgets.QLabel(self.tab_Shapelet)
-        self.lbl_Shapelet.setText("Visualisation de la distance la plus petite d\'une Shapelet à une ST :")
+        self.lbl_Shapelet.setText("Visualisation de la plus petite distance d\'une Shapelet à une ST :")
         self.verticalLayout_Shapelet.addWidget(self.lbl_Shapelet)
 
         self.figure_Sh = plt.figure()
@@ -233,11 +238,15 @@ class App(QWidget):
 
         self.lbl_LIME_SelectTS = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_SelectTS.setText("Sélection du fichier des ST")
-        self.formLayout_LIME.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_SelectTS)        
-        self.btn_LIME_SelectTS = QtWidgets.QPushButton(self.tab_LIME)
-        self.btn_LIME_SelectTS.setText("Charger ...")
-        self.btn_LIME_SelectTS.clicked.connect(lambda idx="LIME": self.openTSFile("LIME"))
-        self.formLayout_LIME.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.btn_LIME_SelectTS)
+        self.formLayout_LIME.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_SelectTS)
+
+        self.cb_LIME_SelectTS = QtWidgets.QComboBox(self.tab_LIME)
+        self.cb_LIME_SelectTS.addItem("")
+        self.cb_LIME_SelectTS.setItemText(0, "Charger mon fichier ...")
+        for ts in listeTS:
+            self.cb_LIME_SelectTS.addItem(ts)
+        self.cb_LIME_SelectTS.activated.connect(lambda idx="LIME": self.selectionTSChange("LIME"))
+        self.formLayout_LIME.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.cb_LIME_SelectTS)
 
         self.lbl_LIME_Index = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_Index.setText("Indice de la ST à expliquer")
@@ -323,25 +332,6 @@ class App(QWidget):
     ##################################################################################################
 
 
-    # Action of the item 'Charger mon fichier' of the Classifier tab
-    #           the button 'Charger' of the TS tab
-    #           the button 'Charger ST' of the Shapelet tab 
-    #           the button 'Charger' for the TS file of the LIME tab
-    def openTSFile(self, tab):
-        fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
-        if fileName:
-            App.fileNameTS = fileName
-            num_lines = sum(1 for line in open(App.fileNameTS))
-            if tab == 'TS':
-                self.txt_TS_Index.setMaximum(num_lines)
-                self.txt_TS_Index.setEnabled(True)
-            if tab == 'Shapelet':
-                self.txt_Shapelet_IndexTS.setMaximum(num_lines)
-                self.txt_Shapelet_IndexTS.setEnabled(True)
-            if tab == 'LIME':
-                self.txt_LIME_Index.setMaximum(num_lines)
-                self.txt_LIME_Index.setEnabled(True)
-
     # Action of the button 'Sauvegarder' of the Classifier tab
     def saveClassifier(self):
         fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
@@ -362,25 +352,15 @@ class App(QWidget):
                 cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
                 LearningClassifier.saveClassifier1NN(cl, fileName)
 
+
     # Action of the button 'Afficher' of the TS tab
     def showTSPlot(self):
-        if self.cb_TS_SelectTS.currentText() == "Charger mon fichier ...":
-            if App.fileNameTS != '':
-                X_train,_ = importTS.fileImportTS(App.fileNameTS)
-                l = X_train[self.txt_TS_Index.value()-1].ravel().tolist()
-                self.figure_TS.clear()
-                ax = self.figure_TS.add_subplot(111)
-                ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
-                self.canvas_TS.draw()
-        else:
-            X_train, _, _, _= importTS.dataImport(self.cb_TS_SelectTS.currentText())
-            self.txt_TS_Index.setMaximum(len(X_train))
-            self.txt_TS_Index.setEnabled(True)
-            l = X_train[self.txt_TS_Index.value() - 1].ravel().tolist()
-            self.figure_TS.clear()
-            ax = self.figure_TS.add_subplot(111)
-            ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
-            self.canvas_TS.draw()
+        l = App.X_train[self.txt_TS_Index.value() - 1].ravel().tolist()
+        self.figure_TS.clear()
+        ax = self.figure_TS.add_subplot(111)
+        #ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
+        ax.plot(l, linestyle='-')
+        self.canvas_TS.draw()
 
 
     # Action of the button 'Charger Shapelet' of the Shapelet tab
@@ -388,13 +368,15 @@ class App(QWidget):
         fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
         if fileName:
             App.fileNameSh = fileName
-            num_lines = sum(1 for line in open(App.fileNameSh))
-            self.txt_Shapelet_IndexSh.setMaximum(num_lines)
+            App.X_trainSh,_ = importTS.fileImportTS(App.fileNameSh)
+            self.txt_Shapelet_IndexSh.setMaximum(len(App.X_trainSh))
             self.txt_Shapelet_IndexSh.setEnabled(True)
+
 
     # Compute the min distance between a Shapelet and a TS
     def minDistance(self, shapelet, ts):
-        if len(ts) >= len(shapelet):
+        ts_cleaned = [t for t in ts if str(t) != 'nan'] # Removing all the NaN values to get the exact length of the ts
+        if len(ts_cleaned) >= len(shapelet):
             debut = 0
             distanceMin = sys.maxsize
             for i in range(0, len(ts) - len(shapelet) + 1):
@@ -408,32 +390,37 @@ class App(QWidget):
         else:
             return -1
 
+
     # Action of the button 'Afficher' of the Shapelet tab
     def showPlots(self):
-        #shapelet = (importTS.fileImportTS(App.fileNameSh))[self.txt_Shapelet_IndexSh.value()-1,].tolist()
-        #ts = importTS.fileImportTS(App.fileNameTS)[self.txt_Shapelet_IndexTS.value()-1,].tolist()
-        #shapelet = [-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211]   
-        shapelet = [-0.31604,-0.2864,-0.2864,-0.32098,-0.29134,-0.29134,-0.3111]   
-        ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652]
+        shapelet = App.X_trainSh[self.txt_Shapelet_IndexSh.value()-1].ravel().tolist()
+        ts = App.X_train[self.txt_Shapelet_IndexTS.value()-1].ravel().tolist()
         debut = self.minDistance(shapelet, ts)
-        listeG = []
-        for i in range(0,debut):
-            listeG.append(0)
-        listeD = []
-        for i in range(debut + len(shapelet), len(ts)):
-            listeD.append(0)
-        listeG.extend(shapelet)
-        listeG.extend(listeD)
-        l2 = listeG   #l2 = [0,0,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,0,0,0,0,0,0,0,0,0,0,0,0]        
-        x = np.arange(0.0, len(ts), 1)
-        y2 = np.ma.masked_where((x<debut), l2)
-        y = np.ma.masked_where((x>(debut + len(shapelet) - 1)), y2)
-        self.figure_Sh.clear()
-        ax = self.figure_Sh.add_subplot(111)
-        ax.plot(ts, linestyle='-')
-        ax.plot(y, linestyle='-', color='red')
-        ax.fill_between(x, ts, y, facecolor='#b7b7b7')
-        self.canvas_Sh.draw()
+        if debut == -1:
+            print("Erreur : la Shapelet doit être plus courte que la ST !")
+        else:
+            # Normalizing the Shapelet length to be able to print it on the same graphic than the TS :
+            listeG = []
+            for i in range(0,debut):
+                listeG.append(0)
+            listeD = []
+            for i in range(debut + len(shapelet), len(ts)):
+                listeD.append(0)
+            listeG.extend(shapelet)
+            listeG.extend(listeD)
+            l2 = listeG       
+            # Masking the empty parts of the Shapelet :
+            x = np.arange(0.0, len(ts), 1)
+            y2 = np.ma.masked_where((x<debut), l2)
+            y = np.ma.masked_where((x>(debut + len(shapelet) - 1)), y2)
+            # Showing the graphic :
+            self.figure_Sh.clear()
+            ax = self.figure_Sh.add_subplot(111)
+            ax.plot(ts, linestyle='-')
+            ax.plot(y, linestyle='-', color='red')
+            ax.fill_between(x, ts, y, facecolor='#b7b7b7')
+            self.canvas_Sh.draw()
+
 
     # Action of the button 'Charger' for the classifier of the LIME tab
     def openClassifier(self):
@@ -441,27 +428,45 @@ class App(QWidget):
         if fileName:
             App.fileNameCl = fileName
 
+
     # Action of the button 'Executer' of the LIME tab
     def execLIME(self): # Show explanation
         App.explanation = "..."
         self.UIexplanation = ExplanationWindow.UI_Explanation()
         self.UIexplanation.showUI(App.explanation)# + result (classifier.predict(myTS))
     
+
     # Binding between the size of the tab widget and the size of the window
     def resizeEvent(self, resizeEvent):
         self.tabWidget.setGeometry(0, 2, self.geometry().width() + 2, self.geometry().height())
         QtWidgets.QWidget.resizeEvent(self, resizeEvent)
 
-    # Action when there is a change in the TS file, in the Classifier tab
+
+    # Set the max value of the index
+    def setIndex(self, cb, index):
+        if(cb.currentText() == "Charger mon fichier ..."):
+            fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+            if fileName:
+                App.fileNameTS = fileName
+                App.X_train,_ = importTS.fileImportTS(App.fileNameTS)
+                index.setMaximum(len(App.X_train))
+                index.setEnabled(True)
+        else:
+            App.X_train, _, _, _= importTS.dataImport(cb.currentText())
+            index.setMaximum(len(App.X_train))
+            index.setEnabled(True)
+
+
+    # Action when there is a change in the TS file
     def selectionTSChange(self, tab):
         if (tab == "Classifier") and (self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ..."):
-            App.openTSFile(self, tab)
-        if (tab == "TS") and (self.cb_TS_SelectTS.currentText() == "Charger mon fichier ..."):
-            App.openTSFile(self, tab)
-        if (tab == "Shapelet") and (self.cb_Shapelet_SelectTS.currentText() == "Charger mon fichier ..."):
-            App.openTSFile(self, tab)
-        if (tab == "LIME") and (self.cb_LIME_SelectTS.currentText() == "Charger mon fichier ..."):
-            App.openTSFile(self, tab)
+            App.fileNameTS, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+        if (tab == "TS"):
+            self.setIndex(self.cb_TS_SelectTS, self.txt_TS_Index)
+        if (tab == "Shapelet"):
+            self.setIndex(self.cb_Shapelet_SelectTS, self.txt_Shapelet_IndexTS)
+        if (tab == "LIME"):
+            self.setIndex(self.cb_LIME_SelectTS, self.txt_LIME_Index)
 
 
     # Action when there is a change in the type of segmentation, in the LIME tab
