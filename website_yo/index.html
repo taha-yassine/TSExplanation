@@ -84,14 +84,14 @@
 					<div class="menu_block">
 						<nav class="">
 							<ul class="sf-menu">
+								<li class="current men"><a onClick="goToByScroll('page1'); return false;" href="#">Accueil</a> <strong class="hover"></strong></li>
 								<li class="men1"><a onClick="goToByScroll('page2'); return false;" href="#">Projet</a><strong class="hover"></strong></li>
 								<li class="men2"><a onClick="goToByScroll('page3'); return false;" href="#">Fonctionnalités</a> <strong class="hover"></strong></li>
-								<li class="men3"><a onClick="goToByScroll('page1'); return false;" href="#">Interface</a><strong class="hover"></strong></li>
+								<li class="men3"><a onClick="goToByScroll('page4'); return false;" href="#">Interface</a><strong class="hover"></strong></li>
 								<li class="men4"><a onClick="goToByScroll('page5'); return false;" href="#">Équipe</a><strong class="hover"></strong></li>
+								<li class="flag"><a href="https://github.com/tangimds/TSExplanation" target="_blank" ><img src="images/github.png" alt="GitHub"></a><strong class="hover"></strong></li>
 								<li class="flag"><a href="#"><img src="images/france.png" alt="Francais"></a><strong class="hover"></strong></li>
 								<li class="flag"><a href="#"><img src="images/english.png" alt="English"></a><strong class="hover"></strong></li>
-								<li class="flag"><a href="https://github.com/tangimds/TSExplanation"><img src="images/socials.png" width="65%" alt="Git"></a><strong class="hover"></strong></li>
-
 							</ul>
 						</nav>
 						<div class="clear"></div>
@@ -227,7 +227,7 @@
 								Grace à l'algorithme DTW, le classifieur va calculer la distance entre la série temporelle à classer et les séries d'entrainement. Il va garder le label de la série la plus 
 								proche (1er voisin)  </li><br>
 								<li>Learning Shapelet :
-								Ce classifieur plus complexe se base sur des sous-séries temporelles caractéristiques des différentes classes. Ces sous-séries, appelés Shapelets, va permettre la classication de la série temporelle.</br></li>
+								Ce classifieur plus complexe se base sur des sous-séries temporelles caractéristiques des différentes classes. Ces sous-séries, appelés Shapelets, va permettre la classication de la série temporelle.</li><br>
 						</ul>
 						<p>L'utilisateur pourra alors sauvegarder ce classifieur dans un fichier afin de le réutiliser.</p>
 						
@@ -323,7 +323,8 @@
 						L'utilisateur jugera alors du résultat et pourra avoir confiance, ou non, au classifieur. 
 						</p><br>
 						<p>Pour effectuer ce travail, TSExplanation utilise l'algorithme LIMEShape. Cette algorithme se base sur celui de LIME.
-							LIMEShape est l'adaptation de LIME aux séries temporelles</p>
+							LIMEShape est l'adaptation de LIME aux séries temporelles. Pour plus de détail sur le fonctionnement de LIME et LIMEShape, veuillez vous
+							reportez aux différents rapports se trouvant sur notre dépot GitHub.</p>
 					</div>
 					
 					<div class="element2">
