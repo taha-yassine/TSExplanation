@@ -81,6 +81,7 @@ class App(QWidget):
         self.btn_Classifier_Save = QtWidgets.QPushButton(self.tab_Classifier)
         self.btn_Classifier_Save.setText("Sauvegarder ...                     ")
         self.btn_Classifier_Save.clicked.connect(self.saveClassifier) 
+        self.btn_Classifier_Save.setEnabled(False)
         self.formLayout_Classifier.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.btn_Classifier_Save)
 
 
@@ -123,6 +124,7 @@ class App(QWidget):
         self.btn_TS_Affiche = QtWidgets.QPushButton(self.tab_TS)
         self.btn_TS_Affiche.setText("Afficher")
         self.btn_TS_Affiche.clicked.connect(self.showTSPlot)
+        self.btn_TS_Affiche.setEnabled(False)
         self.horizontalLayout_TS.addWidget(self.btn_TS_Affiche)
 
         self.verticalLayout_TS.addLayout(self.horizontalLayout_TS)
@@ -201,7 +203,10 @@ class App(QWidget):
         self.btn_Shapelet_Show = QtWidgets.QPushButton(self.tab_Shapelet)
         self.btn_Shapelet_Show.setText("Afficher")
         self.btn_Shapelet_Show.clicked.connect(self.showPlots)
+        self.btn_Shapelet_Show.setEnabled(False)
         self.verticalLayout_Shapelet.addWidget(self.btn_Shapelet_Show)
+        self.shapeletSelected = False
+        self.tsSelected = False
 
         self.lbl_Shapelet = QtWidgets.QLabel(self.tab_Shapelet)
         self.lbl_Shapelet.setText("Visualisation de la plus petite distance d\'une Shapelet à une ST :")
@@ -319,7 +324,10 @@ class App(QWidget):
         self.btn_LIME_Exec = QtWidgets.QPushButton(self.tab_LIME)
         self.btn_LIME_Exec.setText("Exécuter")
         self.btn_LIME_Exec.clicked.connect(self.execLIME)
+        self.btn_LIME_Exec.setEnabled(False)
         self.formLayout_LIME.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.btn_LIME_Exec)
+        self.classifierSelected = False
+        self.trainSelected = False
 
 
         # Add
@@ -371,6 +379,9 @@ class App(QWidget):
             App.X_trainSh,_ = importTS.fileImportTS(App.fileNameSh)
             self.txt_Shapelet_IndexSh.setMaximum(len(App.X_trainSh))
             self.txt_Shapelet_IndexSh.setEnabled(True)
+            self.shapeletSelected = True
+            if self.tsSelected == True :
+                self.btn_Shapelet_Show.setEnabled(True)
 
 
     # Compute the min distance between a Shapelet and a TS
@@ -427,6 +438,9 @@ class App(QWidget):
         fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
         if fileName:
             App.fileNameCl = fileName
+        self.classifierSelected = True
+        if self.trainSelected == True :
+            self.btn_LIME_Exec.setEnabled(True)
 
 
     # Action of the button 'Executer' of the LIME tab
@@ -459,14 +473,23 @@ class App(QWidget):
 
     # Action when there is a change in the TS file
     def selectionTSChange(self, tab):
-        if (tab == "Classifier") and (self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ..."):
-            App.fileNameTS, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+        if (tab == "Classifier"):
+            if (self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ..."):
+                App.fileNameTS, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+            self.btn_Classifier_Save.setEnabled(True)
         if (tab == "TS"):
             self.setIndex(self.cb_TS_SelectTS, self.txt_TS_Index)
+            self.btn_TS_Affiche.setEnabled(True)
         if (tab == "Shapelet"):
             self.setIndex(self.cb_Shapelet_SelectTS, self.txt_Shapelet_IndexTS)
+            self.tsSelected = True
+            if self.shapeletSelected == True :
+                self.btn_Shapelet_Show.setEnabled(True)
         if (tab == "LIME"):
             self.setIndex(self.cb_LIME_SelectTS, self.txt_LIME_Index)
+            self.trainSelected = True
+            if self.classifierSelected == True :
+                self.btn_LIME_Exec.setEnabled(True)
 
 
     # Action when there is a change in the type of segmentation, in the LIME tab
