@@ -145,15 +145,23 @@
 						<img id="logoTSE" src="images/TSExplanation.png" alt="TSExplanation">
 						<div class="clear"></div>
 						<div class="text1">
+							<div class="intro">
 							<p>Le projet TSExplanation s’inscrit dans le cadre de la formation en cycle ingénieur à l’INSA de Rennes. 
 							Il est réalisé par un groupe de huit étudiants de deuxième année du département Informatique et s’étend sur l’ensemble de l’année scolaire 2018-2019.</br></br>
+							
+							Les domaines abordés sont ceux du Machine Learning, de la classification et des séries temporelles</br></br>
+							Lors de l'utilisation d'un classifieur, le résultat ne comporte aucune explication. L'humain ne peut donc pas connaitre les raisons pour lesquels le classifieur a choisi ce résultat là. Une explication pourrait apporter de la confiance au classifieur </br></br>
+							
 							Le but de ce projet est d’implémenter un outil capable d'expliquer une décision prise par un classifieur de séries temporelles.
 							Cette explication doit être claire et relativement simple pour qu’elle soit comprise par un utilisateur quelconque.</br></br>
-							Pour vulgariser cet objectif, on peut prendre l’exemple d’un classifieur qui place des images dans les classes "image de chat" et "image de poisson". 
-							Un utilisateur sans compétence technique particulière souhaiterait savoir sur quels critères le classifieur a décidé de se baser pour placer une image de chat dans la classe "image de chat".</br> 
-							L'outil doit alors être en mesure d’expliquer simplement son choix mais de manière suffisamment précise pour convaincre l’utilisateur de la justesse de sa décision. </br></br>
-							Ce principe sera appliqué à des données appelées "séries temporelles".
+							
+							Pour vulgariser cet objectif, on peut prendre l’exemple d’un classifieur qui décide, à partir d'électrocardiogrammes, si un patient présente une maladie cardiaque ou non.</br>
+							Si un médecin utilise un tel classifieur, il voudrait avoir confiance en la décision prise par son outil. Pour cela, le médecin voudrait pouvoir demander à l'outil d'expliquer le choix de classification (le diagnostic de la maladie).</br>
 							</p>
+							</div>
+						</div>
+						<div>
+							<img src="images/imagedoc.png"/>
 						</div>
 					</div>
 				</div>
@@ -208,37 +216,54 @@
 				<div id="texte1">
 					<div class="element1">
 						
-						
-						<p>Un problème de classification consiste à associer des classes à différents objets, le but étant de différencier ces objets selons certains critères.</br>
-						Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br>
-						Par exemple, pour un ensemble de photos, on peut vouloir séparer les photos de chat et les photos de poisson et les placer dans des classes (les classes "image de chat" et "image de poisson".</br>
-						Un classifieur va alors créer les deux classes correspondantes et classifier les photos de chat et de poisson comme voulu.</br>
-						Dans un premier temps, le classifieur a besoin qu'on lui fournisse des exemples c'est à dire des objets dont on connait les classes. On parle alors d'entrainement du classifieur.
-						Avec TSExplanation, il est possible d'entrainer un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
-						Deux types de classifieurs peuvent ainsi être construits : un classifieur basé sur l'algorithme 1NN-DTW et un classifieur basé sur TsLearn.
-						</p>
-						
-						<ul>
-							<li>Classifieur 1NN-DTW :</li>
-							<p></p>
-							<p>Le fonctionnement d'un classifieur 1NN-DTW est simple. Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entrainement.
-							Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entrainement.</br>
-							La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entrainement qui lui ressemble le plus.
-							</p>
+						<div class="debut1">
+							<p>Un problème de classification consiste à associer des classes à différentes données, le but étant de différencier ces données selon certains critères.</br>
+							Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br></br>
 							
-							<li>Classifieur LearningShapelet : </li>
-							<p></p>
-							<p>Au sein des séries temporelles du jeu d'entrainement, le classifieur est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
-							Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
-							On appelle ces sous-séries temporelles des Shapelets.</br>
-							Si on revient dans le cadre de la classification d'images de chats et de poisson, on peut assimiler les Shapelet des séries temporelles aux morceaux d'images tels que la tête du chat (que l'on ne va retrouver que dans des images de chat) ou la queue du poisson (que l'on ne va retrouver que dans des images de poissons).</br>  
-							Lors de son entrainement, le classifieur va identifier les Shapelets de chaque classe.
+							Dans un premier temps, un classifieur a besoin qu'on lui fournisse des exemples c'est à dire des données dont on connait les classes. Ces données sont dites "annotées". On parle alors d'entrainement du classifieur.</br></br>
+							
+							Avec TSExplanation, il est possible d'entrainer un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
+							Deux types de classifieurs peuvent ainsi être construits : un classifieur basé sur l'algorithme 1NN-DTW et un classifieur basé sur Learning Shapelet.
+							Pour entraîner ces deux types de classifieurs, l'utilisateur a la possibilité d'importer le jeu de série temporelles d'entrainement via deux méthodes : </p>
+							<ul>
+								<li>Importation via un fichier texte</li><br>
+								<li>Importation d'un jeu de donnée présent sur le site <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
+							</ul>
 							</p>
-						</ul>
+						</div>
+						
+						<div class="suite1">
+							<ul>
+								<li>Classifieur 1NN-DTW :</li>
+								<p></p>
+								<p>Le fonctionnement d'un classifieur 1NN-DTW est le suivant :</br>
+								Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entrainement.
+								Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entrainement.</br>
+								La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entrainement la plus proche d'elle (en terme de distance).
+								</p>
+								
+								<li>Classifieur Learning Shapelet : </li>
+								<p></p>
+								<!--<p>Au sein des séries temporelles du jeu d'entrainement, le classifieur est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
+								Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
+								On appelle ces sous-séries temporelles des Shapelets.</br>
+								Si on revient dans le cadre de la classification d'images de chats et de poisson, on peut assimiler les Shapelet des séries temporelles aux morceaux d'images tels que la tête du chat (que l'on ne va retrouver que dans des images de chat) ou la queue du poisson (que l'on ne va retrouver que dans des images de poissons).</br>  
+								Lors de son entrainement, le classifieur va identifier les Shapelets de chaque classe.
+								</p>-->
+								<p>Ce classifieur repose sur un algorithme plus complexe : Learning Shapelet.</br>
+								Cet algorithme se base sur des sous-séries temporelles caractéristiques de chaque classe.
+								Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
+								Ces sous-séries sont appelées des Shapelets.</br>
+								Ce sont ces Shapelets qui vont permettre la classification d'une nouvelle série temporelle.
+								</p>
+								<p>Une fois qu'un classifieur a été entrainé, l'utilisateur peut le sauvegarder dans un fichier afin de l'utiliser plus tard.
+								</p>
+							</ul>
+						</div>
 						
 					</div>
 					<div class="element1">
-						<img src="images/entrainement.png"/>
+						<img src="images/entrainement1.png"/>
 					</div>
 				</div>
 			</div>
@@ -326,29 +351,18 @@
 				<div id="texte4">
 					<div class="element4">
 						
-						<p>L'outil peut entrainer deux types de classifieurs : un classifieur 1NN-DTW et un classifieur TsLearn.</br>
+						<p>L'outil peut entrainer deux types de classifieurs : un classifieur 1NN-DTW et un classifieur Learning Shapelet.</br>
 						Une fois un classifieur entrainé et sauvegardé, il peut être utilisé pour classifier de nouvelles séries temporelles. 
-						Une fois la classification effectuée, TSExplanation fournit à l'utilisateur une explication du choix de classification. Cette explication dépendra du type de classifieur utilisé, c'est à dire du type d'algorithme utilisé par le classfieur.
+						Une fois la classification effectuée, TSExplanation fournit à l'utilisateur une explication du choix de classification. 
+						Cette explication sera générée par l'algorithme LIMEShape, qui est une adaptation de l'algorithme LIME spécifique aux séries temporelles.
 						</p>
 						
-						<ul>
-							<li>Classifieur 1NN-DTW :</li>
-							<p>Si un classifieur 1NN-DTW a été utilisé, alors la classification s'est faite en comparant la série temporelle à classifier avec celles du jeu d'entrainement. 
-							C'est la série temporelle du jeu d'entrainement la plus proche (en terme de distance) de la série temporelle à classifier qui aura transmis sa classe à cette dernière.</br> 
-							L'explication que va alors afficher l'outil sera tout simplement un affichage de cette série temporelle du jeu d'entrainement.
-							</p>
-							
-							<li>Classifieur TsLearn : </li>
-							<p>Si le classifieur utilise l'algorithme TsLearn, alors la classification se base sur la notion de Shapelet.</br>
-							Lors de sa phase d'entrainement, le classifieur a déterminé les Shapelets de chaque classe. 
-							Pour attribuer une classe à une nouvelle série temporelle, il va donc regarder si ces Shapelets sont présentes dans cette dernière ou non.
-							Si plusieurs Shapelets sont présentes, c'est la classe qui en possèdera la majorité qui sera attribuée à la série temporelle.</br>
-							
-							Pour expliquer le choix de classification à l'utilisateur, l'outil va mettre en avant les Shapelets présentes dans la série temporelle qui ont permis de prendre la décision.</br>
-							Ces Shapelets seront mises en couleur dans la série temporelle : les Shapelets appartenant à la classe choisie seront coloriées en vert (impact positif sur la classification) 
-							et les Shapelets appartenant à une autre classe seront coloriées en rouge (impact négatif sur la classification).
-							</p>
-						</ul>
+						<p>L'utilisateur va donc importer un classifieur sauvegardé ainsi qu'une série temporelle à classifier.</br>
+						L'outil va alors utiliser le classifieur importé pour classifier la série temporelle et va, par la suite, afficher le choix de classification et l'explication de ce choix.</br>
+						L'explication de la classification est affichée sous forme graphique. Les parties de la série temporelle qui ont le plus contribué à la classification vont être mise en avant tandis que celles qui auront le moins contibué seront effacées.</br></br>
+						Ainsi, l'utilisateur peut visualiser les différentes sous-séries qui ont permis aà l'outil de faire un choix de classification.
+						De ce fait, l'utilisateur peut jugé par lui-même si TSExplanation a réalisé la bonne classification et donc avoir confiance en son outil.
+						</p>
 					</div>
 					
 					<div class="element4">

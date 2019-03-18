@@ -382,6 +382,18 @@ body {
 	background-color: #636363;
 	
 }*/
+
+.intro p{
+	color: white;
+	text-align: left;
+	text-align: justify;
+	font-size: 18px;
+	font: Arial, Helvetica, sans-serif;
+}
+
+
+
+
 #texte11{
 	border: 5px solid #334960;
 	border-radius: 20px;
@@ -488,13 +500,25 @@ body {
 	width: 50%;
 }
 
-.element1 ul{
+.suite1 ul{
 	margin-left: 2%;
 }
 
-.element1 li{
+.suite1 li{
 	color: #334960;
 	font-size: 22px;
+	text-align: left;
+	list-style-type: disc;
+	font-weight: bold;
+}
+
+.debut1 ul{
+	margin-left: 2%;
+}
+
+.debut1 li{
+	color: white;
+	font-size: 15px;
 	text-align: left;
 	list-style-type: disc;
 	font-weight: bold;
@@ -509,6 +533,7 @@ body {
 	/*text-justify: auto;*/
 	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
+	font: Arial, Helvetica, sans-serif;
 }	
 
 .element1:nth-child(1){
@@ -558,6 +583,7 @@ body {
 	/*text-justify: auto;*/
 	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
+	font: Arial, Helvetica, sans-serif;
 }
 
 
@@ -615,6 +641,7 @@ body {
 	/*text-justify: auto;*/
 	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
+	font: Arial, Helvetica, sans-serif;
 }
 
 .element3:nth-child(1){
@@ -676,6 +703,7 @@ body {
 	/*text-justify: auto;*/
 	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
+	font: Arial, Helvetica, sans-serif;
 }
 
 .element4:nth-child(1){
