@@ -47,6 +47,13 @@ body {
   margin-right: 10px;
 }
 
+.grid_3_ {
+  display: inline;
+  float: left;
+  margin-left: 250px;
+  margin-right: 10px;
+}
+
 .push_1, .pull_1,
 .push_2, .pull_2,
 .push_3, .pull_3,
@@ -84,6 +91,10 @@ body {
 }
 
 .container_12 .grid_3 {
+  width: 220px;
+}
+
+.container_12 .grid_3_ {
   width: 220px;
 }
 

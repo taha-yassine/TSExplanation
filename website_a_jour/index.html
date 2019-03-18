@@ -391,26 +391,41 @@
 					<area shape="rect" coords="83,39,156,62" title="Affichage d'une série temporelle" onclick="changeImg('images/interface2.png')">
 					<area shape="rect" coords="159,39,232,62" title="Affichage de la distance minimale entre une Shapelet et une série temporelle" onclick="changeImg('images/interface3.png')">
 					<area shape="rect" coords="235,39,308,62" title="Classification d'une série temporelle et affichage de l'explication" onclick="changeImg('images/interface4.png')">
-					<!--area shape="rect" coords="196,331,495,351" onclick="changeImgExplication()"-->
-					<!--area shape="rect" coords="71,411,446,431" title="Enregistrement de l'explication"-->
-					<!--area shape="rect" coords="414,83,458,111" onclick="changeImg('images/interface4.png')"-->
+					<area shape="rect" coords="196,331,495,351" onclick="showExplication()" title="" id="afficherExp">
+					<area shape="rect" coords="71,411,446,431" title="" id="enregistrerExp">
+					<area shape="rect" coords="414,83,458,111" onclick="hideExplication()">
 				</map>
 				<script>
 					function changeImg(img) {
+						if(img.substr(img.length-14, 14) == "interface4.png"){
+							document.getElementById("afficherExp").title = "Afficher l'explication";
+						}
+						else {
+							document.getElementById("afficherExp").title = "";
+						}
 						document.getElementById("interface").src = img;
 					}
 				</script>
-				<!--script>	
-					function changeImgExplication() {
-						var image =  document.getElementById("interface");
-						if(image.src == "images/interface4.png"){
+				<script>	
+					function showExplication() {
+						var image =  document.getElementById("interface").src;
+						if(image.substr(image.length-14, 14) == "interface4.png"){
 							changeImg("images/interface5.png");
-						}
-						if(image.src == "images/interface5.png"){
-							changeImg("images/interface4.png");
+							document.getElementById("enregistrerExp").title = "Enregistrement de l'explication";
+							document.getElementById("afficherExp").title = "";
 						}
 					}
-				</script-->
+				</script>
+				<script>	
+					function hideExplication() {
+						var image =  document.getElementById("interface").src;
+						if(image.substr(image.length-14, 14) == "interface5.png"){
+							changeImg("images/interface4.png");
+							document.getElementById("enregistrerExp").title = "";
+							document.getElementById("afficherExp").title = "Afficher l'explication";
+						}
+					}
+				</script>
 			</div>
 		</div>
 		
@@ -500,6 +515,29 @@
 						</div>
 					</div>
 				</div>
+				
+				
+				<!--div class="clear"></div>
+				<div class="grid_3_">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Laurence Roze</a></div>
+						<div class="socials1">
+							<a href="#"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Mael Guillemé</a></div>
+						<div class="socials1">
+							<a href="#"></a>
+						</div>
+					</div>
+				</div-->
+				
+				
 			</div>
 		</div>
 <!--==============================footer=================================-->
