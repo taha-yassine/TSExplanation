@@ -502,6 +502,35 @@ header.page5 .hover {
 	margin-bottom: 108px;
 }
 
+#page4  h3 {
+	margin-bottom: 50px;
+}
+
+.slogan2 {
+	margin-bottom: 50px;
+}
+
+h4 {
+	font-size: 20px;
+}
+
+#insa, #irisa {
+	height: 100px;
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+#energiency {
+	height: 60px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.lienDiapo:hover {
+	color: #f17c72;
+}
+
+
 .companies img {
 	margin-bottom: 19px;
 }
