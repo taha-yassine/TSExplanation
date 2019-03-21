@@ -527,6 +527,20 @@ body {
 	margin-left: 2%;
 }
 
+.debut1 p{
+	color: white;
+	text-align: justify;
+	font-size: 15px;
+	font: Arial, Helvetica, sans-serif;
+}
+
+.suite1 p{
+	color: white;
+	text-align: justify;
+	font-size: 15px;
+	font: Arial, Helvetica, sans-serif;
+}
+
 .debut1 li{
 	color: white;
 	font-size: 15px;
@@ -603,9 +617,11 @@ body {
 }
 
 .element2 li{
+	color: white;
+	font-size: 15px;
 	text-align: left;
 	list-style-type: disc;
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
 
 .element2:nth-child(1){
@@ -727,6 +743,12 @@ body {
 }
 
 
+.fonction1 p{
+	color: white;
+	text-align: justify;
+	font-size: 12px;
+	font: Arial, Helvetica, sans-serif;
+}
 
 
 
