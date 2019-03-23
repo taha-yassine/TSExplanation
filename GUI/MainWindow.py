@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, "../Classifier")
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSizePolicy, QSpinBox
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSizePolicy, QSpinBox, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -359,6 +359,7 @@ class App(QWidget):
             else:
                 cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
                 LearningClassifier.saveClassifier1NN(cl, fileName)
+        QMessageBox.information(self, 'Classifieur sauvegardé !', "Le classifieur a été sauvegardé !", QMessageBox.Ok)
 
 
     # Action of the button 'Afficher' of the TS tab
