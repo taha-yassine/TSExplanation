@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Home</title>
+		<link rel="icon" href="images/favicon.ico">
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/camera.css">
+		<link rel="stylesheet" href="css/form.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/jquery-migrate-1.1.1.js"></script>
+		<script src="js/superfish.js"></script>
+		<script src="js/forms.js"></script>
+		<script src="js/jquery.ui.totop.js"></script>
+		<script src="js/jquery.equalheights.js"></script>
+		<script src="js/jquery.easing.1.3.js"></script>
+		<script src="js/jquery.ui.totop.js"></script>
+		<script src="js/tms-0.4.1.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('.slider_wrapper')._TMS({
+					show:0,
+					pauseOnHover:false,
+					prevBu:'.prev',
+					nextBu:'.next',
+					playBu:false,
+					duration:800,
+					preset:'fade',
+					pagination:true,//'.pagination',true,'<ul></ul>'
+					pagNums:false,
+					slideshow:8000,
+					numStatus:false,
+					banners: 'fade',
+					waitBannerAnimation:false,
+					progressBar:false
+				});
+			});
+			$(document).ready(function(){
+				!function(){
+			var map=[]
+			 ,names=[]
+			 ,win=$(window)
+			 ,header=$('header')
+			 ,currClass
+			$('.content').each(function(n){
+			 map[n]=this.offsetTop
+			 names[n]=$(this).attr('id')
+			})
+			win
+			 .on('scroll',function(){
+				var i=0
+				while(map[i++]<=win.scrollTop());
+				if(currClass!==names[i-2])
+				currClass=names[i-2]
+				header.removeAttr("class").addClass(names[i-2])
+			 })
+			}(); });
+					function goToByScroll(id){
+				$('html,body').animate({scrollTop: $("#"+id).offset().top},'slow');
+				}
+				$(document).ready(function(){
+					$().UItoTop({ easingType: 'easeOutQuart' });
+				});
+		</script>
+		<!--[if lt IE 8]>
+			<div style=' clear: both; text-align:center; position: relative;'>
+				<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+					<img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+				</a>
+			</div>
+		<![endif]-->
+		<!--[if lt IE 9]>
+			<script src="js/html5shiv.js"></script>
+			<link rel="stylesheet" media="screen" href="css/ie.css">
+		<![endif]-->
+	</head>
+	<body class="">
+<!--==============================header=================================-->
+		<header class="page1">
+			<div class="container_12">
+				<div class="grid_12">
+					<h1><a href="#" onClick="goToByScroll('page1'); return false;"><img src="images/logo.png" alt="Logo"></a></h1>
+					<div class="menu_block">
+						<nav class="">
+							<ul class="sf-menu">
+								<li class="current men"><a onClick="goToByScroll('page1'); return false;" href="#">Home</a> <strong class="hover"></strong></li>
+								<li class="men1"><a onClick="goToByScroll('page2'); return false;" href="#">The project</a><strong class="hover"></strong></li>
+								<li class="men2"><a onClick="goToByScroll('page3'); return false;" href="#">The features</a> <strong class="hover"></strong></li>
+								<li class="men3"><a onClick="goToByScroll('page4'); return false;" href="#">The interface</a><strong class="hover"></strong></li>
+								<li class="men4"><a onClick="goToByScroll('page5'); return false;" href="#">The team</a><strong class="hover"></strong></li>
+								<li class="flag"><a href="https://github.com/tangimds/TSExplanation" target="_blank"><img src="images/github.png" alt="GitHub"></a><strong class="hover"></strong></li>
+								<li class="flag"><a href="#"><img src="images/france.png" alt="Francais"></a><strong class="hover"></strong></li>
+								<li class="flag"><a href="#"><img src="images/english.png" alt="English"></a><strong class="hover"></strong></li>
+							</ul>
+						</nav>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+<!--=======content================================-->
+		<div id="page1" class="content">
+			<div class="ic"></div>
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slider_wrapper">
+						<ul class="items">
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<h2>Our partners...</h2>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<img id="insa" src="images/insa.png" alt="">
+									<h4>This project has been realised by a team of students from the computer engineering department of the<a class="lienDiapo" href="https://www.insa-rennes.fr/">INSA Rennes</a>.</h4>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<img id="irisa" src="images/irisa.png" alt="">
+									<h4>The<a class="lienDiapo" href="https://www.irisa.fr/">IRISA</a> is a research center in the field of computer sciences, automation, signal and images processing and robotics.</h4>
+								</div>
+							</li>
+							<li>
+								<img src="images/spacer.gif" alt="">
+								<div class="caption banner">
+									<img id="energiency" src="images/energiency.png" alt="">
+									<h4><a class="lienDiapo" href="https://www.energiency.com/fr/">Energiency</a> is a company which uses artificial intelligence in order to help its clients consume less energy.</h4>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div id="page2" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>The project</h3>
+						<div class="clear"></div>
+						<img id="logoTSE" src="images/TSExplanation.png" alt="TSExplanation">
+						<div class="clear"></div>
+						<div class="text1">
+							<div class="intro">
+							<p>TSExplanation is incorporated in the framework of the engineering training at the INSA in Rennes. It has been made by a group of eight second-year IT students and goes through the whole 2018-2019 academic year.</br></br>
+
+							The topics addressed are those of Machine Learning, and more specifically the classification of time series.</br></br>
+
+							The result returned by a classifier never includes any explanation. The human being cannot know the reasons why the classifier has chosen this result. An explanation could provide more confidence in such a tool.</br></br>
+
+							The aim of this project is to implement a tool able to explain a decision made by a time series classifier. This explanation must be clear and quite simple in order to be understandable by any user.</br></br>
+
+							To make this goal easier to understand, we can take the example of a classifier that decides if a patient has a heart disease from electrocardiograms.
+
+							If a doctor uses such classifier, he would like to trust the decision made by his tool. To do so, the doctor would eventually like to be able to ask the tool to explain the classification choice (the diagnosis of the disease).</br>
+							</p>
+							</div>
+						</div>
+						<div>
+							<img src="images/imagedoc.png"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div id="page3" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>The features</h3>
+					</div>
+				</div>			
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction1.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte11'); return false;" href="#">Training and saving a time series classifier</a></div>
+						<div class="fonction1">
+						<p>
+						TSExplanation can train a classifier from a training set of annotated time series. The tool can also save such a classifier so that it can be used on new time series later.
+						</p>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction2.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte22'); return false;" href="#">Displaying a time series</a></div>The tool has a graphical interface which allows a user to visualize the data (time series) (s)he wants to classify.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction3.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte33'); return false;" href="#">Displaying the distance between a Shapelet and a time series</a></div>The TSExplanation's graphical interface allows a user to select a time series and a particular Shapelet and to see the distance between both elements.
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight1">
+						<img src="images/fonction4.png" alt="">
+						<div class="text1"><a onClick="goToByScroll('texte44'); return false;" href="#">Displaying the explanation of the classification of a time series</a></div>The tool can explain a classification choice thanks to its adjustment of the algorithm LIME.
+					</div>
+				</div>
+			</div>
+			
+			
+			<div id="texte11">
+				<hr color="#334960" size=4 align=center width=70%>
+				<br>
+				<h3>Training and saving a time series classifier</h3>
+						<p></p>
+						<p></p>
+				<div id="texte1">
+					<div class="element1">
+						
+						<div class="debut1">
+							<p>Un problème de classification consiste à associer des classes à différentes données, le but étant de différencier ces données selon certains critères.</br>
+							Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br></br>
+							
+							Dans un premier temps, un classifieur a besoin qu'on lui fournisse des exemples c'est à dire des données dont on connait les classes. Ces données sont dites "annotées". On parle alors d'entrainement du classifieur.</br></br>
+							
+							Avec TSExplanation, il est possible d'entrainer un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
+							Deux types de classifieurs peuvent ainsi être construits : un classifieur basé sur l'algorithme 1NN-DTW et un classifieur basé sur Learning Shapelet.
+							Pour entraîner ces deux types de classifieurs, l'utilisateur a la possibilité d'importer le jeu de série temporelles d'entrainement via deux méthodes : </p>
+							<ul>
+								<li>Importation via un fichier texte</li><br>
+								<li>Importation d'un jeu de donnée présent sur le site de l'UCR <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
+							</ul>
+							</p>
+						</div>
+						
+						<div class="suite1">
+							<ul>
+								<li>1NN-DTW classifier :</li>
+								<p></p>
+								<p>
+								Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entrainement.
+								Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entrainement.</br>
+								La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entrainement la plus proche d'elle (en terme de distance).
+								</p>
+								
+								<li>Classifieur Learning Shapelet : </li>
+								<p></p>
+								<!--<p>Au sein des séries temporelles du jeu d'entrainement, le classifieur est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
+								Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
+								On appelle ces sous-séries temporelles des Shapelets.</br>
+								Si on revient dans le cadre de la classification d'images de chats et de poisson, on peut assimiler les Shapelet des séries temporelles aux morceaux d'images tels que la tête du chat (que l'on ne va retrouver que dans des images de chat) ou la queue du poisson (que l'on ne va retrouver que dans des images de poissons).</br>  
+								Lors de son entrainement, le classifieur va identifier les Shapelets de chaque classe.
+								</p>-->
+								<p>Ce classifieur repose sur un algorithme plus complexe : Learning Shapelet.</br>
+								Cet algorithme se base sur des sous-séries temporelles caractéristiques de chaque classe.
+								Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
+								Ces sous-séries sont appelées des Shapelets.</br>
+								Ce sont ces Shapelets qui vont permettre la classification d'une nouvelle série temporelle.
+								</p>
+							</ul>
+							<p>Une fois un classifieur entraîné, l'utilisateur peut le sauvegarder dans un fichier afin de l'utiliser plus tard.
+							</p>
+						</div>
+						
+					</div>
+					<div class="element1">
+						<img src="images/entrainement1.png"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			<div id="texte22">
+				<hr color="#334960" size=4 align=center width=70%>
+				<br>
+				<h3>Displaying a time series</h3>
+				<p></p>
+				<p></p>
+				<div id="texte2">
+					<div class="element2">
+						<p>A time series is a row of values measured during a given period of time. This duration and the time interval between each measure can vary.</br>
+
+						Here are some examples of time series:</p>
+						<ul>
+							<li>an electrocardiogram</li>
+							<li>the evolution of the population in a precise area during a given period of time </li>
+							<li>a list of temperatures measured during a given duration</li>
+						</ul>
+						<p></p>
+						<p>Such data can be represented in a graph to make them more readable for a human being.
+						</p>						
+						<p>The TSExplanation tool holds a graphical interface to make the user’s work easier. Therefore, the user can display any time series in the form of a graph.
+						</p>
+					</div>
+					<div class="element2">
+						<img src="images/ST.png"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			<div id="texte33">
+				<hr color="#334960" size=4 align=center width=70%>
+				<br>
+				<h3>Displaying the distance between a Shapelet and a time series</h3>
+				<p></p>
+				<p></p>
+				<div id="texte3">
+					<div class="element3">
+						<p>The TSExplanation graphical interface also allows the user to display a time series as well as any Shapelet and to view the minimal distance between both elements.</br></br>
+						The user can therefore know the part of the time series that looks like the Shapelet the most. He then can determine by himself, visually, if the Shapelet can be considered as being part of the time series or not.
+						</p>
+					</div>
+					
+					<div class="element3">
+						<img src="images/comparaison.png"/>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			<div id="texte44">
+				<hr color="#334960" size=4 align=center width=70%>
+				<br>
+				<h3>Classifying a time series and displaying the explanation of the classification</h3>
+				<p></p>
+				<p></p>
+				<div id="texte4">
+					<div class="element4">
+						
+						<p>
+						Once a classifier has been trained and saved, it can be used in order to classify a new time series.
+						A user can import a saved classifier and the time series (s)he wants to classify.
+						</p>
+						
+						<p>
+						TSExplanation will then use the imported classifier to classify the time series. After doing so, it will display the choice of classification and the explanation of this choice.
+						This explanation is generated by an adjustment of the algorithm LIME : LIMEShape, an algorithm dedicated to the time series processing..</br></br>
+						Such an explanation is displayed in the form of a graph. The time series parts which contributed to the classification the most will be colored in green as the ones which contributed the least will be colored in red.</br></br>
+						Therefore, a user can see the different parts of the time series which allowed the tool to make a decision.
+						As a consequence, a user can judge by (her)himself the work that TSExplanation has made and therefore trust his(her) tool.
+						</p>
+					</div>
+					
+					<div class="element4">
+						<img src="images/explication.png"/>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+		
+		
+
+		<div id="page4" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan2">
+						<h3>The graphical interface</h3>
+						<div class="text1">
+							Les 4 onglets de l'image sont intéractifs, cela permet de mieux visualiser les fonctionnalités de TSExplanation.</br>
+							Il est possible d'afficher un exemple d'explication dans l'onglet LIME en cliquant sur le bouton Exécuter.
+						</div>
+					</div>
+				</div>
+				
+				<div class="gui">
+					<img id="interface" src="images/interface3.png" alt="" width="518" usemap="#map"/>
+				</div>
+				<map name="map" align="center" class="descriptionInter">
+					<area shape="rect" coords="7,39,80,62" title="Entraînement et sauvegarde d'un classifieur" onclick="changeImg('images/interface1.png')">
+					<area shape="rect" coords="83,39,156,62" title="Affichage d'une série temporelle" onclick="changeImg('images/interface2.png')">
+					<area shape="rect" coords="159,39,232,62" title="Affichage de la distance minimale entre une Shapelet et une série temporelle" onclick="changeImg('images/interface3.png')">
+					<area shape="rect" coords="235,39,308,62" title="Classification d'une série temporelle et affichage de l'explication" onclick="changeImg('images/interface4.png')">
+					<area shape="rect" coords="196,331,495,351" onclick="showExplication()" title="" id="afficherExp">
+					<area shape="rect" coords="71,411,446,431" title="" id="enregistrerExp">
+					<area shape="rect" coords="414,83,458,111" onclick="hideExplication()">
+				</map>
+				<script>
+					function changeImg(img) {
+						if(img.substr(img.length-14, 14) == "interface4.png"){
+							document.getElementById("afficherExp").title = "Afficher l'explication";
+						}
+						else {
+							document.getElementById("afficherExp").title = "";
+						}
+						document.getElementById("interface").src = img;
+					}
+				</script>
+				<script>	
+					function showExplication() {
+						var image =  document.getElementById("interface").src;
+						if(image.substr(image.length-14, 14) == "interface4.png"){
+							changeImg("images/interface5.png");
+							document.getElementById("enregistrerExp").title = "Enregistrement de l'explication";
+							document.getElementById("afficherExp").title = "";
+						}
+					}
+				</script>
+				<script>	
+					function hideExplication() {
+						var image =  document.getElementById("interface").src;
+						if(image.substr(image.length-14, 14) == "interface5.png"){
+							changeImg("images/interface4.png");
+							document.getElementById("enregistrerExp").title = "";
+							document.getElementById("afficherExp").title = "Afficher l'explication";
+						}
+					}
+				</script>
+			</div>
+		</div>
+		
+		
+		
+		<div id="page5" class="content">
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="slogan">
+						<h3>Our team</h3>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/lisa.jpg" alt="">
+						<div class="text18"><a href="#">Lisa Relion</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/lisa-relion"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/tangi.jpg" alt="">
+						<div class="text18"><a href="#">Tangi Mendes</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/tangimendes?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BZUR7bP0pRbuQ8nHtmaVcPQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/Isa.jpg" alt="">
+						<div class="text18"><a href="#">Isabelle Guillou</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/isabelle-guillou?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BNt4u2aC%2FSqKH%2FOEw7XCJsA%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/yohan.jpg" alt="">
+						<div class="text18"><a href="#">Yohan Couanon</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/yohan-couanon-235a2517a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BVjPnzk1aSdaruFofFPskVw%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/adrien.jpg" alt="">
+						<div class="text18"><a href="#">Adrien Buridant</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/adrien-buridant?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B9qsQefzRRmmFfHomHRI0vw%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/morgane.jpg" alt="">
+						<div class="text18"><a href="#">Morgane Cam</a></div> 
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/morgane-cam-ba4260132?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BqGo08iDkTlSKrDsciAV6CQ%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/taha.jpg" alt="">
+						<div class="text18"><a href="#">Taha Yassine</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/taha-yassine?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BT5jXgiMHT6qdXQNVPZF3SA%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/chaffin.jpg" alt="">
+						<div class="text18"><a href="#">Antoine Chaffin</a></div>
+						<div class="socials1">
+							<a href="https://www.linkedin.com/in/antoine-chaffin?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BuqvF2762T5KiWfhAjKAs6w%3D%3D"></a>
+						</div>
+					</div>
+				</div>
+				
+				
+				<!--div class="clear"></div>
+				<div class="grid_3_">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Laurence Roze</a></div>
+						<div class="socials1">
+							<a href="#"></a>
+						</div>
+					</div>
+				</div>
+				<div class="grid_3">
+					<div class="box maxheight">
+						<img src="images/box_img4.jpg" alt="">
+						<div class="text1"><a href="#">Mael Guillemé</a></div>
+						<div class="socials1">
+							<a href="#"></a>
+						</div>
+					</div>
+				</div-->
+				
+				
+			</div>
+		</div>
+<!--==============================footer=================================-->
+		<footer>
+			<div class="container_12">
+				<div class="grid_12">
+					<div class="copy">
+						<a onClick="goToByScroll('page1'); return false;" href="#"><img src="images/footer_logo.png" alt=""></a>  &copy; 2019 <br>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</footer>
+	</body>
+</html>
