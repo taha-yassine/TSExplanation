@@ -3,6 +3,8 @@ sys.path.insert(0, "../Classifier")
 import importTS
 import LearningClassifier
 import lime_timeseries
+import lime_timeseries_pas_nous
+
 
 
 """Importation de la ST Trace
@@ -31,10 +33,13 @@ print ("valeur de l'id 2:", myindexedTS.timeSubSeries(2))
 print ("positions de l'indice 1: ", myindexedTS.timeSeries_position(1))
 #Enlever les mots aux indices donnes
 print ("enleve mots indice 0 et 1:", myindexedTS.inverse_removing([0,1]))
+print(type(myindexedTS.inverse_removing([0,1])))
 
 "Pour indexed ça a l'air de marcher"
 
 """Pour TSexplainer et utiliser le classifier, faudra que l'on code la fonction data_label_distance
 car c'est celle la qui utilise le classifier. Mais à mon avis yaura juste à le passer en paramètre comme ca :"""
+
 myTSexp=lime_timeseries.TSExplainer(myindexedTS.raw_timeSeries())
-data, labels, distances = myTSexp.data_labels_distances(myindexedTS, cl, 2)
+data, labels, distances = myTSexp.data_labels_distances(myindexedTS, cl, 10)
+print(data, labels, distances)

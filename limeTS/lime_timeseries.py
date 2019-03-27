@@ -108,9 +108,10 @@ class IndexedTS(object):
         mask = np.ones(self.as_np.shape[0], dtype='bool')
         mask[self.__get_idxs(values_to_remove)] = False
         if not self.bow:
-            return ''.join(str([self.as_list[i] if mask[i]
-                            else 'UNKNOW_TS' for i in range(mask.shape[0])]))
-        return ''.join(str([self.as_list[v] for v in mask.nonzero()[0]]))
+            return ([self.as_list[i] if mask[i]
+                            else 'UNKNOW_TS' for i in range(mask.shape[0])])
+        return [self.as_list[v] for v in mask.nonzero()[0]]
+
 
     def __get_idxs(self, values):
         """Returns indexes to appropriate values."""
@@ -199,18 +200,26 @@ class TSExplainer(object):
             return sklearn.metrics.pairwise.pairwise_distances(
                 x, x[0], metric=distance_metric).ravel() * 100
 
+
+        """doc_size : le nb valeur différente dans le TS"""
         doc_size = indexed_ts.num_timeSubSeries()
         sample = self.random_state.randint(1, doc_size + 1, num_samples - 1)
         data = np.ones((num_samples, doc_size))
         data[0] = np.ones(doc_size)
         features_range = range(doc_size)
         inverse_data = [indexed_ts.raw_timeSeries()]
+        #inverse_data = []
         for i, size in enumerate(sample, start=1):
             inactive = self.random_state.choice(features_range, size,
                                                 replace=False)
             data[i, inactive] = 0
-            inverse_data.append(indexed_ts.inverse_removing(inactive))
-        labels = classifier_fn(inverse_data)
+            inverse_data.append(np.asarray(indexed_ts.inverse_removing(inactive)))
+            #inverse_data = np.concatenate(inverse_data, np.array(indexed_ts.inverse_removing(inactive)))
+
+        #print(np.array(inverse_data))
+        #print(type(inverse_data))
+        #labels = classifier_fn.predict_proba(np.reshape(inverse_data,(1,-1)))
+        labels = classifier_fn.predict_proba(inverse_data)
         distances = distance_fn(sp.sparse.csr_matrix(data))
         return data, labels, distances
 
