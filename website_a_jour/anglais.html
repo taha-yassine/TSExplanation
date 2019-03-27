@@ -225,17 +225,19 @@
 					<div class="element1">
 						
 						<div class="debut1">
-							<p>Un problème de classification consiste à associer des classes à différentes données, le but étant de différencier ces données selon certains critères.</br>
-							Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br></br>
+							<p>A classification problem involves assigning classes to some data. The point is to highlight some differences between these data.</br>
+							A classifier is a tool that can be used to solve such a problem.</br></br>
 							
-							Dans un premier temps, un classifieur a besoin qu'on lui fournisse des exemples c'est à dire des données dont on connait les classes. Ces données sont dites "annotées". On parle alors d'entrainement du classifieur.</br></br>
+							First of all, a classifier needs to be given some examples to base its work on, that is to say some data for which we already know the corresponding classes. 
+							Such data are called "annotated data". This step is the training phase of the classifier.</br></br>
 							
-							Avec TSExplanation, il est possible d'entrainer un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
-							Deux types de classifieurs peuvent ainsi être construits : un classifieur basé sur l'algorithme 1NN-DTW et un classifieur basé sur Learning Shapelet.
-							Pour entraîner ces deux types de classifieurs, l'utilisateur a la possibilité d'importer le jeu de série temporelles d'entrainement via deux méthodes : </p>
+							Using TSExplanation, a time series classifier can be trained and saved so that it can be used later.</br>
+							
+							Two different types of classifiers can be trained : one of them is based on the 1NN-DTW algorithm and the other one is based on Learning Shapelet.
+							In order to train such classifiers, some training sets of time series can be imported by the user. This importation can be done with one the two following methods : </p>
 							<ul>
-								<li>Importation via un fichier texte</li><br>
-								<li>Importation d'un jeu de donnée présent sur le site de l'UCR <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
+								<li>Importation from a text file</li><br>
+								<li>Importation from the website of the UCR : <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
 							</ul>
 							</p>
 						</div>
@@ -244,28 +246,21 @@
 							<ul>
 								<li>1NN-DTW classifier :</li>
 								<p></p>
-								<p>
-								Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entrainement.
-								Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entrainement.</br>
-								La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entrainement la plus proche d'elle (en terme de distance).
+								<p>When a new time series has to be classified, it will be compared with the time series from the training set by the classifier.
+								This work is done by measuring the distance between each time series from the training set and the one the user wants to classify.</br>
+								The time series to classify will then be assigned to the same class as the time series from the training set the closest to itself.
 								</p>
 								
-								<li>Classifieur Learning Shapelet : </li>
+								<li>Learning Shapelet classifier : </li>
 								<p></p>
-								<!--<p>Au sein des séries temporelles du jeu d'entrainement, le classifieur est en mesure de trouver des sous-séries temporelles caractéristiques des différentes classes.</br>
-								Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
-								On appelle ces sous-séries temporelles des Shapelets.</br>
-								Si on revient dans le cadre de la classification d'images de chats et de poisson, on peut assimiler les Shapelet des séries temporelles aux morceaux d'images tels que la tête du chat (que l'on ne va retrouver que dans des images de chat) ou la queue du poisson (que l'on ne va retrouver que dans des images de poissons).</br>  
-								Lors de son entrainement, le classifieur va identifier les Shapelets de chaque classe.
-								</p>-->
-								<p>Ce classifieur repose sur un algorithme plus complexe : Learning Shapelet.</br>
-								Cet algorithme se base sur des sous-séries temporelles caractéristiques de chaque classe.
-								Pour qu'une sous-série temporelle soit caractéristique d'une classe, il faut qu'elle ne soit présente que dans les séries temporelles appartenant à cette classe et pas dans celles des autres classes.</br>
-								Ces sous-séries sont appelées des Shapelets.</br>
-								Ce sont ces Shapelets qui vont permettre la classification d'une nouvelle série temporelle.
+								<p>This classifier is based on a more complex algorithm, called Learning Shapelet.</br>
+								This algorithm is based on the analysis of the most characteristic time sub-series of each class.   
+								To be considered as characteristic as of a class, a sub-series needs to be present inside the time series that belong to this class but not inside those that belong to other classes.</br>
+								These sub-series are called Shapelets.</br>
+								The classification of a new time series will be based on these different Shapelets.
 								</p>
 							</ul>
-							<p>Une fois un classifieur entraîné, l'utilisateur peut le sauvegarder dans un fichier afin de l'utiliser plus tard.
+							<p>Once a classifier has been trained, it can be saved in a file from which it can be taken by the user when needed.
 							</p>
 						</div>
 						
