@@ -376,24 +376,6 @@ body {
 
 
 
-
-/*.container_texte{
-	display: flex;
-	flex-direction: raw;
-	justify-content: space-around;
-	align-items: center;
-	height: 20%;
-	margin-left: 1%;
-	margin-right: 1%;
-	margin-top: 1%;
-	margin-bottom: 3%;
-	
-	border: 3px solid #DAA520;
-	border-radius: 8px;
-	background-color: #636363;
-	
-}*/
-
 .intro p{
 	color: white;
 	text-align: left;
@@ -464,30 +446,22 @@ body {
 
 
 #texte11{
-	/*border: 5px solid #334960;
-	border-radius: 20px;*/
 	width: 80%;
 	margin: auto;
 	margin-top: 5%;
 	padding-left: 1%;
 	padding-right: 1%;
-	/*padding-bottom: 6%;*/
 	padding-top: 6%;
 }
 
 #texte11 h3{
-	/*width: 30px;
-	margin: auto;*/
 	color: #DC143C;
-	/*font-family: 'Comic Sans MS', cursive;*/
 	font-size: 30px;
 	font-weight: bold;
 }
 
 
 #texte22{
-	/*border: 5px solid #334960;
-	border-radius: 20px;*/
 	width: 80%;
 	margin: auto;
 	margin-top: 5%;
@@ -498,17 +472,12 @@ body {
 }
 
 #texte22 h3{
-	/*width: 30px;
-	margin: auto;*/
 	color: #DC143C;
-	/*font-family: 'Comic Sans MS', cursive;*/
 	font-size: 30px;
 	font-weight: bold;
 }
 
 #texte33{
-	/*border: 5px solid #334960;
-	border-radius: 20px;*/
 	width: 80%;
 	margin: auto;
 	margin-top: 5%;
@@ -519,17 +488,12 @@ body {
 }
 
 #texte33 h3{
-	/*width: 30px;
-	margin: auto;*/
 	color: #DC143C;
-	/*font-family: 'Comic Sans MS', cursive;*/
 	font-size: 30px;
 	font-weight: bold;
 }
 
 #texte44{
-	/*border: 5px solid #334960;
-	border-radius: 20px;*/
 	width: 80%;
 	margin: auto;
 	margin-top: 5%;
@@ -540,10 +504,7 @@ body {
 }
 
 #texte44 h3{
-	/*width: 30px;
-	margin: auto;*/
 	color: #DC143C;
-	/*font-family: 'Comic Sans MS', cursive;*/
 	font-size: 30px;
 	font-weight: bold;
 }
@@ -560,8 +521,6 @@ body {
 
 
 .element1{
-	/*margin: auto;*/
-	/*padding-left: 0.6%;*/
 	padding-right: 0.6%;
 	padding-bottom: 0.6%;
 	padding-top: 0.6%;
@@ -608,13 +567,8 @@ body {
 }
 
 .element1 p{
-	/*width: 50%;
-	height: 30%;*/
-	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	/*text-justify: auto;*/
-	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
 	font: Arial, Helvetica, sans-serif;
 }	
@@ -648,8 +602,6 @@ body {
 }
 
 .element2{
-	/*margin: auto;*/
-	/*padding-left: 0.6%;*/
 	padding-right: 0.6%;
 	padding-bottom: 0.6%;
 	padding-top: 0.6%;
@@ -658,13 +610,8 @@ body {
 }
 
 .element2 p{
-	/*width: 50%;
-	height: 30%;*/
-	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	/*text-justify: auto;*/
-	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
 	font: Arial, Helvetica, sans-serif;
 }
@@ -679,7 +626,6 @@ body {
 	font-size: 15px;
 	text-align: left;
 	list-style-type: disc;
-	/*font-weight: bold;*/
 }
 
 .element2:nth-child(1){
@@ -707,8 +653,6 @@ body {
 }
 
 .element3{
-	/*margin: auto;*/
-	/*padding-left: 0.6%;*/
 	padding-right: 0.6%;
 	padding-bottom: 0.6%;
 	padding-top: 0.6%;
@@ -718,13 +662,8 @@ body {
 
 
 .element3 p{
-	/*width: 50%;
-	height: 30%;*/
-	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	/*text-justify: auto;*/
-	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
 	font: Arial, Helvetica, sans-serif;
 }
@@ -759,8 +698,6 @@ body {
 }
 
 .element4{
-	/*margin: auto;*/
-	/*padding-left: 0.6%;*/
 	padding-right: 0.6%;
 	padding-bottom: 0.6%;
 	padding-top: 0.6%;
@@ -780,13 +717,8 @@ body {
 }
 
 .element4 p{
-	/*width: 50%;
-	height: 30%;*/
-	/*overflow: auto;*/
 	color: white;
 	text-align: justify;
-	/*text-justify: auto;*/
-	/*font-family: 'Bookman Old Style', serif;*/
 	font-size: 15px;
 	font: Arial, Helvetica, sans-serif;
 }
@@ -801,12 +733,12 @@ body {
 }
 
 
-/*.fonction1 p{
+.slogan p {
 	color: white;
-	text-align: justify;
-	font-size: 12px;
+	text-align: center;
+	font-size: 20px;
 	font: Arial, Helvetica, sans-serif;
-}*/
+}
 
 
 
