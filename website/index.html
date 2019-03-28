@@ -145,7 +145,7 @@
 							Il est réalisé par un groupe de huit étudiants de deuxième année du département Informatique et s’étend sur l’ensemble de l’année scolaire 2018-2019.</br></br>
 							
 							Les domaines abordés sont ceux du Machine Learning, et plus spécifiquement de la classification de séries temporelles.</br></br>
-							Le résultat retourné par un classifieur ne comporte aucune explication. L'humain ne peut donc pas connaitre les raisons pour lesquels le classifieur a choisi ce résultat là. Une explication pourrait apporter de la confiance au classifieur. </br></br>
+							Le résultat retourné par un classifieur ne comporte aucune explication. L'humain ne peut donc pas connaître les raisons pour lesquelles le classifieur a choisi ce résultat là. Une explication pourrait apporter de la confiance au classifieur. </br></br>
 							
 							Le but de ce projet est d’implémenter un outil capable d'expliquer une décision prise par un classifieur de séries temporelles.
 							Cette explication doit être claire et relativement simple pour qu’elle soit comprise par un utilisateur quelconque.</br></br>
@@ -178,7 +178,7 @@
 						<div class="text1"><a onClick="goToByScroll('texte11'); return false;" href="#">Entraîner et sauvegarder un classifieur de séries temporelles</a></div>
 						<div class="fonction1">
 						<p>
-						TSExplanation permet d'entraîner un classifieur à partir d'un ensemble d'entrainement constitué de séries temporelles annotées. L'outil permet également de sauvegarder un classifieur entrainé afin de l'utiliser ultérieurement sur de nouvelles données.
+						TSExplanation permet d'entraîner un classifieur à partir d'un ensemble d'entraînement constitué de séries temporelles annotées. L'outil permet également de sauvegarder un classifieur entraîné afin de l'utiliser ultérieurement sur de nouvelles données.
 						</p>
 						</div>
 					</div>
@@ -217,14 +217,14 @@
 							<p>Un problème de classification consiste à associer des classes à différentes données, le but étant de différencier ces données selon certains critères.</br>
 							Un classifieur est un outil qui permet de résoudre ce genre de problèmes. </br></br>
 							
-							Dans un premier temps, un classifieur a besoin qu'on lui fournisse des exemples c'est à dire des données dont on connait les classes. Ces données sont dites "annotées". On parle alors d'entrainement du classifieur.</br></br>
+							Dans un premier temps, un classifieur a besoin qu'on lui fournisse des exemples c'est à dire des données dont on connaît les classes. Ces données sont dites "annotées". On parle alors d'entraînement du classifieur.</br></br>
 							
-							Avec TSExplanation, il est possible d'entrainer un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
+							Avec TSExplanation, il est possible d'entraîner un classifieur de séries temporelles et de le sauvegarder pour qu'il puisse être utilisé par la suite.</br>
 							Deux types de classifieurs peuvent ainsi être construits : un classifieur basé sur l'algorithme 1NN-DTW et un classifieur basé sur Learning Shapelet.
-							Pour entraîner ces deux types de classifieurs, l'utilisateur a la possibilité d'importer le jeu de série temporelles d'entrainement via deux méthodes : </p>
+							Pour entraîner ces deux types de classifieurs, l'utilisateur a la possibilité d'importer le jeu de séries temporelles d'entraînement via deux méthodes : </p>
 							<ul>
 								<li>Importation via un fichier texte</li><br>
-								<li>Importation d'un jeu de donnée présent sur le site de l'UCR <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
+								<li>Importation d'un jeu de données présent sur le site de l'UCR <a href="http://www.timeseriesclassification.com/dataset.php"><U>TimeSeriesClassification</U></a></li><br>
 							</ul>
 							</p>
 						</div>
@@ -234,9 +234,9 @@
 								<li>Classifieur 1NN-DTW :</li>
 								<p></p>
 								<p>
-								Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entrainement.
-								Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entrainement.</br>
-								La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entrainement la plus proche d'elle (en terme de distance).
+								Lorsque l'on cherche à classifier une nouvelle série temporelle, le classifieur va comparer cette dernière avec les séries temporelles du jeu d'entraînement.
+								Cette comparaison se fait en mesurant la distance entre la série temporelle que l'on veut classifier et chaque série temporelle du jeu d'entraînement.</br>
+								La série temporelle à classifier se verra attribuer la même classe que la série temporelle du jeu d'entraînement la plus proche d'elle (en terme de distance).
 								</p>
 								
 								<li>Classifieur Learning Shapelet : </li>
@@ -278,9 +278,9 @@
 						<p>Une série temporelle est une suite de valeurs mesurées au cours du temps durant une certaine durée. Cette durée peut varier ainsi que l'intervalle de temps entre chaque mesure.</br>
 						Voici quelques exemples de séries temporelles :</p>
 						<ul>
-							<li>Un électrocardiogramme</li>
-							<li>Une évolution de population dans une zone précise pendant une durée précise </li>
-							<li>Un relevé de température pendant une certaine durée</li>
+							<li>Un électrocardiogramme,</li>
+							<li>Une évolution de population dans une zone précise pendant une durée précise, </li>
+							<li>Un relevé de température pendant une certaine durée.</li>
 						</ul>
 						<p></p>
 						<p>De telles données peuvent être représentées sous forme graphique pour les rendre plus lisibles par un humain.
@@ -313,7 +313,7 @@
 				<div id="texte3">
 					<div class="element3">
 						<p>L'interface graphique de TSExplanation permet également à l'utilisateur d'afficher une série temporelle ainsi qu'une Shapelet quelconque et de visualiser la distance minimale entre ces deux éléments.</br></br>
-						L'utilisateur peut ainsi connaitre la partie de la série temporelle qui ressemble le plus à la Shapelet. Il peut alors déterminer par lui-même, visuellement, si la Shapelet peut être considérée comme étant présente dans la série temporelle ou non.
+						L'utilisateur peut ainsi connaître la partie de la série temporelle qui ressemble le plus à la Shapelet. Il peut alors déterminer par lui-même, visuellement, si la Shapelet peut être considérée comme étant présente dans la série temporelle ou non.
 						</p>
 						
 					</div>
@@ -339,7 +339,7 @@
 					<div class="element4">
 						
 						<p>
-						Une fois un classifieur entrainé et sauvegardé, il est utilisé pour classifier de nouvelles séries temporelles. 
+						Une fois un classifieur entraîné et sauvegardé, il est utilisé pour classifier de nouvelles séries temporelles. 
 						L'utilisateur va pouvoir importer un classifieur sauvegardé ainsi qu'une série temporelle à classifier.
 						<!--Une fois la classification effectuée, TSExplanation fournit à l'utilisateur une explication du choix de classification. 
 						Cette explication sera générée par l'algorithme LIMEShape, qui est une adaptation de l'algorithme LIME spécifique aux séries temporelles.-->
