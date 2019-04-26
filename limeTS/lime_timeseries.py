@@ -8,7 +8,10 @@ import itertools
 import numpy as np
 import scipy as sp
 import sklearn
+import pandas as pd
 from sklearn.utils import check_random_state
+import math
+import copy
 
 
 
@@ -72,6 +75,9 @@ class IndexedTS(object):
         if not bow:
             self.positions = np.array(self.positions)
 
+    def length_timeSeries(self):
+        """Returns the length of the raw time series"""
+        return len(self.raw)
 
     def raw_timeSeries(self):
         """Returns the original raw time series"""
@@ -111,6 +117,16 @@ class IndexedTS(object):
             return ([self.as_list[i] if mask[i]
                             else 'UNKNOW_TS' for i in range(mask.shape[0])])
         return [self.as_list[v] for v in mask.nonzero()[0]]
+
+    def inverse_removing2(self, values_to_remove):
+        for i in values_to_remove:
+            self.as_list[i] = 0
+        return self.as_list
+
+    def inverse_removing3(self, v1, v2):
+        for i in range(v1,v2):
+            self.raw[i] = 0
+
 
 
     def __get_idxs(self, values):
@@ -169,7 +185,7 @@ class TSExplainer(object):
         self.feature_selection = feature_selection
         self.bow = bow
 
-    def data_labels_distances(self, indexed_ts, classifier_fn, num_samples, distance_metric='cosine'):
+    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, distance_metric='cosine'):
         """Generates a neighborhood around a prediction.
 
         Generates neighborhood data by randomly removing sub time series from
@@ -201,24 +217,22 @@ class TSExplainer(object):
                 x, x[0], metric=distance_metric).ravel() * 100
 
 
-        """doc_size : le nb valeur différente dans le TS"""
-        doc_size = indexed_ts.num_timeSubSeries()
-        sample = self.random_state.randint(1, doc_size + 1, num_samples - 1)
-        data = np.ones((num_samples, doc_size))
-        data[0] = np.ones(doc_size)
-        features_range = range(doc_size)
-        inverse_data = [indexed_ts.raw_timeSeries()]
-        #inverse_data = []
+
+        nbvalues_by_cut = math.ceil(indexed_ts.length_timeSeries() / num_cuts)
+        sample = self.random_state.randint(1, num_cuts + 1, num_samples - 1)
+        data = np.ones((num_samples, num_cuts))
+        features_range = range(num_cuts)
+        inverse_data = [pd.Series(indexed_ts.raw_timeSeries())]
         for i, size in enumerate(sample, start=1):
             inactive = self.random_state.choice(features_range, size,
                                                 replace=False)
             data[i, inactive] = 0
-            inverse_data.append(np.asarray(indexed_ts.inverse_removing(inactive)))
-            #inverse_data = np.concatenate(inverse_data, np.array(indexed_ts.inverse_removing(inactive)))
+            new_indexedtimeserie = IndexedTS(indexed_ts.raw_timeSeries())
+            for i, inac in enumerate(inactive):
+                index = inac * nbvalues_by_cut
+                new_indexedtimeserie.inverse_removing3(index, (index + nbvalues_by_cut)-1)
+            inverse_data.append(pd.Series(new_indexedtimeserie.raw_timeSeries()))
 
-        #print(np.array(inverse_data))
-        #print(type(inverse_data))
-        #labels = classifier_fn.predict_proba(np.reshape(inverse_data,(1,-1)))
         labels = classifier_fn.predict_proba(inverse_data)
         distances = distance_fn(sp.sparse.csr_matrix(data))
         return data, labels, distances
@@ -228,8 +242,9 @@ class TSExplainer(object):
                         classifier_fn,
                         labels=(1,),
                         top_labels=None,
+                        num_cuts=17,
                         num_features=10,
-                        num_samples=5000,
+                        num_samples=1000,
                         distance_metric='cosine',
                         model_regressor=None):
         """Generates explanations for a prediction.
@@ -261,9 +276,9 @@ class TSExplainer(object):
             explanations. 
         """
 
-        indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
+        """indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
         domain_mapper = TSDomainMapper(indexed_ts.raw_timeSeries(), indexed_ts.tsSegmentation())
-        data, yss, distances = self.__data_labels_distances(indexed_ts, classifier_fn, num_samples, 
+        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_samples,
                                                             distance_metric=distance_metric)
         if self.class_names is None:
             self.class_names = [str(x) for x in range(yss[0].shape[0])]
@@ -282,9 +297,23 @@ class TSExplainer(object):
                 data, yss, distances, label, num_features,
                 model_regressor=model_regressor,
                 feature_selection=self.feature_selection)
+        return ret_exp"""
+
+        indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
+        domain_mapper = explanation.DomainMapper()
+        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples)
+        if self.class_names is None:
+            self.class_names = [str(x) for x in range(yss[0].shape[0])]
+        ret_exp = explanation.Explanation(domain_mapper=domain_mapper, class_names=self.class_names)
+        ret_exp.predict_proba = yss[0]
+        for label in labels:
+            (ret_exp.intercept[label],
+             ret_exp.local_exp[label],
+             ret_exp.score, ret_exp.local_pred) = self.base.explain_instance_with_data(data, yss, distances, label,
+                                                                                       num_features,
+                                                                                       feature_selection=self.feature_selection)
         return ret_exp
 
-   
 
 """ OTHER USEFULL FUNCTIONS """
 
@@ -327,6 +356,7 @@ plt.show()
 plt.savefig('test.png')
 """
 
+"""
 myTS = generateTS(10,0,1)
 myindexedTS = IndexedTS(myTS)
 
@@ -335,3 +365,4 @@ print ("TS BRUTE:" , myDomainMapper.raw)
 print ("TS Segmentation:", myDomainMapper.ts_seg)
 
 myDomainMapper.visualize_instance_html()
+"""
