@@ -185,7 +185,7 @@ class TSExplainer(object):
         self.feature_selection = feature_selection
         self.bow = bow
 
-    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, distance_metric='cosine'):
+    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, training_set, distance_metric='cosine'):
         """Generates a neighborhood around a prediction.
 
         Generates neighborhood data by randomly removing sub time series from
@@ -219,20 +219,21 @@ class TSExplainer(object):
 
 
         nbvalues_by_cut = math.ceil(indexed_ts.length_timeSeries() / num_cuts)
-        sample = self.random_state.randint(1, num_cuts + 1, num_samples - 1)
+        sample = np.random.randint(1, num_cuts + 1, num_samples - 1)
         data = np.ones((num_samples, num_cuts))
         features_range = range(num_cuts)
-        inverse_data = [pd.Series(indexed_ts.raw_timeSeries())]
+        timeseries = pd.Series(indexed_ts.raw_timeSeries()).copy()
+        inverse_data = [timeseries]
         for i, size in enumerate(sample, start=1):
-            inactive = self.random_state.choice(features_range, size,
+            inactive = np.random.choice(features_range, size,
                                                 replace=False)
             data[i, inactive] = 0
-            new_indexedtimeserie = IndexedTS(indexed_ts.raw_timeSeries())
-            for i, inac in enumerate(inactive):
+            tmp_timeseries = timeseries.copy()
+            for i, inac in enumerate(inactive, start=1):
                 index = inac * nbvalues_by_cut
-                new_indexedtimeserie.inverse_removing3(index, (index + nbvalues_by_cut)-1)
-            inverse_data.append(pd.Series(new_indexedtimeserie.raw_timeSeries()))
-
+                #tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = np.mean(training_set.mean())
+                tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = 0
+            inverse_data.append(tmp_timeseries)
         labels = classifier_fn.predict_proba(inverse_data)
         distances = distance_fn(sp.sparse.csr_matrix(data))
         return data, labels, distances
@@ -240,9 +241,10 @@ class TSExplainer(object):
     def explain_instance(self,
                         tsToExplain,
                         classifier_fn,
+                        training_set,
                         labels=(1,),
                         top_labels=None,
-                        num_cuts=17,
+                        num_cuts=24,
                         num_features=10,
                         num_samples=1000,
                         distance_metric='cosine',
@@ -301,7 +303,7 @@ class TSExplainer(object):
 
         indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
         domain_mapper = explanation.DomainMapper()
-        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples)
+        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples, training_set)
         if self.class_names is None:
             self.class_names = [str(x) for x in range(yss[0].shape[0])]
         ret_exp = explanation.Explanation(domain_mapper=domain_mapper, class_names=self.class_names)
@@ -366,3 +368,5 @@ print ("TS Segmentation:", myDomainMapper.ts_seg)
 
 myDomainMapper.visualize_instance_html()
 """
+
+
