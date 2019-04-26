@@ -14,9 +14,25 @@ import math
 X_train et Y_train servent à l'entrainement du classifieur. Les ST non étiqueté sont dans X_test."""
 X_train, Y_train, X_test, Y_test = importTS.dataImport("Trace")
 
-"""Construction classifieur 1NN-DTW. En vrai, on va le loader"""
-#cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+for i in range(30):
+    s = "b"
+    if(Y_train[i]==4):
+        s="r"
+    if(Y_train[i]==1):
+        s="g"
+    if(Y_train[i]==2):
+        s="c"
+    if(Y_train[i]==3):
+        s="y"
+    plt.plot(X_train[i].ravel(),s)
+plt.show()
 
+
+"""Construction classifieur 1NN-DTW. En vrai, on va le loader"""
+cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+
+
+cl1 = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
 
 coffee_train = pd.read_csv('coffee_train.csv', sep=',', header=None).astype(float)
 coffee_train_y = coffee_train.loc[:, 0]
@@ -53,14 +69,19 @@ print(type(myindexedTS.inverse_removing([0,1])))
 
 """Pour TSexplainer et utiliser le classifier, faudra que l'on code la fonction data_label_distance
 car c'est celle la qui utilise le classifier. Mais à mon avis yaura juste à le passer en paramètre comme ca :"""
-
+"""
 myTSexp=lime_timeseries.TSExplainer(class_names=['0', '1'])
 series = coffee_test_x.iloc[5, :]
-exp = myTSexp.explain_instance(series,knn)
+exp = myTSexp.explain_instance(series,knn,coffee_train_x)
 print(exp.as_list())
-values_per_slice = math.ceil(len(series) / 300)
+"""
+myTSexp=lime_timeseries.TSExplainer(class_names=['1', '2', '3', '4'])
+series = pd.Series(X_test[1].ravel())
+exp = myTSexp.explain_instance(myTs,cl1,X_train)
+print(exp.as_list())
+values_per_slice = math.ceil(len(series) / 24)
 plt.plot(series, color='b', label='Explained instance')
-plt.plot(coffee_test_x.iloc[15:,:].mean(), color='green', label='Mean of other class')
+
 plt.legend(loc='lower left')
 for i in range(10):
     feature, weight = exp.as_list()[i]
@@ -70,4 +91,3 @@ for i in range(10):
 plt.show()
 
 """test inverseremoving3"""
-
