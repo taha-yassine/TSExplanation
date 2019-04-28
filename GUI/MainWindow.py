@@ -3,11 +3,11 @@ sys.path.insert(0, "../Classifier")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSizePolicy, QSpinBox, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import numpy as np
 import matplotlib.pyplot as plt
-import random
 import csv
 import ExplanationWindow
 import importTS
@@ -343,6 +343,7 @@ class App(QWidget):
     # Action of the button 'Sauvegarder' of the Classifier tab
     def saveClassifier(self):
         fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
+        QApplication.setOverrideCursor(Qt.WaitCursor)
         if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
             X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
             if self.cb_Classifier.currentText() == "Learning Shapelet":
@@ -359,6 +360,7 @@ class App(QWidget):
             else:
                 cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
                 LearningClassifier.saveClassifier1NN(cl, fileName)
+        QApplication.restoreOverrideCursor()
         QMessageBox.information(self, 'Classifieur sauvegardé !', "Le classifieur a été sauvegardé !", QMessageBox.Ok)
 
 
@@ -376,11 +378,13 @@ class App(QWidget):
     def openShFile(self):
         fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
         if fileName:
+            QApplication.setOverrideCursor(Qt.WaitCursor)
             App.fileNameSh = fileName
             App.X_trainSh,_ = importTS.fileImportTS(App.fileNameSh)
             self.txt_Shapelet_IndexSh.setMaximum(len(App.X_trainSh))
             self.txt_Shapelet_IndexSh.setEnabled(True)
             self.shapeletSelected = True
+            QApplication.restoreOverrideCursor()
             if self.tsSelected == True :
                 self.btn_Shapelet_Show.setEnabled(True)
 
@@ -462,13 +466,17 @@ class App(QWidget):
         if(cb.currentText() == "Charger mon fichier ..."):
             fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
             if fileName:
+                QApplication.setOverrideCursor(Qt.WaitCursor)
                 App.fileNameTS = fileName
                 App.X_train,_ = importTS.fileImportTS(App.fileNameTS)
                 index.setMaximum(len(App.X_train))
+                QApplication.restoreOverrideCursor()
                 index.setEnabled(True)
         else:
+            QApplication.setOverrideCursor(Qt.WaitCursor)
             App.X_train, _, _, _= importTS.dataImport(cb.currentText())
             index.setMaximum(len(App.X_train))
+            QApplication.restoreOverrideCursor()
             index.setEnabled(True)
 
 
