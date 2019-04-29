@@ -5,6 +5,9 @@ from sklearn.externals import joblib
 from tslearn.preprocessing import TimeSeriesScalerMinMax
 import pickle
 from tslearn import shapelets
+from sklearn.neighbors import KNeighborsClassifier
+import numpy as np
+import pandas as pd
 
 
 def NN1_DTWClassifier(X_train,Y_train):
@@ -26,6 +29,18 @@ def learningShapeletClassifier(X_train,Y_train):
 
     shp_clf.fit(X_train, Y_train)
     return shp_clf
+
+def NN1_Classifier(X_train, Y_train):
+    x = np.zeros((X_train.shape[0],X_train.shape[1]))
+    for i in range(X_train.shape[0]):
+        for y in range(X_train.shape[1]):
+            x[i][y] = X_train[i][y].ravel()
+    dt = pd.DataFrame(x)
+    s = pd.Series(Y_train)
+    knn = KNeighborsClassifier(1)
+    knn.fit(dt,s)
+    return knn
+
 
 def saveClassifierLS(classifier, name):
     classifier.save(name)

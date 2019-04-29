@@ -28,7 +28,7 @@ plt.show()
 
 
 """Construction classifieur 1NN-DTW. En vrai, on va le loader"""
-cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+cl = LearningClassifier.NN1_Classifier(X_train, Y_train)
 
 cl1 = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
 
@@ -43,21 +43,15 @@ knn.fit(coffee_train_x, coffee_train_y)
 "Accès à la première ST"
 "Le .ravel est important à faire !!!"
 
-myTs = X_test[0].ravel()
+
+num_cuts = 24
+num_features = 5
+num_samples = 1000
+myTs = X_test[8].ravel()
 myindexedTS = lime_timeseries.IndexedTS(myTs)
-print(myindexedTS.raw.shape)
 
-myTSexp=lime_timeseries.TSExplainer(class_names=['1', '2', '3', '4'])
-series = pd.Series(X_test[1].ravel())
-exp = myTSexp.explain_instance(myTs,cl1,X_train)
+myTSexp=lime_timeseries.TSExplainer()
+series = pd.Series(myTs)
+exp = myTSexp.explain_instance(myTs,cl,X_train, num_cuts, num_features, num_samples)
 print(exp.as_list())
-values_per_slice = math.ceil(len(series) / 24)
-plt.plot(series, color='b', label='Explained instance')
-
-plt.legend(loc='lower left')
-for i in range(10):
-    feature, weight = exp.as_list()[i]
-    start = feature * values_per_slice
-    end = start + values_per_slice
-    plt.axvspan(start , end, color='green', alpha=abs(weight*100))
-plt.show()
+exp.domain_mapper.plot(exp, series, num_features)
