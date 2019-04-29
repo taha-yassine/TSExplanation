@@ -58,6 +58,27 @@ class UI_Explanation(QWidget):
         ax = self.figure.add_subplot(111)
         ax.plot(ts, linestyle='-')
         self.canvas.draw()
+        """
+        #ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652, -0.34086,-0.32604,-0.2964, -0.32604, -0.32604]        
+        #weights = [("ss1",-0.88), ("ss2",-0.5), ("ss3",-0.1), ("ss4",0.0), ("ss5",0.1), ("ss6",0.3), ("ss7",0.5), ("ss8",0.8)]
+        colors = {-1:"#ff0000", -0.9:"#ff1400", -0.8:"#ff2801", -0.7:"#ff3c00", -0.6:"#ff5101", -0.5:"#ff6500", -0.4:"#ff7900", -0.3:"#ff8d01", -0.2:"#ffa100", -0.1:"#ffb501", 0:"#ffc900", 0.1:"#e8c403", 0.2:"#d2bd06", 0.3:"#bab709", 0.4:"#a4b10b", 0.5:"#8daa0e", 0.6:"#76a310", 0.7:"#5f9d13", 0.8:"#489816", 0.9:"#489816", 1:"#1b8b1b"}
+        segment_length = int((len(ts)-1) / len(weights)) # gérer les arrondis comme dans lime ??
+        k = 0
+        for elem in weights:
+            start = int(k*segment_length)
+            if k==(len(weights) - 1):
+                segment_length = len(ts) - 1 - k*segment_length
+            weight = round(elem[1],1)
+            x = np.arange(0.0, len(ts), 1)
+            y1 = np.ma.masked_where((x<start), ts)
+            curve = np.ma.masked_where((x>(start + segment_length)), y1)
+            ax.plot(curve, linestyle='-', color=colors[weight])
+            plt.axvline(x=start, linewidth=1, color="grey")
+            k = k + 1
+            #print(str(k)+" "+str(segment_length))
+            # Changer le x sur les abscisses (pour compter le nb de segments) ?
+        plt.axvline(x=(start+segment_length), linewidth=1, color="grey")
+        """
 
 
     # Show the window

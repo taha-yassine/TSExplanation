@@ -71,6 +71,7 @@ class App(QWidget):
         self.cb_Classifier = QtWidgets.QComboBox(self.tab_Classifier)
         self.cb_Classifier.addItem("")
         self.cb_Classifier.setItemText(0, "1NN-DTW")
+        self.cb_Classifier.addItem("1NN")
         self.cb_Classifier.addItem("Learning Shapelet")
         self.formLayout_Classifier.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.cb_Classifier)
 
@@ -273,31 +274,16 @@ class App(QWidget):
         self.lbl_LIME_NbAttributes = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_NbAttributes.setText("Nombre max d\'attributs (-1 = tous)")
         self.formLayout_LIME.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_NbAttributes)        
-        self.txt_LIME_NbAttributes = QtWidgets.QLineEdit(self.tab_LIME)
-        self.txt_LIME_NbAttributes.setText("3")
+        self.txt_LIME_NbAttributes = QtWidgets.QSpinBox(self.tab_LIME) # Mettre un min ? Gérer le cas -1 ?
+        self.txt_LIME_NbAttributes.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.formLayout_LIME.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.txt_LIME_NbAttributes)
 
         self.lbl_LIME_Segm = QtWidgets.QLabel(self.tab_LIME)
-        self.lbl_LIME_Segm.setText("Algorithme de segmentation")
+        self.lbl_LIME_Segm.setText("Nombre de segmentations")
         self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_Segm) 
-
-
-        self.horizontalLayout_LIME_Widget = QtWidgets.QWidget(self.tab_LIME)
-        self.horizontalLayout_LIME = QtWidgets.QHBoxLayout(self.horizontalLayout_LIME_Widget)
-
-        self.cb_LIME_Segm = QtWidgets.QComboBox(self.tab_LIME)
-        self.cb_LIME_Segm.addItem("")
-        self.cb_LIME_Segm.setItemText(0, "Uniforme") 
-        self.cb_LIME_Segm.addItem("Autre")
-        self.cb_LIME_Segm.currentIndexChanged.connect(self.selectionSegmChange)
-        self.horizontalLayout_LIME.addWidget(self.cb_LIME_Segm)
-        self.txt_LIME_Segm = QtWidgets.QSpinBox(self.tab_LIME)    # (pas toujours nécessaire selon l'option choisie)
-        #self.txt_LIME_Segm.setMinimum(1)
-        self.txt_LIME_Segm.setMinimumWidth(75)
-        self.txt_LIME_Segm.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.horizontalLayout_LIME.addWidget(self.txt_LIME_Segm)
-        self.horizontalLayout_LIME.setContentsMargins(0, 0, 0, 0)
-        self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout_LIME_Widget)
+        self.txt_LIME_Segm = QtWidgets.QSpinBox(self.tab_LIME)
+        self.txt_LIME_Segm.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.formLayout_LIME.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.txt_LIME_Segm)
 
         self.lbl_LIME_RempSS = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_RempSS.setText("Remplacement des sous-séries")
@@ -347,19 +333,25 @@ class App(QWidget):
         if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
             X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
             if self.cb_Classifier.currentText() == "Learning Shapelet":
-                clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifierLS(clLS, fileName)
+                classifier = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifierLS(classifier, fileName)
+            elif self.cb_Classifier.currentText() == "1NN-DTW":
+                classifier = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(classifier,fileName)
             else:
-                cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifier1NN(cl,fileName)
+                classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(classifier,fileName)
         else:
             X_train, Y_train, _, _= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
             if self.cb_Classifier.currentText() == "Learning Shapelet":
-                clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifierLS(clLS, fileName)
+                classifier = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifierLS(classifier, fileName)
+            elif self.cb_Classifier.currentText() == "1NN-DTW":
+                classifier = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(classifier, fileName)
             else:
-                cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifier1NN(cl, fileName)
+                classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
+                LearningClassifier.saveClassifier1NN(classifier,fileName)
         QApplication.restoreOverrideCursor()
         QMessageBox.information(self, 'Classifieur sauvegardé !', "Le classifieur a été sauvegardé !", QMessageBox.Ok)
 
@@ -452,7 +444,7 @@ class App(QWidget):
     def execLIME(self): # Show explanation
         App.explanation = "..."
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(App.explanation)# + result (classifier.predict(myTS))
+        #self.UIexplanation.showUI(App.explanation)# + result (classifier.predict(myTS))
     
 
     # Binding between the size of the tab widget and the size of the window
@@ -499,14 +491,6 @@ class App(QWidget):
             self.trainSelected = True
             if self.classifierSelected == True :
                 self.btn_LIME_Exec.setEnabled(True)
-
-
-    # Action when there is a change in the type of segmentation, in the LIME tab
-    def selectionSegmChange(self):
-        if self.cb_LIME_Segm.currentText() == "Uniforme":
-            self.txt_LIME_Segm.setEnabled(True)
-        else:
-            self.txt_LIME_Segm.setEnabled(False)
 
 
     ###########################################################################################
