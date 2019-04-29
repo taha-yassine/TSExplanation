@@ -27,7 +27,7 @@ import lime.lime_base as lime_base
 
 class TSDomainMapper(explanation.DomainMapper):
 
-    def __init__(self, raw, ts_seg):
+    """def __init__(self, raw, ts_seg):
         # sous serie de base ou sous serie segmentee ?
         self.ts_seg = ts_seg
         self.raw = raw
@@ -39,12 +39,44 @@ class TSDomainMapper(explanation.DomainMapper):
         else:
             exp = [(self.mTS[x[0]], x[1]) for x in exp]
         return exp
+"""
+
+    def map_exp_ids(self, exp, **kwargs):
+        """Maps the feature ids to concrete names.
+
+        Default behaviour is the identity function. Subclasses can implement
+        this as they see fit.
+
+        Args:
+            exp: list of tuples [(id, weight), (id,weight)]
+            kwargs: optional keyword arguments
+
+        Returns:
+            exp: list of tuples [(name, weight), (name, weight)...]
+        """
+        return exp
 
     def visualize_instance_html(self):
         plt.plot(self.raw)
         #plt.show()
         plt.savefig('temp.png')
         return 0
+
+    def plot(self, exp, series, num_feature):
+        values_per_slice = math.ceil(len(series) / 24)
+        plt.plot(series, color='b', label='Explained instance')
+
+        plt.legend(loc='lower left')
+        for i in range(num_feature):
+            feature, weight = exp.as_list()[i]
+            start = feature * values_per_slice
+            end = start + values_per_slice
+            if weight < 0:
+                color = 'green'
+            else:
+                color = 'red'
+            plt.axvspan(start, end, color=color, alpha=abs(weight * 100))
+        plt.show()
 
 
 class IndexedTS(object):
@@ -242,11 +274,11 @@ class TSExplainer(object):
                         tsToExplain,
                         classifier_fn,
                         training_set,
-                        labels=(1,),
-                        top_labels=None,
                         num_cuts=24,
                         num_features=10,
                         num_samples=1000,
+                        labels=(1,),
+                        top_labels=None,
                         distance_metric='cosine',
                         model_regressor=None):
         """Generates explanations for a prediction.
@@ -302,7 +334,7 @@ class TSExplainer(object):
         return ret_exp"""
 
         indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
-        domain_mapper = explanation.DomainMapper()
+        domain_mapper = TSDomainMapper()
         data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples, training_set)
         if self.class_names is None:
             self.class_names = [str(x) for x in range(yss[0].shape[0])]
