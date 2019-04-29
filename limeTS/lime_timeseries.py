@@ -109,29 +109,15 @@ class IndexedTS(object):
         res = [self.raw[x:x+seg_length] for x in range(0,len(self.raw),seg_length)]
         return res
 
-    def inverse_removing(self, values_to_remove):
-        """Returns a time series after removing the appropriate values.
-        If self.bow is false, replaces sub-time-series with UNKWNOW_TS instead of removing
-        it.
+    def inverse_removing(self, first_value,second_value):
+        """Returns a time series after removing the appropriate values in the interval.
         Args:
-            values_to_remove: list of ids (ints) to remove
+            first_value: beginning of the interval
+            second_value: end of the interval
         Returns:
             original raw time series with appropriate values removed.
         """
-        mask = np.ones(self.as_np.shape[0], dtype='bool')
-        mask[self.__get_idxs(values_to_remove)] = False
-        if not self.bow:
-            return ([self.as_list[i] if mask[i]
-                            else 'UNKNOW_TS' for i in range(mask.shape[0])])
-        return [self.as_list[v] for v in mask.nonzero()[0]]
-
-    def inverse_removing2(self, values_to_remove):
-        for i in values_to_remove:
-            self.as_list[i] = 0
-        return self.as_list
-
-    def inverse_removing3(self, v1, v2):
-        for i in range(v1,v2):
+        for i in range(first_value, second_value):
             self.raw[i] = 0
 
 
@@ -237,7 +223,7 @@ class TSExplainer(object):
         
             for i, inac in enumerate(inactive, start=1):
                 index = inac * nbvalues_by_cut
-                new_indexedtimeserie.inverse_removing3(index, (index + nbvalues_by_cut)-1)
+                new_indexedtimeserie.inverse_removing(index, (index + nbvalues_by_cut)-1)
             inverse_data.append(pd.Series(new_indexedtimeserie.raw_timeSeries()))
         
         labels = classifier_fn.predict_proba(inverse_data)
@@ -284,31 +270,8 @@ class TSExplainer(object):
             explanations. 
         """
 
-        """indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
-        domain_mapper = TSDomainMapper(indexed_ts.raw_timeSeries(), indexed_ts.tsSegmentation())
-        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_samples,
-                                                            distance_metric=distance_metric)
-        if self.class_names is None:
-            self.class_names = [str(x) for x in range(yss[0].shape[0])]
-        ret_exp = explanation.Explanation(domain_mapper=domain_mapper,
-                                          class_names=self.class_names,
-                                          random_state=self.random_state)
-        ret_exp.predict_proba = yss[0]
-        if top_labels:
-            labels = np.argsort(yss[0])[-top_labels:]
-            ret_exp.top_labels = list(labels)
-            ret_exp.top_labels.reverse()
-        for label in labels:
-            (ret_exp.intercept[label],
-             ret_exp.local_exp[label],
-             ret_exp.score, ret_exp.local_pred) = self.base.explain_instance_with_data(
-                data, yss, distances, label, num_features,
-                model_regressor=model_regressor,
-                feature_selection=self.feature_selection)
-        return ret_exp"""
-
         indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
-        domain_mapper = explanation.DomainMapper()
+        domain_mapper = TSDomainMapper(indexed_ts.raw_timeSeries(), indexed_ts.tsSegmentation())
         data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples)
         if self.class_names is None:
             self.class_names = [str(x) for x in range(yss[0].shape[0])]
@@ -324,10 +287,7 @@ class TSExplainer(object):
 
 
 
-
-
-
-""" OTHER USEFULL FUNCTIONS """
+""" OTHER USEFUL FUNCTIONS """
 
 def generateTS(size=100,min=0,max=10):
     mlist = []
@@ -340,43 +300,4 @@ def generateMockExp(ts):
     return res
 
 
-
-
-"""TEST"""
-"""
-myTS = [0.0, 0.21, 1.24, 1.21, 0.21, 0.85, 1.96]
-myTS2 = [[0.0, 0.21, 1.24, 1.21, 0.21, 0.85, 1.96],[1.33, 0.56 , 0.99]]
-print (myTS)
-myindexedTS = IndexedTS(myTS)
-mysegts = myindexedTS.tsSegmentation()
-#TS brute
-print ("TS BRUTE:" , myindexedTS.raw_timeSeries())
-#TS segmentation
-print ("TS Segmentation:", mysegts)
-#longueur TS
-print ("Longeur TS:", myindexedTS.num_timeSubSeries())
-#rendre une valeur en fonction de son id 
-print ("valeur de l'id 2:", myindexedTS.timeSubSeries(2))
-#rendre toutes les positions de l'indice passe en param
-print ("positions de l'indice 1: ", myindexedTS.timeSeries_position(1))
-#Enlever les mots aux indices donnes
-print ("enleve mots indice 0 et 1:", myindexedTS.inverse_removing([0,1]))
-"""
-print("testing...")
-"""
-plt.plot([0.7, 0.64, 0.62, 0.06, 0.89, 0.07, 0.46, 0.12, 0.55, 0.33])
-plt.ylabel('some numbers')
-plt.show()
-plt.savefig('test.png')
-"""
-
-"""
-myTS = generateTS(10,0,1)
-myindexedTS = IndexedTS(myTS)
-
-myDomainMapper = TSDomainMapper(myindexedTS.raw_timeSeries(), myindexedTS.tsSegmentation())
-print ("TS BRUTE:" , myDomainMapper.raw)
-print ("TS Segmentation:", myDomainMapper.ts_seg)
-
-myDomainMapper.visualize_instance_html()
-"""
+ 
