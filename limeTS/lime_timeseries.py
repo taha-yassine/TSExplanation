@@ -62,7 +62,8 @@ class TSDomainMapper(explanation.DomainMapper):
         plt.savefig('temp.png')
         return 0
 
-    def plot(self, exp, series, num_feature):
+    def plot(self, exp, ts, num_feature):
+        series = pd.Series(ts)
         values_per_slice = math.ceil(len(series) / 24)
         plt.plot(series, color='b', label='Explained instance')
 
@@ -72,9 +73,9 @@ class TSDomainMapper(explanation.DomainMapper):
             start = feature * values_per_slice
             end = start + values_per_slice
             if weight < 0:
-                color = 'green'
-            else:
                 color = 'red'
+            else:
+                color = 'green'
             plt.axvspan(start, end, color=color, alpha=abs(weight * 100))
         plt.show()
 

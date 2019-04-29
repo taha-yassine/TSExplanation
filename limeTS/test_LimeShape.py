@@ -32,26 +32,12 @@ cl = LearningClassifier.NN1_Classifier(X_train, Y_train)
 
 cl1 = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
 
-coffee_train = pd.read_csv('coffee_train.csv', sep=',', header=None).astype(float)
-coffee_train_y = coffee_train.loc[:, 0]
-coffee_train_x = coffee_train.loc[:, 1:]
-coffee_test = pd.read_csv('coffee_test.csv', sep=',', header=None).astype(float)
-coffee_test_y = coffee_test.loc[:, 0]
-coffee_test_x = coffee_test.loc[:, 1:]
-knn = KNN()
-knn.fit(coffee_train_x, coffee_train_y)
-"Accès à la première ST"
-"Le .ravel est important à faire !!!"
-
 
 num_cuts = 24
 num_features = 5
 num_samples = 1000
-myTs = X_test[8].ravel()
-myindexedTS = lime_timeseries.IndexedTS(myTs)
-
+myTs = X_test[0].ravel()
 myTSexp=lime_timeseries.TSExplainer()
-series = pd.Series(myTs)
 exp = myTSexp.explain_instance(myTs,cl,X_train, num_cuts, num_features, num_samples)
 print(exp.as_list())
-exp.domain_mapper.plot(exp, series, num_features)
+exp.domain_mapper.plot(exp, myTs, num_features)
