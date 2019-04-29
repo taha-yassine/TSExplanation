@@ -13,17 +13,15 @@ from sklearn.utils import check_random_state
 import math
 import copy
 
-
-
 from matplotlib import pyplot as plt
 
 from random import *
 from decimal import Decimal
 
-
-
 import lime.explanation as explanation
 import lime.lime_base as lime_base 
+
+
 
 class TSDomainMapper(explanation.DomainMapper):
 
@@ -33,6 +31,13 @@ class TSDomainMapper(explanation.DomainMapper):
         self.raw = raw
 
     def map_exp_ids(ts, positions=False):
+        """Maps ids to sub_timeseries or sub_timeseries position.
+        Args:
+            exp: list of tuples [(id, weight), (id,weight)]
+            positions: if True, also return sub_timeseries positions
+        Returns:
+            list of tuples (sub-timeseries, weight), or (sub_timeseries positions, weight) if
+        """
         if positions:
             exp = [(self.mTS[x[0]],x[0], x[1])
                    for x in exp]
@@ -41,10 +46,12 @@ class TSDomainMapper(explanation.DomainMapper):
         return exp
 
     def visualize_instance_html(self):
+        """Adds textimeseries with highlighted sub_timeseries to visualization."""
         plt.plot(self.raw)
         #plt.show()
         plt.savefig('temp.png')
         return 0
+
 
 
 class IndexedTS(object):
@@ -128,7 +135,6 @@ class IndexedTS(object):
             self.raw[i] = 0
 
 
-
     def __get_idxs(self, values):
         """Returns indexes to appropriate values."""
         if self.bow:
@@ -136,6 +142,7 @@ class IndexedTS(object):
                 [self.positions[z] for z in values]))
         else:
             return self.positions[values]
+
 
 
 class TSExplainer(object):
@@ -164,11 +171,11 @@ class TSExplainer(object):
                 See function 'explain_instance_with_data' in lime_base.py for
                 details on what each of the options does.
             bow: if True (bag of words), will perturb input data by removing
-                all occurrences of individual words.  Explanations will be in
-                terms of these words. Otherwise, will explain in terms of
-                word-positions, so that a word may be important the first time
+                all occurrences of individual sub_timeseries. Explanations will be in
+                terms of these sub_timeseries. Otherwise, will explain in terms of
+                sub_timeseries-positions, so that a sub_timeseries may be important the first time
                 it appears and unimportant the second. Only set to false if the
-                classifier uses word order in some way (bigrams, etc).
+                classifier uses sub_timeseries order in some way (bigrams, etc).
             random_state: an integer or numpy.RandomState that will be used to
                 generate random numbers. If None, the random state will be
                 initialized using the internal numpy seed.
@@ -185,7 +192,7 @@ class TSExplainer(object):
         self.feature_selection = feature_selection
         self.bow = bow
 
-    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, training_set, distance_metric='cosine'):
+    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, distance_metric='cosine'):
         """Generates a neighborhood around a prediction.
 
         Generates neighborhood data by randomly removing sub time series from
@@ -216,35 +223,34 @@ class TSExplainer(object):
             return sklearn.metrics.pairwise.pairwise_distances(
                 x, x[0], metric=distance_metric).ravel() * 100
 
-
-
-        nbvalues_by_cut = math.ceil(indexed_ts.length_timeSeries() / num_cuts)
+        nbvalues_by_cut = math.ceil(indexed_ts.length_timeSeries() / num_cuts)  
         sample = np.random.randint(1, num_cuts + 1, num_samples - 1)
         data = np.ones((num_samples, num_cuts))
         features_range = range(num_cuts)
-        timeseries = pd.Series(indexed_ts.raw_timeSeries()).copy()
-        inverse_data = [timeseries]
+     
+        inverse_data = [pd.Series(indexed_ts.raw_timeSeries())]
+        
         for i, size in enumerate(sample, start=1):
-            inactive = np.random.choice(features_range, size,
-                                                replace=False)
+            inactive = np.random.choice(features_range, size, replace=False)
             data[i, inactive] = 0
-            tmp_timeseries = timeseries.copy()
+            new_indexedtimeserie = IndexedTS(indexed_ts.raw_timeSeries())
+        
             for i, inac in enumerate(inactive, start=1):
                 index = inac * nbvalues_by_cut
-                #tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = np.mean(training_set.mean())
-                tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = 0
-            inverse_data.append(tmp_timeseries)
+                new_indexedtimeserie.inverse_removing3(index, (index + nbvalues_by_cut)-1)
+            inverse_data.append(pd.Series(new_indexedtimeserie.raw_timeSeries()))
+        
         labels = classifier_fn.predict_proba(inverse_data)
         distances = distance_fn(sp.sparse.csr_matrix(data))
         return data, labels, distances
 
+
     def explain_instance(self,
                         tsToExplain,
                         classifier_fn,
-                        training_set,
                         labels=(1,),
                         top_labels=None,
-                        num_cuts=24,
+                        num_cuts=17,
                         num_features=10,
                         num_samples=1000,
                         distance_metric='cosine',
@@ -303,7 +309,7 @@ class TSExplainer(object):
 
         indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
         domain_mapper = explanation.DomainMapper()
-        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples, training_set)
+        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples)
         if self.class_names is None:
             self.class_names = [str(x) for x in range(yss[0].shape[0])]
         ret_exp = explanation.Explanation(domain_mapper=domain_mapper, class_names=self.class_names)
@@ -311,10 +317,14 @@ class TSExplainer(object):
         for label in labels:
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
-             ret_exp.score, ret_exp.local_pred) = self.base.explain_instance_with_data(data, yss, distances, label,
-                                                                                       num_features,
-                                                                                       feature_selection=self.feature_selection)
+             ret_exp.score, ret_exp.local_pred) = self.base.explain_instance_with_data(data, 
+                                                                yss, distances, label,
+                                                                num_features, feature_selection=self.feature_selection)
         return ret_exp
+
+
+
+
 
 
 """ OTHER USEFULL FUNCTIONS """
@@ -328,6 +338,8 @@ def generateTS(size=100,min=0,max=10):
 def generateMockExp(ts):
     res = [(x,uniform(0,1)) for x in range(0,len(ts))]
     return res
+
+
 
 
 """TEST"""
@@ -368,5 +380,3 @@ print ("TS Segmentation:", myDomainMapper.ts_seg)
 
 myDomainMapper.visualize_instance_html()
 """
-
-
