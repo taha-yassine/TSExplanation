@@ -3,6 +3,7 @@ sys.path.insert(0, "../Classifier")
 import importTS
 import LearningClassifier
 import lime_timeseries
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier as KNN
 import matplotlib.pyplot as plt
@@ -34,10 +35,12 @@ cl1 = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
 
 
 num_cuts = 24
-num_features = 5
+num_features = 10
 num_samples = 1000
 myTs = X_test[0].ravel()
 myTSexp=lime_timeseries.TSExplainer()
 exp = myTSexp.explain_instance(myTs,cl,X_train, num_cuts, num_features, num_samples)
 print(exp.as_list())
-exp.domain_mapper.plot(exp, myTs, num_features)
+exp.domain_mapper.plot(exp, myTs, num_features, num_cuts)
+#c = FigureCanvas(fig)
+#c.draw()

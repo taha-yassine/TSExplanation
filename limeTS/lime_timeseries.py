@@ -64,8 +64,8 @@ class TSDomainMapper(explanation.DomainMapper):
         plt.savefig('temp.png')
         return 0
 
-    def plot(self, exp, ts, num_feature):
-        series = pd.Series(ts)
+    def plot(self, exp, ts, num_feature, num_cut):
+        """series = pd.Series(ts)
         values_per_slice = math.ceil(len(series) / 24)
         plt.plot(series, color='b', label='Explained instance')
 
@@ -79,7 +79,54 @@ class TSDomainMapper(explanation.DomainMapper):
             else:
                 color = 'green'
             plt.axvspan(start, end, color=color, alpha=abs(weight * 100))
+        plt.show()"""
+        #ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652, -0.34086,-0.32604,-0.2964, -0.32604, -0.32604]
+        #weights = [("ss1",-0.88), ("ss2",-0.5), ("ss3",-0.1), ("ss4",0.0), ("ss5",0.1), ("ss6",0.3), ("ss7",0.5), ("ss8",0.8)]
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+
+        series = pd.Series(ts)
+        segment_length = math.ceil(len(series) / num_cut)
+        #colors = {-3:"black", 0:"#ff0000", 0.1:"#ff2801", 0.2:"#ff5101", 0.3:"#ff7900", 0.4:"#ffa100", 0.5:"#ffc900", 0.6:"#d2bd06", 0.7:"#a4b10b", 0.8:"#76a310", 0.9:"#489816", 1:"#1b8b1b"}
+        colors = {-3:"black",0: "#ffc900", 0.1: "#e8c403",
+                  0.2: "#d2bd06", 0.3: "#bab709", 0.4: "#a4b10b", 0.5: "#8daa0e", 0.6: "#76a310", 0.7: "#5f9d13",
+                  0.8: "#489816", 0.9: "#489816", 1: "#1b8b1b"}
+
+
+        feature = []
+        oldweights = []
+        for y in range(0, len(exp.as_list())):
+            f, w = exp.as_list()[y]
+            feature.append(f)
+            oldweights.append(abs(w))
+        print(feature)
+        print(oldweights)
+
+        """Normalize"""
+        weights = []
+        for z in range(0, len(oldweights)):
+            weights.append((oldweights[z]-min(oldweights))/(max(oldweights)-min(oldweights)))
+
+        print(weights)
+        for i in range(0, num_cut):
+            weight = -3
+            if i in feature:
+                weight = round(weights[feature.index(i)],1)
+            start = int(i*segment_length)
+            if i==(num_cut - 1):
+                segment_length = len(series) - 1 - i*segment_length
+            x = np.arange(0.0, len(series), 1)
+            y1 = np.ma.masked_where((x<start), ts)
+            curve = np.ma.masked_where((x>(start + segment_length)), y1)
+            ax.plot(curve, linestyle='-', color=colors[weight])
+            plt.axvline(x=start, linewidth=1, color="grey")
+            #print(str(k)+" "+str(segment_length))
+            # Changer le x sur les abscisses (pour compter le nb de segments) ?
+        #plt.axvline(x=(start+segment_length), linewidth=1, color="grey")
         plt.show()
+        #return fig
 
 
 class IndexedTS(object):
