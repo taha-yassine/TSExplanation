@@ -22,8 +22,8 @@ from decimal import Decimal
 
 
 
-import lime.explanation as explanation
-import lime.lime_base as lime_base 
+import explanation
+import lime_base
 
 class TSDomainMapper(explanation.DomainMapper):
 
