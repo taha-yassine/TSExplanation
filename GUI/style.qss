@@ -1,6 +1,15 @@
-QTabWidget::tab-bar {
-    left: 5px; /* Move to the right by 5px */
+/****************** UI_Explanation  ******************/
+
+UI_Explanation {
+    background:white;
 }
+
+/****************** QTab  ******************/
+
+QTabWidget::tab-bar {
+    left: 5px;
+}
+
 QTabBar::tab {
     border: 1px solid #B8CDDE;
     border-top-left-radius: 4px;
@@ -12,17 +21,126 @@ QTabBar::tab {
     background: #D5ECFA;
     margin-top: 5px;
     font: bold 12px;
-    color: #40728B; /* Text color */
+    color: #40728B;
 }
+
 QTabBar::tab:hover {
     background: #9EC8FF;
 }
+
 QTabBar::tab:selected {
     background: #53A9C1;
     border-color: #9B9B9B;
     margin-top: 4px;
     color: white;
 }
-/*QTabWidget::pane {
-    background: red;
-}*/
+
+/****************** QPushButton  ******************/
+
+QPushButton {
+    background-color: #53A9C1;
+    padding: 4px;
+    border-style: outset;
+    /*text-align: left;*/
+    color: white;
+    border-radius: 5px;
+    font: bold 12px;
+}
+
+QPushButton:hover {
+    background-color: #9EC8FF;
+    color: #40728B;
+}
+
+QPushButton:disabled {
+    background-color: #9B9B9B;
+}
+
+/****************** QComboBox  ******************/
+
+QComboBox {
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+    border-style: outset;
+    border: 1px solid #53A9C1;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    background: #53A9C1;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {
+    image: url(icons/down_arrow.png);
+    width: 14px;
+    height: 14px;
+}
+
+QComboBox::drop-down:hover {
+    background: #9EC8FF;
+}
+
+QComboBox::down-arrow:hover {
+    image: url(icons/down_arrow_hover.png);
+    width: 14px;
+    height: 14px;
+}
+
+/****************** QSpinBox  ******************/
+
+QSpinBox {
+    border-radius: 5px;
+    padding: 1px 18px 1px 3px;
+    border-style: outset;
+    border: 1px solid #53A9C1;
+}
+
+QSpinBox::up-arrow {
+    image: url(icons/arrow_drop_up.png);
+    background: #53A9C1;
+    height: 9px;
+    border-radius: 5px;
+}
+
+QSpinBox::down-arrow {
+    image: url(icons/arrow_drop_down.png);
+    background: #53A9C1;
+    height: 9px;
+    border-radius: 5px;
+}
+
+QSpinBox::up-button {
+    background: #53A9C1;
+    border-radius: 5px;
+}
+
+QSpinBox::down-button {
+    background: #53A9C1;
+    border-radius: 5px;
+}
+
+QSpinBox::up-arrow:hover {
+    image: url(icons/arrow_drop_up_hover.png);
+    background: #9EC8FF;
+}
+
+QSpinBox::down-arrow:hover {
+    image: url(icons/arrow_drop_down_hover.png);
+    background: #9EC8FF;
+}
+
+QSpinBox:disabled {
+    border: 1px solid #9B9B9B;
+}
+
+QSpinBox::up-arrow:disabled {
+    background: #9B9B9B;
+}
+
+QSpinBox::down-arrow:disabled {
+    background: #9B9B9B;
+}
+

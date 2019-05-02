@@ -1,6 +1,6 @@
 import sys
 sys.path.insert(0, "../limeTS")
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QWidget, QFileDialog, QScrollArea
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -14,7 +14,9 @@ class UI_Explanation(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Explanation')
-        self.setGeometry(400, 200, 400, 331) 
+        self.setGeometry(400, 200, 500, 400) 
+        self.setStyleSheet(open("style.qss", "r").read())
+        self.setWindowIcon(QtGui.QIcon("icons/TSExplanation.ico"))
 
         #self.lbl_class = QtWidgets.QLabel("Résultat : classe1")
         self.lbl_class = QtWidgets.QLabel("")
@@ -57,7 +59,7 @@ class UI_Explanation(QWidget):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
         ax.plot(ts, linestyle='-')
-        self.canvas.draw()
+        self.canvas.draw_idle()
         """
         #ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652, -0.34086,-0.32604,-0.2964, -0.32604, -0.32604]        
         #weights = [("ss1",-0.88), ("ss2",-0.5), ("ss3",-0.1), ("ss4",0.0), ("ss5",0.1), ("ss6",0.3), ("ss7",0.5), ("ss8",0.8)]

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSi
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+#from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
@@ -272,9 +272,9 @@ class App(QWidget):
         self.formLayout_LIME.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.cb_LIME_Classes)
 
         self.lbl_LIME_NbAttributes = QtWidgets.QLabel(self.tab_LIME)
-        self.lbl_LIME_NbAttributes.setText("Nombre max d\'attributs (-1 = tous)")
+        self.lbl_LIME_NbAttributes.setText("Nombre max d\'attributs (0 = tous)")
         self.formLayout_LIME.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_NbAttributes)        
-        self.txt_LIME_NbAttributes = QtWidgets.QSpinBox(self.tab_LIME) # Mettre un min ? Gérer le cas -1 ?
+        self.txt_LIME_NbAttributes = QtWidgets.QSpinBox(self.tab_LIME)
         self.txt_LIME_NbAttributes.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.formLayout_LIME.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.txt_LIME_NbAttributes)
 
@@ -363,7 +363,7 @@ class App(QWidget):
         ax = self.figure_TS.add_subplot(111)
         #ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
         ax.plot(l, linestyle='-')
-        self.canvas_TS.draw()
+        self.canvas_TS.draw_idle()
 
 
     # Action of the button 'Charger Shapelet' of the Shapelet tab
@@ -427,7 +427,7 @@ class App(QWidget):
             ax.plot(ts, linestyle='-')
             ax.plot(y, linestyle='-', color='red')
             ax.fill_between(x, ts, y, facecolor='#b7b7b7')
-            self.canvas_Sh.draw()
+            self.canvas_Sh.draw_idle()
 
 
     # Action of the button 'Charger' for the classifier of the LIME tab
@@ -476,8 +476,12 @@ class App(QWidget):
     def selectionTSChange(self, tab):
         if (tab == "Classifier"):
             if (self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ..."):
+                self.btn_Classifier_Save.setEnabled(False)
                 App.fileNameTS, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
-            self.btn_Classifier_Save.setEnabled(True)
+                if App.fileNameTS != '':
+                    self.btn_Classifier_Save.setEnabled(True)
+            else:
+                self.btn_Classifier_Save.setEnabled(True)
         if (tab == "TS"):
             self.setIndex(self.cb_TS_SelectTS, self.txt_TS_Index)
             self.btn_TS_Affiche.setEnabled(True)
