@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0, "../Classifier")
+sys.path.insert(0, "../limeTS")
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSizePolicy, QSpinBox, QMessageBox
 from PyQt5.QtGui import QIcon, QPixmap
@@ -12,6 +13,7 @@ import csv
 import ExplanationWindow
 import importTS
 import LearningClassifier
+import lime_timeseries
 
 class App(QWidget):
 
@@ -263,13 +265,14 @@ class App(QWidget):
         self.txt_LIME_Index.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.formLayout_LIME.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.txt_LIME_Index)
 
-        self.lbl_LIME_Classes = QtWidgets.QLabel(self.tab_LIME)
-        self.lbl_LIME_Classes.setText("Classes à expliquer")
-        self.formLayout_LIME.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_Classes)        
-        self.cb_LIME_Classes = QtWidgets.QComboBox(self.tab_LIME)
-        self.cb_LIME_Classes.addItem("")
-        self.cb_LIME_Classes.setItemText(0, "Toutes")
-        self.formLayout_LIME.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.cb_LIME_Classes)
+        self.lbl_LIME_Voisins = QtWidgets.QLabel(self.tab_LIME)
+        self.lbl_LIME_Voisins.setText("Nombre de voisins")
+        self.formLayout_LIME.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_Voisins)
+        self.txt_LIME_Voisins = QtWidgets.QSpinBox(self.tab_LIME)
+        self.txt_LIME_Voisins.setRange(0, 10000)
+        self.txt_LIME_Voisins.setMinimum(500)
+        self.txt_LIME_Voisins.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.formLayout_LIME.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.txt_LIME_Voisins)
 
         self.lbl_LIME_NbAttributes = QtWidgets.QLabel(self.tab_LIME)
         self.lbl_LIME_NbAttributes.setText("Nombre max d\'attributs (0 = tous)")
@@ -442,9 +445,25 @@ class App(QWidget):
 
     # Action of the button 'Executer' of the LIME tab
     def execLIME(self): # Show explanation
-        App.explanation = "..."
+        #App.explanation = "..."
+        cltype = App.fileNameCl[len(App.fileNameCl)-8:]
+        print(cltype)
+        if cltype == "_1NN.sav":
+            cl = LearningClassifier.loadClassifieur1NN(App.fileNameCl)
+        else:
+            cl = LearningClassifier.loadClassifieurLS(App.fileNameCl)
+
+        index = self.txt_LIME_Index.value();
+        myTs = App.X_train[index].ravel();
+        num_cuts =  self.txt_LIME_Segm.value();
+        num_features = self.txt_LIME_NbAttributes.value();
+        num_samples = self.txt_LIME_Voisins.value();
+        myTSexp = lime_timeseries.TSExplainer()
+        print("cc")
+        exp = myTSexp.explain_instance(myTs,cl,App.X_train, num_cuts, num_features, num_samples)
+
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        #self.UIexplanation.showUI(App.explanation)# + result (classifier.predict(myTS))
+        self.UIexplanation.showUI(exp, "label", myTs, num_cuts )# + result (classifier.predict(myTS))
     
 
     # Binding between the size of the tab widget and the size of the window

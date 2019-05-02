@@ -102,24 +102,20 @@ QSpinBox::up-arrow {
     image: url(icons/arrow_drop_up.png);
     background: #53A9C1;
     height: 9px;
-    border-radius: 5px;
 }
 
 QSpinBox::down-arrow {
     image: url(icons/arrow_drop_down.png);
     background: #53A9C1;
     height: 9px;
-    border-radius: 5px;
 }
 
 QSpinBox::up-button {
     background: #53A9C1;
-    border-radius: 5px;
 }
 
 QSpinBox::down-button {
     background: #53A9C1;
-    border-radius: 5px;
 }
 
 QSpinBox::up-arrow:hover {
@@ -141,6 +137,14 @@ QSpinBox::up-arrow:disabled {
 }
 
 QSpinBox::down-arrow:disabled {
+    background: #9B9B9B;
+}
+
+QSpinBox::up-button:disabled {
+    background: #9B9B9B;
+}
+
+QSpinBox::down-button:disabled {
     background: #9B9B9B;
 }
 

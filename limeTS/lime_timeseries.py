@@ -11,6 +11,7 @@ import sklearn
 import pandas as pd
 from sklearn.utils import check_random_state
 import math
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import copy
 
 
@@ -64,7 +65,7 @@ class TSDomainMapper(explanation.DomainMapper):
         plt.savefig('temp.png')
         return 0
 
-    def plot(self, exp, ts, num_feature, num_cut):
+    def as_pyplot(self, exp, ts, num_cut):
         """series = pd.Series(ts)
         values_per_slice = math.ceil(len(series) / 24)
         plt.plot(series, color='b', label='Explained instance')
@@ -84,6 +85,7 @@ class TSDomainMapper(explanation.DomainMapper):
         #weights = [("ss1",-0.88), ("ss2",-0.5), ("ss3",-0.1), ("ss4",0.0), ("ss5",0.1), ("ss6",0.3), ("ss7",0.5), ("ss8",0.8)]
 
         fig = plt.figure()
+        canvas = FigureCanvas(fig)
         ax = fig.add_subplot(111)
 
 
@@ -121,12 +123,12 @@ class TSDomainMapper(explanation.DomainMapper):
             y1 = np.ma.masked_where((x<start), ts)
             curve = np.ma.masked_where((x>(start + segment_length)), y1)
             ax.plot(curve, linestyle='-', color=colors[weight])
-            plt.axvline(x=start, linewidth=1, color="grey")
+            plt.axvline(x=start, linewidth=1, color="#D3D3D3")
             #print(str(k)+" "+str(segment_length))
             # Changer le x sur les abscisses (pour compter le nb de segments) ?
         #plt.axvline(x=(start+segment_length), linewidth=1, color="grey")
-        plt.show()
-        #return fig
+        #plt.show()
+        return canvas
 
 
 class IndexedTS(object):
