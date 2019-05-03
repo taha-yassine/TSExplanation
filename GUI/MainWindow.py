@@ -460,12 +460,10 @@ class App(QWidget):
         num_features = self.txt_LIME_NbAttributes.value();
         num_samples = self.txt_LIME_Voisins.value();
         myTSexp = lime_timeseries.TSExplainer()
-        print("cc")
         exp = myTSexp.explain_instance(myTs,cl,App.X_test, num_cuts, num_features, num_samples)
         print(exp.local_pred)
-        #print(cl.predict(App.X_test[index]))
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(exp, cl.predict("label", myTs, num_cuts))# + result (classifier.predict(myTS))
+        self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))), myTs, num_cuts)# + result (classifier.predict(myTS))
     
 
     # Binding between the size of the tab widget and the size of the window
