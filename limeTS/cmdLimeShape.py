@@ -1,19 +1,11 @@
 import argparse
-
 import sys
 
 sys.path.insert(0, "../Classifier")
-import importTS
-import LearningClassifier
-import lime_timeseries
-import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier as KNN
-import matplotlib.pyplot as plt
-import math
 
 parser = argparse.ArgumentParser()
-parser.add_argument("input_file", type=argparse.FileType('r'), help="")
-parser.add_argument("classifier", help="")
+parser.add_argument("input_file", type=str, help="")
+parser.add_argument("classifier", type=str, help="")
 
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné
@@ -26,26 +18,74 @@ parser.add_argument("-s", "--samples", type=int,  default=1000,
 
 args = parser.parse_args()
 
+import importTS
+import LearningClassifier
+import lime_timeseries
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier as KNN
+import matplotlib.pyplot as plt
+import math
+import re
+
 print(args)
 
-"""Importation de la ST Trace
-X_train et Y_train servent à l'entrainement du classifieur. Les ST non étiqueté sont dans X_test."""
-X_train, Y_train, X_test, Y_test = importTS.dataImport("Trace")
+"""X_train et Y_train servent à l'entrainement du classifieur. Les ST non étiqueté sont dans X_test."""
+X_train, Y_train, X_test, Y_test = importTS.dataImport(args.input_file)
 
-for i in range(30):
+"""for i in range(30):
     s = "b"
-    if (Y_train[i] == 4):
-        s = "r"
-    if (Y_train[i] == 1):
-        s = "g"
-    if (Y_train[i] == 2):
-        s = "c"
-    if (Y_train[i] == 3):
-        s = "y"
-    # plt.plot(X_train[i].ravel(), s)
-# plt.show()
+    if(Y_train[i]==4):
+        s="r"
+    if(Y_train[i]==1):
+        s="g"
+    if(Y_train[i]==2):
+        s="c"
+    if(Y_train[i]==3):
+        s="y"
+    plt.plot(X_train[i].ravel(),s)
+plt.show()"""
 
-"""Construction classifieur 1NN-DTW. En vrai, on va le loader"""
+
+cltype = args.classifier[len(args.classifier)-8:]
+print(cltype)
+if cltype == "_1NN.sav":
+    cl = LearningClassifier.loadClassifieur1NN(args.classifier)
+else:
+    cl = LearningClassifier.loadClassifieurLS(args.classifier)
+
+
+"""num_cuts = 24
+num_features = 10
+num_samples = 1000"""
+myTs = X_test[0].ravel()
+myTSexp=lime_timeseries.TSExplainer()
+exp = myTSexp.explain_instance(myTs,cl,X_train, args.cuts, args.features, args.samples)
+print(exp.as_list())
+exp.domain_mapper.as_pyplot(exp, myTs, args.cuts)
+#c = FigureCanvas(fig)
+#c.draw()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+#Construction classifieur 1NN-DTW. En vrai, on va le loader
 cl = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
 
 cl1 = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
@@ -91,4 +131,5 @@ for i in range(10):
 
 plt.show()
 
-"""test inverseremoving3"""
+#test inverseremoving3
+"""
