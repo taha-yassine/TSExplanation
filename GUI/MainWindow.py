@@ -332,31 +332,32 @@ class App(QWidget):
     # Action of the button 'Sauvegarder' of the Classifier tab
     def saveClassifier(self):
         fileName, _  = QFileDialog.getSaveFileName(self,"Sauvegarder un fichier","../Classifier/SaveClassifierFiles","Saved classifiers (*.sav)")
-        QApplication.setOverrideCursor(Qt.WaitCursor)
-        if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
-            X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
-            if self.cb_Classifier.currentText() == "Learning Shapelet":
-                classifier = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifierLS(classifier, fileName)
-            elif self.cb_Classifier.currentText() == "1NN-DTW":
-                classifier = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifier1NN(classifier,fileName)
+        if fileName:
+            QApplication.setOverrideCursor(Qt.WaitCursor)
+            if self.cb_Classifier_SelectTS.currentText() == "Charger mon fichier ...":
+                X_train, Y_train = importTS.fileImportTS(App.fileNameTS)
+                if self.cb_Classifier.currentText() == "Learning Shapelet":
+                    classifier = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                    LearningClassifier.saveClassifierLS(classifier, fileName)
+                elif self.cb_Classifier.currentText() == "1NN-DTW":
+                    classifier = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                    LearningClassifier.saveClassifier1NN(classifier,fileName)
+                else:
+                    classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
+                    LearningClassifier.saveClassifier1NN(classifier,fileName)
             else:
-                classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
-                LearningClassifier.saveClassifier1NN(classifier,fileName)
-        else:
-            X_train, Y_train, _, _= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
-            if self.cb_Classifier.currentText() == "Learning Shapelet":
-                classifier = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifierLS(classifier, fileName)
-            elif self.cb_Classifier.currentText() == "1NN-DTW":
-                classifier = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
-                LearningClassifier.saveClassifier1NN(classifier, fileName)
-            else:
-                classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
-                LearningClassifier.saveClassifier1NN(classifier,fileName)
-        QApplication.restoreOverrideCursor()
-        QMessageBox.information(self, 'Classifieur sauvegardé !', "Le classifieur a été sauvegardé !", QMessageBox.Ok)
+                X_train, Y_train, _, _= importTS.dataImport(self.cb_Classifier_SelectTS.currentText())
+                if self.cb_Classifier.currentText() == "Learning Shapelet":
+                    classifier = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
+                    LearningClassifier.saveClassifierLS(classifier, fileName)
+                elif self.cb_Classifier.currentText() == "1NN-DTW":
+                    classifier = LearningClassifier.NN1_DTWClassifier(X_train, Y_train)
+                    LearningClassifier.saveClassifier1NN(classifier, fileName)
+                else:
+                    classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
+                    LearningClassifier.saveClassifier1NN(classifier,fileName)
+            QApplication.restoreOverrideCursor()
+            QMessageBox.information(self, 'Classifieur sauvegardé !', "Le classifieur a été sauvegardé !", QMessageBox.Ok)
 
 
     # Action of the button 'Afficher' of the TS tab
