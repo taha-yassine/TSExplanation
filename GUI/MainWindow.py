@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QVBoxLayout, QSi
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-#from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
@@ -294,7 +293,7 @@ class App(QWidget):
         self.formLayout_LIME.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.lbl_LIME_RempSS)        
         self.cb_LIME_RempSS = QtWidgets.QComboBox(self.tab_LIME)
         self.cb_LIME_RempSS.addItem("")
-        self.cb_LIME_RempSS.setItemText(0, "Segments nuls") # Voir les autres possibilités
+        self.cb_LIME_RempSS.setItemText(0, "Segments nuls")
         self.formLayout_LIME.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.cb_LIME_RempSS)
 
         self.lbl_LIME_Distance = QtWidgets.QLabel(self.tab_LIME)
@@ -365,7 +364,6 @@ class App(QWidget):
         l = App.X_train[self.txt_TS_Index.value() - 1].ravel().tolist()
         self.figure_TS.clear()
         ax = self.figure_TS.add_subplot(111)
-        #ax.plot(l, linestyle='-', marker='.', markerfacecolor='#E20047', markeredgecolor='#E20047', markersize=2)
         ax.plot(l, linestyle='-')
         self.canvas_TS.draw_idle()
 
@@ -445,25 +443,23 @@ class App(QWidget):
 
 
     # Action of the button 'Executer' of the LIME tab
-    def execLIME(self): # Show explanation
-        #App.explanation = "..."
+    def execLIME(self):
         cltype = App.fileNameCl[len(App.fileNameCl)-8:]
         print(cltype)
         if cltype == "_1NN.sav":
             cl = LearningClassifier.loadClassifieur1NN(App.fileNameCl)
         else:
             cl = LearningClassifier.loadClassifieurLS(App.fileNameCl)
-
-        index = self.txt_LIME_Index.value();
-        myTs = App.X_test[index].ravel();
-        num_cuts =  self.txt_LIME_Segm.value();
-        num_features = self.txt_LIME_NbAttributes.value();
-        num_samples = self.txt_LIME_Voisins.value();
+        index = self.txt_LIME_Index.value()
+        myTs = App.X_test[index].ravel()
+        num_cuts =  self.txt_LIME_Segm.value()
+        num_features = self.txt_LIME_NbAttributes.value()
+        num_samples = self.txt_LIME_Voisins.value()
         myTSexp = lime_timeseries.TSExplainer()
         exp = myTSexp.explain_instance(myTs,cl,App.X_test, num_cuts, num_features, num_samples)
         print(exp.local_pred)
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[0]), myTs, num_cuts)# + result (classifier.predict(myTS))
+        self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[0]), myTs, num_cuts)
     
 
     # Binding between the size of the tab widget and the size of the window

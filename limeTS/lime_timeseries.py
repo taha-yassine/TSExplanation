@@ -77,6 +77,7 @@ class TSDomainMapper(explanation.DomainMapper):
         os.makedirs(file_path, exist_ok=True)
         shutil.copy2("../GUI/icons/TSExplanation.ico", file_path + "/TSExplanation.ico")
         shutil.copy2("../GUI/icons/TSExplanation_long.png", file_path + "/TSExplanation_long.png")
+        shutil.copy2("../GUI/icons/Legende.png", file_path + "/Legende.png")
         _, figure = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
         size = figure.get_size_inches()
         figure.set_size_inches(10.5, 3.0)
@@ -93,12 +94,15 @@ class TSDomainMapper(explanation.DomainMapper):
                 <title>''' + name + '''</title>
                 <link rel="icon" type="image/x-icon" href="TSExplanation.ico">
             </head>
-            <body style="text-align: center;">
+            <body style="text-align: center; font-family: sans-serif;">
                 <br>
                 <img src="TSExplanation_long.png" alt="TSExplanation" width="600" /><br><br>
-                <p style="font-family: sans-serif;">''' + res +'''</p>
-                <img src="''' + name + '''.png" alt="Explication" /><br><br>
-                <p style="font-family: sans-serif;">''' + weights +'''</p><br>
+                ''' + res +'''<br><br><br>
+                <div style="vertical-align: middle; margin-bottom: 0;">
+                    Poids : &nbsp;&nbsp;<img style="vertical-align: -200%" src="Legende.png" alt="Legende" />
+                </div>
+                <img src="''' + name + '''.png" alt="Explication" /><br><br><br>
+                ''' + weights +'''<br><br>
             </body>
         </html>
         ''')

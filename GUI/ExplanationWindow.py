@@ -2,6 +2,7 @@ import sys
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout, QWidget, QFileDialog, QScrollArea
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
@@ -15,10 +16,18 @@ class UI_Explanation(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Explanation')
-        self.setGeometry(400, 200, 500, 400) 
+        self.setGeometry(375, 200, 550, 450) 
         self.setStyleSheet(open("style.qss", "r").read())
         self.setWindowIcon(QtGui.QIcon("icons/TSExplanation.ico"))
         self.lbl_class = QtWidgets.QLabel("")
+        self.lbl_class.setAlignment(Qt.AlignCenter)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.lbl_legende = QtWidgets.QLabel("Poids :   ")
+        self.img_legende = QtWidgets.QLabel()
+        self.img_legende.setPixmap(QPixmap("icons/Legende_GUI.png"))
+        self.horizontalLayout.addWidget(self.lbl_legende)
+        self.horizontalLayout.addWidget(self.img_legende)
+        self.horizontalLayout.setAlignment(Qt.AlignCenter)
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.lbl_weights = QtWidgets.QLabel("")
@@ -43,6 +52,7 @@ class UI_Explanation(QWidget):
     def plot(self):
         layout = QVBoxLayout()
         layout.addWidget(self.lbl_class)
+        layout.addLayout(self.horizontalLayout)
         layout.addWidget(self.canvas)
         layout.addWidget(self.scroll)
         layout.addWidget(self.btn_save)
@@ -60,7 +70,7 @@ class UI_Explanation(QWidget):
         UI_Explanation.ts = myTs
         UI_Explanation.num_cuts = num_cuts
         self.canvas, _ = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
-        self.lbl_class.setText("Résultat : " + result_class)
+        self.lbl_class.setText("Résultat : " + result_class + "\n\n")
         self.plot()
         self.show()
 
