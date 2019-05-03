@@ -4,10 +4,10 @@ import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("input_file", type=str, help="TS used to learn the classifier")
-parser.add_argument("classifier_type", type=str, choices=['1NN','1NN-DTW','LS'], help="type of the classifier")
-parser.add_argument("output_name", type=str, help="name of the output file, it will be followed by the classifier type.")
+parser.add_argument("classifier_type", type=str, choices=['1NN','1NN-DTW','LS'], help="classifier's type")
+parser.add_argument("output_name", type=str, help="name of the output file, it will be followed by the <classifier_type>.")
 
-parser.add_argument("-p", "--perso", help="indicate that the TS file is on the computer",
+parser.add_argument("-p", "--perso", help="indicate that the TS file <input_file> is on the computer",
                     action="store_false")
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné

@@ -110,6 +110,7 @@ class TSDomainMapper(explanation.DomainMapper):
 
     def as_pyplot(self, exp, ts, num_cut):
         fig = plt.figure()
+        fig.canvas.set_window_title("Explanation")
         canvas = FigureCanvas(fig)
         ax = fig.add_subplot(111)
         series = pd.Series(ts)

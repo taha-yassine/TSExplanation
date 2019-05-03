@@ -59,20 +59,20 @@ if cltype == "_1NN.sav":
 else:
     cl = LearningClassifier.loadClassifieurLS(args.classifier)
 
-
 myTs = X_test[args.index].ravel()
 myTSexp=lime_timeseries.TSExplainer()
 exp = myTSexp.explain_instance(myTs,cl,X_train, args.cuts, args.features, args.samples)
 
+
 _, fig = exp.domain_mapper.as_pyplot(exp, myTs, args.cuts)
+plt.suptitle(args.save)
 
 fig.canvas.draw_idle()
+plt.show()
 
-result_class = str(cl.predict(myTs.reshape(1, -1)))
-
+result_class = str(cl.predict(myTs.reshape(1, -1))[0])
 if(args.save):
     exp.domain_mapper.save_to_file('./SavedExplanations/'+args.save, exp, myTs, args.cuts, result_class)
-
 
 
 
@@ -121,8 +121,6 @@ print(exp.as_list())
 #values_per_slice = math.ceil(len(series) / args.cuts)
 values_per_slice = math.ceil(len(series) / 24)
 
-fig, _ = plt.subplots()
-fig.canvas.set_window_title('Explanation')
 
 plt.plot(series, color='b', label='Explained instance')
 
