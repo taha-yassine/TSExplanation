@@ -463,7 +463,7 @@ class App(QWidget):
         exp = myTSexp.explain_instance(myTs,cl,App.X_test, num_cuts, num_features, num_samples)
         print(exp.local_pred)
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))), myTs, num_cuts)# + result (classifier.predict(myTS))
+        self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[0]), myTs, num_cuts)# + result (classifier.predict(myTS))
     
 
     # Binding between the size of the tab widget and the size of the window
