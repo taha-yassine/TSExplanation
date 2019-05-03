@@ -21,6 +21,7 @@ class App(QWidget):
     fileNameSh = ''
     X_train = None 
     X_trainSh = None
+    X_test = None
     fileNameCl = ''
     explanation = ''
 
@@ -454,16 +455,17 @@ class App(QWidget):
             cl = LearningClassifier.loadClassifieurLS(App.fileNameCl)
 
         index = self.txt_LIME_Index.value();
-        myTs = App.X_train[index].ravel();
+        myTs = App.X_test[index].ravel();
         num_cuts =  self.txt_LIME_Segm.value();
         num_features = self.txt_LIME_NbAttributes.value();
         num_samples = self.txt_LIME_Voisins.value();
         myTSexp = lime_timeseries.TSExplainer()
         print("cc")
-        exp = myTSexp.explain_instance(myTs,cl,App.X_train, num_cuts, num_features, num_samples)
-
+        exp = myTSexp.explain_instance(myTs,cl,App.X_test, num_cuts, num_features, num_samples)
+        print(exp.local_pred)
+        #print(cl.predict(App.X_test[index]))
         self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(exp, "label", myTs, num_cuts )# + result (classifier.predict(myTS))
+        self.UIexplanation.showUI(exp, cl.predict("label", myTs, num_cuts))# + result (classifier.predict(myTS))
     
 
     # Binding between the size of the tab widget and the size of the window
@@ -490,6 +492,23 @@ class App(QWidget):
             QApplication.restoreOverrideCursor()
             index.setEnabled(True)
 
+    def setIndexLime(self, cb, index):
+        if(cb.currentText() == "Charger mon fichier ..."):
+            fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+            if fileName:
+                QApplication.setOverrideCursor(Qt.WaitCursor)
+                App.fileNameTS = fileName
+                App.X_test,_ = importTS.fileImportTS(App.fileNameTS)
+                index.setMaximum(len(App.X_test))
+                QApplication.restoreOverrideCursor()
+                index.setEnabled(True)
+        else:
+            QApplication.setOverrideCursor(Qt.WaitCursor)
+            _, _, App.X_test, _= importTS.dataImport(cb.currentText())
+            index.setMaximum(len(App.X_test))
+            QApplication.restoreOverrideCursor()
+            index.setEnabled(True)
+
 
     # Action when there is a change in the TS file
     def selectionTSChange(self, tab):
@@ -510,7 +529,7 @@ class App(QWidget):
             if self.shapeletSelected == True :
                 self.btn_Shapelet_Show.setEnabled(True)
         if (tab == "LIME"):
-            self.setIndex(self.cb_LIME_SelectTS, self.txt_LIME_Index)
+            self.setIndexLime(self.cb_LIME_SelectTS, self.txt_LIME_Index)
             self.trainSelected = True
             if self.classifierSelected == True :
                 self.btn_LIME_Exec.setEnabled(True)

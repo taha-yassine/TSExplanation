@@ -90,7 +90,7 @@ class TSDomainMapper(explanation.DomainMapper):
         <html>
             <head>
                 <meta charset="utf-8">
-                <title>TSExplanation</title>
+                <title>''' + name + '''</title>
                 <link rel="icon" type="image/x-icon" href="TSExplanation.ico">
             </head>
             <body style="text-align: center;">
@@ -111,9 +111,9 @@ class TSDomainMapper(explanation.DomainMapper):
         series = pd.Series(ts)
         segment_length = math.ceil(len(series) / num_cut)
         #colors = {-3:"black", 0:"#ff0000", 0.1:"#ff2801", 0.2:"#ff5101", 0.3:"#ff7900", 0.4:"#ffa100", 0.5:"#ffc900", 0.6:"#d2bd06", 0.7:"#a4b10b", 0.8:"#76a310", 0.9:"#489816", 1:"#1b8b1b"}
-        colors = {-3:"black",0: "#ffc900", 0.1: "#e8c403",
-                  0.2: "#d2bd06", 0.3: "#bab709", 0.4: "#a4b10b", 0.5: "#8daa0e", 0.6: "#76a310", 0.7: "#5f9d13",
-                  0.8: "#489816", 0.9: "#489816", 1: "#1b8b1b"}
+        colors = {-3: "#e3e3e2", 0: "#cfdcce", 0.1: "#bdd6bd", 0.2: "#98c998", 0.3: "#72bc72", 0.4: "#61b761",
+                  0.5: "#51b151", 0.6: "#41ac41", 0.7: "#31a731", 0.8: "#21a121", 0.9: "#109b11", 1: "#019600"}
+
         feature = []
         oldweights = []
         for y in range(0, len(exp.as_list())):
