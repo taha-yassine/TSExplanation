@@ -2,6 +2,7 @@ import argparse
 import sys
 
 sys.path.insert(0, "../Classifier")
+sys.path.insert(0, "../GUI")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("input_file", type=str, help="")
@@ -9,12 +10,14 @@ parser.add_argument("classifier", type=str, help="")
 
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné
-parser.add_argument("-i", "--indice", type=int,  default=0, help="indice of the ts explained (default : %(default)s)")
+parser.add_argument("-i", "--index", type=int,  default=0, help="index of the ts explained (default : %(default)s)")
 parser.add_argument("-f", "--features", type=int,  default=10,
                     help="max of features present in explanation (default : %(default)s)")
 parser.add_argument("-c", "--cuts", type=int, default=24, help="(default : %(default)s)")
 parser.add_argument("-s", "--samples", type=int,  default=1000,
                     help="size of the neighborhood to learn the linear model (default : %(default)s)")
+parser.add_argument("-S", "--save", type=str, nargs='?', const="explanation",
+                    help="save the explanation (default : %(default)s)")
 
 args = parser.parse_args()
 
@@ -26,6 +29,9 @@ from sklearn.neighbors import KNeighborsClassifier as KNN
 import matplotlib.pyplot as plt
 import math
 import re
+import ExplanationWindow
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
 
 print(args)
 
@@ -54,18 +60,18 @@ else:
     cl = LearningClassifier.loadClassifieurLS(args.classifier)
 
 
-"""num_cuts = 24
-num_features = 10
-num_samples = 1000"""
-myTs = X_test[0].ravel()
+myTs = X_test[args.index].ravel()
 myTSexp=lime_timeseries.TSExplainer()
 exp = myTSexp.explain_instance(myTs,cl,X_train, args.cuts, args.features, args.samples)
-print(exp.as_list())
-exp.domain_mapper.as_pyplot(exp, myTs, args.cuts)
-#c = FigureCanvas(fig)
-#c.draw()
 
+_, fig = exp.domain_mapper.as_pyplot(exp, myTs, args.cuts)
 
+fig.canvas.draw_idle()
+
+result_class = str(cl.predict(myTs.reshape(1, -1)))
+
+if(args.save):
+    exp.domain_mapper.save_to_file('./SavedExplanations/'+args.save, exp, myTs, args.cuts, result_class)
 
 
 
