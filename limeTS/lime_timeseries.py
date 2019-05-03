@@ -13,6 +13,8 @@ from sklearn.utils import check_random_state
 import math
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import copy
+import shutil
+import os
 
 
 
@@ -58,45 +60,60 @@ class TSDomainMapper(explanation.DomainMapper):
         """
         return exp
 
+    """
     def visualize_instance_html(self):
-        """Adds textimeseries with highlighted sub_timeseries to visualization."""
+        #Adds textimeseries with highlighted sub_timeseries to visualization.
         plt.plot(self.raw)
         #plt.show()
         plt.savefig('temp.png')
         return 0
+    """
+
+    def save_to_file(self, file_path, exp, myTs, num_cuts, result_class):
+        res = "Resultat : " + result_class
+        sorted_weights = sorted(exp.as_list(), key=lambda tup: tup[1], reverse=True)
+        weights = " Poids : " + (str(sorted_weights))[1:(len(str(sorted_weights))-1)]
+        name = os.path.basename(file_path)
+        os.makedirs(file_path, exist_ok=True)
+        shutil.copy2("../GUI/icons/TSExplanation.ico", file_path + "/TSExplanation.ico")
+        shutil.copy2("../GUI/icons/TSExplanation_long.png", file_path + "/TSExplanation_long.png")
+        _, figure = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
+        size = figure.get_size_inches()
+        figure.set_size_inches(10.5, 3.0)
+        figure.savefig(file_path + "/" + name + ".png")
+        figure.set_size_inches(size)
+        canvas = FigureCanvas(figure)
+        canvas.draw()
+        fichier = open(file_path + "/" + name + ".html", "a")
+        fichier.write('''
+        <!doctype html>
+        <html>
+            <head>
+                <meta charset="utf-8">
+                <title>TSExplanation</title>
+                <link rel="icon" type="image/x-icon" href="TSExplanation.ico">
+            </head>
+            <body style="text-align: center;">
+                <br>
+                <img src="TSExplanation_long.png" alt="TSExplanation" width="600" /><br><br>
+                <p style="font-family: sans-serif;">''' + res +'''</p>
+                <img src="''' + name + '''.png" alt="Explication" /><br><br>
+                <p style="font-family: sans-serif;">''' + weights +'''</p><br>
+            </body>
+        </html>
+        ''')
+        fichier.close()
 
     def as_pyplot(self, exp, ts, num_cut):
-        """series = pd.Series(ts)
-        values_per_slice = math.ceil(len(series) / 24)
-        plt.plot(series, color='b', label='Explained instance')
-
-        plt.legend(loc='lower left')
-        for i in range(num_feature):
-            feature, weight = exp.as_list()[i]
-            start = feature * values_per_slice
-            end = start + values_per_slice
-            if weight < 0:
-                color = 'red'
-            else:
-                color = 'green'
-            plt.axvspan(start, end, color=color, alpha=abs(weight * 100))
-        plt.show()"""
-        #ts = [-0.34086,-0.38038,-0.3458,-0.36556,-0.3458,-0.36556,-0.3952,-0.38038,-0.38532,-0.3952,-0.38038,-0.35568,-0.34086,-0.32604,-0.2964,-0.2964,-0.33098,-0.30134,-0.30134,-0.3211,-0.28652, -0.34086,-0.32604,-0.2964, -0.32604, -0.32604]
-        #weights = [("ss1",-0.88), ("ss2",-0.5), ("ss3",-0.1), ("ss4",0.0), ("ss5",0.1), ("ss6",0.3), ("ss7",0.5), ("ss8",0.8)]
-
         fig = plt.figure()
         canvas = FigureCanvas(fig)
         ax = fig.add_subplot(111)
-
-
         series = pd.Series(ts)
         segment_length = math.ceil(len(series) / num_cut)
         #colors = {-3:"black", 0:"#ff0000", 0.1:"#ff2801", 0.2:"#ff5101", 0.3:"#ff7900", 0.4:"#ffa100", 0.5:"#ffc900", 0.6:"#d2bd06", 0.7:"#a4b10b", 0.8:"#76a310", 0.9:"#489816", 1:"#1b8b1b"}
         colors = {-3:"black",0: "#ffc900", 0.1: "#e8c403",
                   0.2: "#d2bd06", 0.3: "#bab709", 0.4: "#a4b10b", 0.5: "#8daa0e", 0.6: "#76a310", 0.7: "#5f9d13",
                   0.8: "#489816", 0.9: "#489816", 1: "#1b8b1b"}
-
-
         feature = []
         oldweights = []
         for y in range(0, len(exp.as_list())):
@@ -105,12 +122,10 @@ class TSDomainMapper(explanation.DomainMapper):
             oldweights.append(abs(w))
         print(feature)
         print(oldweights)
-
-        """Normalize"""
+        """Normalize : """
         weights = []
         for z in range(0, len(oldweights)):
             weights.append((oldweights[z]-min(oldweights))/(max(oldweights)-min(oldweights)))
-
         print(weights)
         for i in range(0, num_cut):
             weight = -3
@@ -124,11 +139,7 @@ class TSDomainMapper(explanation.DomainMapper):
             curve = np.ma.masked_where((x>(start + segment_length)), y1)
             ax.plot(curve, linestyle='-', color=colors[weight])
             plt.axvline(x=start, linewidth=1, color="#D3D3D3")
-            #print(str(k)+" "+str(segment_length))
-            # Changer le x sur les abscisses (pour compter le nb de segments) ?
-        #plt.axvline(x=(start+segment_length), linewidth=1, color="grey")
-        #plt.show()
-        return canvas
+        return canvas, fig
 
 
 class IndexedTS(object):

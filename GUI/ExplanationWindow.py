@@ -7,7 +7,10 @@ import matplotlib.pyplot as plt
 
 class UI_Explanation(QWidget):
 
-    weights = None
+    result_class = ""
+    explanation = None
+    ts = None
+    num_cuts = None
 
     def __init__(self):
         super().__init__()
@@ -15,12 +18,9 @@ class UI_Explanation(QWidget):
         self.setGeometry(400, 200, 500, 400) 
         self.setStyleSheet(open("style.qss", "r").read())
         self.setWindowIcon(QtGui.QIcon("icons/TSExplanation.ico"))
-
-        #self.lbl_class = QtWidgets.QLabel("Résultat : classe1")
         self.lbl_class = QtWidgets.QLabel("")
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
-        #self.lbl_weights = QtWidgets.QLabel("Poids : (ss8, 0.5), (ss1, 0.5), (ss3, 0.3), (ss6, 0.2), (ss2, 0.05)... ")
         self.lbl_weights = QtWidgets.QLabel("")
         self.scroll = QtWidgets.QScrollArea()
         self.scroll.setWidget(self.lbl_weights)
@@ -34,20 +34,20 @@ class UI_Explanation(QWidget):
 
     # Action of the button 'Sauvegarder'
     def saveExplanation(self):
-        fileName, _  = QFileDialog.getSaveFileName(self, "Sauvegarder un fichier","../","HTML (*.html)") # Créer dossier savedExplanations ??
-        #if fileName:
-        #    UI_Explanation.explanation.save_to_file(fileName)
+        fileName, _  = QFileDialog.getSaveFileName(self, "Sauvegarder un fichier","../limeTS/SavedExplanations", "All Files (*)") # Créer dossier savedExplanations ??
+        if fileName:
+            UI_Explanation.explanation.domain_mapper.save_to_file(fileName, UI_Explanation.explanation, UI_Explanation.ts, UI_Explanation.num_cuts, UI_Explanation.result_class)
 
 
     # Show the plot
-    def plot(self, exp):
+    def plot(self):
         layout = QVBoxLayout()
         layout.addWidget(self.lbl_class)
         layout.addWidget(self.canvas)
         layout.addWidget(self.scroll)
         layout.addWidget(self.btn_save)
         self.setLayout(layout)
-        weights = UI_Explanation.weights = exp.as_list()
+        weights = UI_Explanation.explanation.as_list()
         sorted_weights = sorted(weights, key=lambda tup: tup[1], reverse=True) # Sort from the biggest weight to the lowest
         self.lbl_weights.setText("Poids : " + (str(sorted_weights))[1:(len(str(sorted_weights))-1)]) # Print the weights
         self.canvas.draw_idle()
@@ -55,11 +55,13 @@ class UI_Explanation(QWidget):
 
     # Show the window
     def showUI(self, exp, result_class, myTs, num_cuts):
-        #UI_Explanation.explanation = explanation
-        #result_class = "classe1"
-        self.canvas = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
+        UI_Explanation.explanation = exp
+        UI_Explanation.result_class = result_class
+        UI_Explanation.ts = myTs
+        UI_Explanation.num_cuts = num_cuts
+        self.canvas, _ = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
         self.lbl_class.setText("Résultat : " + result_class)
-        self.plot(exp)
+        self.plot()
         self.show()
 
 """
