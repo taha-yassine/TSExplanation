@@ -21,6 +21,8 @@ class UI_Explanation(QWidget):
         self.setWindowIcon(QtGui.QIcon("icons/TSExplanation.ico"))
         self.lbl_class = QtWidgets.QLabel("")
         self.lbl_class.setAlignment(Qt.AlignCenter)
+        self.lbl_score = QtWidgets.QLabel("")
+        self.lbl_score.setAlignment(Qt.AlignCenter)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.lbl_legende = QtWidgets.QLabel("Poids :   ")
         self.img_legende = QtWidgets.QLabel()
@@ -52,6 +54,7 @@ class UI_Explanation(QWidget):
     def plot(self):
         layout = QVBoxLayout()
         layout.addWidget(self.lbl_class)
+        layout.addWidget(self.lbl_score)
         layout.addLayout(self.horizontalLayout)
         layout.addWidget(self.canvas)
         layout.addWidget(self.scroll)
@@ -64,13 +67,14 @@ class UI_Explanation(QWidget):
 
 
     # Show the window
-    def showUI(self, exp, result_class, myTs, num_cuts):
+    def showUI(self, exp, result_class, myTs, num_cuts, score):
         UI_Explanation.explanation = exp
         UI_Explanation.result_class = result_class
         UI_Explanation.ts = myTs
         UI_Explanation.num_cuts = num_cuts
         self.canvas, _ = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
-        self.lbl_class.setText("Résultat : " + result_class + "\n\n")
+        self.lbl_class.setText("Résultat : " + result_class)
+        self.lbl_score.setText("Taux de classification correcte : " + str(round(score*100,2))+"%"+"\n")
         self.plot()
         self.show()
 

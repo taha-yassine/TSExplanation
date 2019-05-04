@@ -8,11 +8,13 @@ from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 import matplotlib.pyplot as plt
-import csv
+from sklearn.metrics import accuracy_score
+import pandas as pd
 import ExplanationWindow
 import importTS
 import LearningClassifier
 import lime_timeseries
+
 
 class App(QWidget):
 
@@ -21,6 +23,7 @@ class App(QWidget):
     X_train = None 
     X_trainSh = None
     X_test = None
+    Y_test = None
     fileNameCl = ''
     explanation = ''
 
@@ -449,7 +452,6 @@ class App(QWidget):
         if cltype == "_1NN.sav":
             cl = LearningClassifier.loadClassifieur1NN(App.fileNameCl)
         else:
-            print("ccc")
             cl, labelsave = LearningClassifier.loadClassifieurLS(App.fileNameCl)
             #cl = LearningClassifier.learningShapeletClassifier(xt, yt)
 
@@ -464,14 +466,26 @@ class App(QWidget):
         if cltype == "_1NN.sav":
             exp = myTSexp.explain_instance(myTs, cl, App.X_test, num_cuts, num_features, num_samples, 0)
             self.UIexplanation = ExplanationWindow.UI_Explanation()
-            self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[index]), myTs, num_cuts)
+            score = App.getScore1NN(App, App.X_test, App.Y_test, cl)
+            self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[0]), myTs, num_cuts, score)
+
         else:
             exp = myTSexp.explain_instance(myTs, cl, App.X_test, num_cuts, num_features, num_samples, 1)
             self.UIexplanation = ExplanationWindow.UI_Explanation()
             newlabel = cl.predict(App.X_test)
-            self.UIexplanation.showUI(exp, str(labelsave.inverse_transform(newlabel)[index]), myTs, num_cuts)
+            score = accuracy_score(App.Y_test, labelsave.inverse_transform(newlabel))
+            self.UIexplanation.showUI(exp, str(labelsave.inverse_transform(newlabel)[index]), myTs, num_cuts, score )
 
-    
+
+    def getScore1NN(self, X_test, Y_test, clas):
+        x = np.zeros((X_test.shape[0], X_test.shape[1]))
+        for i in range(X_test.shape[0]):
+            for y in range(X_test.shape[1]):
+                x[i][y] = X_test[i][y].ravel()
+        dtt = pd.DataFrame(x)
+        predicted_labels = clas.predict(dtt)
+        return accuracy_score(Y_test, predicted_labels)
+
 
     # Binding between the size of the tab widget and the size of the window
     def resizeEvent(self, resizeEvent):
@@ -509,7 +523,7 @@ class App(QWidget):
                 index.setEnabled(True)
         else:
             QApplication.setOverrideCursor(Qt.WaitCursor)
-            _, _, App.X_test, _= importTS.dataImport(cb.currentText())
+            _, _, App.X_test, App.Y_test= importTS.dataImport(cb.currentText())
             index.setMaximum(len(App.X_test))
             QApplication.restoreOverrideCursor()
             index.setEnabled(True)
