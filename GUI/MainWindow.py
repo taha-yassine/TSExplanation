@@ -446,21 +446,31 @@ class App(QWidget):
     # Action of the button 'Executer' of the LIME tab
     def execLIME(self):
         cltype = App.fileNameCl[len(App.fileNameCl)-8:]
-        print(cltype)
         if cltype == "_1NN.sav":
             cl = LearningClassifier.loadClassifieur1NN(App.fileNameCl)
         else:
-            cl = LearningClassifier.loadClassifieurLS(App.fileNameCl)
-        index = self.txt_LIME_Index.value()
+            print("ccc")
+            cl, labelsave = LearningClassifier.loadClassifieurLS(App.fileNameCl)
+            #cl = LearningClassifier.learningShapeletClassifier(xt, yt)
+
+        index = self.txt_LIME_Index.value()-1
         myTs = App.X_test[index].ravel()
         num_cuts =  self.txt_LIME_Segm.value()
         num_features = self.txt_LIME_NbAttributes.value()
         num_samples = self.txt_LIME_Voisins.value()
         myTSexp = lime_timeseries.TSExplainer()
-        exp = myTSexp.explain_instance(myTs,cl,App.X_test, num_cuts, num_features, num_samples)
-        print(exp.local_pred)
-        self.UIexplanation = ExplanationWindow.UI_Explanation()
-        self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[0]), myTs, num_cuts)
+
+
+        if cltype == "_1NN.sav":
+            exp = myTSexp.explain_instance(myTs, cl, App.X_test, num_cuts, num_features, num_samples, 0)
+            self.UIexplanation = ExplanationWindow.UI_Explanation()
+            self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[index]), myTs, num_cuts)
+        else:
+            exp = myTSexp.explain_instance(myTs, cl, App.X_test, num_cuts, num_features, num_samples, 1)
+            self.UIexplanation = ExplanationWindow.UI_Explanation()
+            newlabel = cl.predict(App.X_test)
+            self.UIexplanation.showUI(exp, str(labelsave.inverse_transform(newlabel)[index]), myTs, num_cuts)
+
     
 
     # Binding between the size of the tab widget and the size of the window

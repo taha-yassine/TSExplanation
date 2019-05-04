@@ -47,6 +47,7 @@ def saveClassifierLS(classifier, name):
     classifier.save(name)
     pickle.dump(classifier.label_binarizer ,open(name[0:len(name)-4] + "label.sav",'wb'))
 
+
 def saveClassifier1NN(classifier, name):
     name = name[:len(name) - 4] + "_1NN.sav"
     print(name)

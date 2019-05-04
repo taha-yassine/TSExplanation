@@ -15,6 +15,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import copy
 import shutil
 import os
+from tslearn.utils import to_time_series_dataset
 
 
 
@@ -270,7 +271,7 @@ class TSExplainer(object):
         self.feature_selection = feature_selection
         self.bow = bow
 
-    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, training_set, distance_metric='cosine'):
+    def data_labels_distances(self, indexed_ts, classifier_fn, num_cuts, num_samples, training_set, type_cl, distance_metric='cosine'):
         """Generates a neighborhood around a prediction.
 
         Generates neighborhood data by randomly removing sub time series from
@@ -319,7 +320,12 @@ class TSExplainer(object):
                 #tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = np.mean(training_set.mean())
                 tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = 0
             inverse_data.append(tmp_timeseries)
-        labels = classifier_fn.predict_proba(inverse_data)
+        if type_cl == 1:
+            print("cc")
+            inverse_data = to_time_series_dataset(inverse_data)
+            labels = classifier_fn.predict(inverse_data)
+        else:
+            labels = classifier_fn.predict_proba(inverse_data)
         distances = distance_fn(sp.sparse.csr_matrix(data))
         return data, labels, distances
 
@@ -330,6 +336,7 @@ class TSExplainer(object):
                         num_cuts=24,
                         num_features=10,
                         num_samples=1000,
+                        type_cl=0,
                         labels=(1,),
                         top_labels=None,
                         distance_metric='cosine',
@@ -365,7 +372,7 @@ class TSExplainer(object):
 
         indexed_ts = IndexedTS(tsToExplain, bow=self.bow)
         domain_mapper = TSDomainMapper()
-        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples, training_set)
+        data, yss, distances = self.data_labels_distances(indexed_ts, classifier_fn, num_cuts, num_samples, training_set, type_cl)
         if self.class_names is None:
             self.class_names = [str(x) for x in range(yss[0].shape[0])]
         ret_exp = explanation.Explanation(domain_mapper=domain_mapper, class_names=self.class_names)
@@ -373,9 +380,7 @@ class TSExplainer(object):
         for label in labels:
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
-             ret_exp.score, ret_exp.local_pred) = self.base.explain_instance_with_data(data, yss, distances, label,
-                                                                                       num_features,
-                                                                                       feature_selection=self.feature_selection)
+             ret_exp.score, ret_exp.local_pred) = self.base.explain_instance_with_data(data, yss, distances, label,num_features,feature_selection=self.feature_selection)
         return ret_exp
 
 
