@@ -54,7 +54,7 @@ class UI_Explanation(QWidget):
     def plot(self):
         layout = QVBoxLayout()
         layout.addWidget(self.lbl_class)
-        layout.addWidget(self.lbl_score)
+        #layout.addWidget(self.lbl_score)
         layout.addLayout(self.horizontalLayout)
         layout.addWidget(self.canvas)
         layout.addWidget(self.scroll)
@@ -73,8 +73,8 @@ class UI_Explanation(QWidget):
         UI_Explanation.ts = myTs
         UI_Explanation.num_cuts = num_cuts
         self.canvas, _ = exp.domain_mapper.as_pyplot(exp, myTs, num_cuts)
-        self.lbl_class.setText("Résultat : " + result_class)
-        self.lbl_score.setText("Taux de classification correcte : " + str(round(score*100,2))+"%"+"\n")
+        self.lbl_class.setText("Résultat : " + result_class +"\n\n")
+        #self.lbl_score.setText("Taux de classification correcte : " + str(round(score*100,2))+"%"+"\n")
         self.plot()
         self.show()
 
