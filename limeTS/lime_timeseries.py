@@ -122,12 +122,11 @@ class TSDomainMapper(explanation.DomainMapper):
 
         feature = []
         oldweights = []
+        print(exp.as_list())
         for y in range(0, len(exp.as_list())):
             f, w = exp.as_list()[y]
             feature.append(f)
             oldweights.append(abs(w))
-        print(feature)
-        print(oldweights)
         """Normalize : """
         weights = []
         for z in range(0, len(oldweights)):
@@ -328,12 +327,21 @@ class TSExplainer(object):
                 #tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = np.mean(training_set.mean())
                 tmp_timeseries.loc[index:(index + nbvalues_by_cut)] = 0
             inverse_data.append(tmp_timeseries)
+
         if type_cl == 1:
-            print("cc")
             inverse_data = to_time_series_dataset(inverse_data)
             labels = classifier_fn.predict(inverse_data)
+            if labels[0].shape[0] == 1:
+                taille = len(labels)
+                newlabels = np.zeros((taille, 2))
+                for i in range(len(labels)):
+                    newlabels[i][1] = 1 - labels[i][0]
+                    newlabels[i][0] = labels[i][0]
+                labels = newlabels
+
         else:
             labels = classifier_fn.predict_proba(inverse_data)
+
         distances = distance_fn(sp.sparse.csr_matrix(data))
         return data, labels, distances
 

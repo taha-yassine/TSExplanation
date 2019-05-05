@@ -2,7 +2,6 @@ from tslearn.shapelets import ShapeletModel, grabocka_params_to_shapelet_size_di
 from tslearn.neighbors import KNeighborsTimeSeriesClassifier
 from keras.optimizers import Adagrad
 from sklearn.externals import joblib
-from tslearn.preprocessing import TimeSeriesScalerMinMax
 import pickle
 from tslearn import shapelets
 from sklearn.neighbors import KNeighborsClassifier
@@ -12,14 +11,12 @@ import pandas as pd
 
 def NN1_DTWClassifier(X_train,Y_train):
 
-    X_train = TimeSeriesScalerMinMax().fit_transform(X_train)
     knn1_clf = KNeighborsTimeSeriesClassifier(n_neighbors=1, metric="dtw")
     knn1_clf.fit(X_train, Y_train)
     return knn1_clf
 
 def learningShapeletClassifier(X_train,Y_train):
 
-    X_train = TimeSeriesScalerMinMax().fit_transform(X_train)
     shapelet_sizes = grabocka_params_to_shapelet_size_dict(n_ts=X_train.shape[0],ts_sz=X_train.shape[1],n_classes=len(set(Y_train)),l=0.1,r=2)
     shp_clf = ShapeletModel(n_shapelets_per_size=shapelet_sizes,
                         optimizer=Adagrad(lr=.1),

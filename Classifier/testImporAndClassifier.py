@@ -3,27 +3,28 @@ import LearningClassifier
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score
+from tslearn.preprocessing import TimeSeriesScalerMinMax
 
 "Fichier de test"
 
 
-X_train, Y_train, X_test, Y_test = importTS.dataImport("ArrowHead")
+X_train, Y_train, X_test, Y_test = importTS.dataImport("Beef")
 print("Résultat attendu : " + str(Y_test[1]))
-
 
 "Test LS"
 
 clLS = LearningClassifier.learningShapeletClassifier(X_train, Y_train)
-print("Résultat LS : " + str(clLS.predict(X_test[1].ravel().tolist())))
+print("Résultat LS : " + str(clLS.predict(X_test)))
 predicted_labels = clLS.predict(X_test)
 print("Correct classification rate :", accuracy_score(Y_test, predicted_labels))
 
 
-LearningClassifier.saveClassifierLS(clLS, "LS", X_train, Y_train)
+LearningClassifier.saveClassifierLS(clLS, "LS")
 
-loadclLS, labelsave,_,_ = LearningClassifier.loadClassifieurLS("_LS_.sav")
+loadclLS, labelsave = LearningClassifier.loadClassifieurLS("_LS_.sav")
 newlabel = loadclLS.predict(X_test)
-print("Résulat classifieur LS save : " + str(labelsave.inverse_transform(newlabel)[1]))
+print(newlabel)
+print("Résulat classifieur LS save : " + str(labelsave.inverse_transform(newlabel)))
 print("Correct classification rate :", accuracy_score(Y_test, labelsave.inverse_transform(newlabel)))
 
 

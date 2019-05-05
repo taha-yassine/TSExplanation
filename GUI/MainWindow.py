@@ -469,6 +469,8 @@ class App(QWidget):
             exp = myTSexp.explain_instance(myTs, cl, App.X_test, num_cuts, num_features, num_samples, 0)
             self.UIexplanation = ExplanationWindow.UI_Explanation()
             score = App.getScore1NN(App, App.X_test, App.Y_test, cl)
+            print(score)
+            print()
             self.UIexplanation.showUI(exp, str(cl.predict(myTs.reshape(1, -1))[0]), myTs, num_cuts, score)
 
         else:
@@ -476,6 +478,9 @@ class App(QWidget):
             self.UIexplanation = ExplanationWindow.UI_Explanation()
             newlabel = cl.predict(App.X_test)
             score = accuracy_score(App.Y_test, labelsave.inverse_transform(newlabel))
+            print(score)
+            print(newlabel)
+            print(labelsave.inverse_transform(newlabel))
             self.UIexplanation.showUI(exp, str(labelsave.inverse_transform(newlabel)[index]), myTs, num_cuts, score )
 
 
@@ -515,7 +520,7 @@ class App(QWidget):
 
     def setIndexLime(self, cb, index):
         if(cb.currentText() == "Charger mon fichier ..."):
-            fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+            fileName, App.Y_test  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
             if fileName:
                 QApplication.setOverrideCursor(Qt.WaitCursor)
                 App.fileNameTS = fileName
