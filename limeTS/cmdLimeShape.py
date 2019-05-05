@@ -27,6 +27,7 @@ parser.add_argument("-o", "--output", type=str,
 
 args = parser.parse_args()
 
+
 import importTS
 import LearningClassifier
 import lime_timeseries
@@ -39,7 +40,7 @@ import ExplanationWindow
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
-print(args)
+
 
 """X_train et Y_train servent à l'entrainement du classifieur. Les ST non étiqueté sont dans X_test."""
 X_train, Y_train, X_test, Y_test = importTS.dataImport(args.input_file)
@@ -57,6 +58,8 @@ X_train, Y_train, X_test, Y_test = importTS.dataImport(args.input_file)
     plt.plot(X_train[i].ravel(),s)
 plt.show()"""
 
+if args.features == 0:
+    args.features = args.cuts
 
 cltype = args.classifier[len(args.classifier)-8:]
 print(cltype)
