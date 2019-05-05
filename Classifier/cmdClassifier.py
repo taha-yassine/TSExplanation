@@ -17,7 +17,8 @@ parser.add_argument("-p", "--perso", action="store_true", help="indicate that th
 # const = dans la ligne mais pas renseigné
 
 args = parser.parse_args()
-print(args)
+#print(args)
+
 import importTS
 import LearningClassifier
 
@@ -43,4 +44,4 @@ else:
     classifier = LearningClassifier.NN1_Classifier(X_train, Y_train)
     LearningClassifier.saveClassifier1NN(classifier,fileName)
 
-print("Classifier saved at "+fileName+" !")
+print("Classifier saved !")

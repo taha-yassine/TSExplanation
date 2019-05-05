@@ -26,7 +26,7 @@ parser.add_argument("-o", "--output", type=str,
                     help="save the explanation with the name <output>.")
 
 args = parser.parse_args()
-
+print(args)
 
 import importTS
 import LearningClassifier
@@ -62,7 +62,7 @@ if args.features == 0:
     args.features = args.cuts
 
 cltype = args.classifier[len(args.classifier)-8:]
-print(cltype)
+#print(cltype)
 if cltype == "_1NN.sav":
     cl = LearningClassifier.loadClassifieur1NN(args.classifier)
 else:
