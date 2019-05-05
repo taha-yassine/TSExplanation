@@ -138,7 +138,7 @@ class TSDomainMapper(explanation.DomainMapper):
                 weights.append(0.1)
             else:
                 weights.append(newweights)
-        print("ccc")
+        print("\n---\n")
         print(weights)
         for i in range(0, num_cut):
             weight = -3
