@@ -1,23 +1,29 @@
 import argparse
 import sys
 
+with open("../GUI/ListeTS.csv","r") as file:
+    listeTS = file.readline().split(";")
+timeSeries = []
+for ts in listeTS:
+    timeSeries.append(ts)
+
 sys.path.insert(0, "../Classifier")
 sys.path.insert(0, "../GUI")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("input_file", type=str, help="")
+parser.add_argument("input_file", type=str,choices=timeSeries, help="")
 parser.add_argument("classifier", type=str, help="")
 
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné
-parser.add_argument("-i", "--index", type=int,  default=0, help="index of the ts explained (default : %(default)s)")
+parser.add_argument("-i", "--index", type=int,  default=0, help="index of the ts explained (default : %(default)s).")
 parser.add_argument("-f", "--features", type=int,  default=10,
-                    help="max of features present in explanation (default : %(default)s)")
-parser.add_argument("-c", "--cuts", type=int, default=24, help="(default : %(default)s)")
+                    help="max of features present in explanation (default : %(default)s).")
+parser.add_argument("-c", "--cuts", type=int, default=24, help="(default : %(default)s).")
 parser.add_argument("-s", "--samples", type=int,  default=1000,
-                    help="size of the neighborhood to learn the linear model (default : %(default)s)")
-parser.add_argument("-S", "--save", type=str, nargs='?', const="explanation",
-                    help="save the explanation (default : %(default)s)")
+                    help="size of the neighborhood to learn the linear model (default : %(default)s).")
+parser.add_argument("-o", "--output", type=str,
+                    help="save the explanation with the name <output>.")
 
 args = parser.parse_args()
 
@@ -65,14 +71,14 @@ exp = myTSexp.explain_instance(myTs,cl,X_train, args.cuts, args.features, args.s
 
 
 _, fig = exp.domain_mapper.as_pyplot(exp, myTs, args.cuts)
-plt.suptitle(args.save)
+plt.suptitle(args.input_file)
 
 fig.canvas.draw_idle()
 plt.show()
 
 result_class = str(cl.predict(myTs.reshape(1, -1))[0])
-if(args.save):
-    exp.domain_mapper.save_to_file('./SavedExplanations/'+args.save, exp, myTs, args.cuts, result_class)
+if(args.output):
+    exp.domain_mapper.save_to_file('./SavedExplanations/'+args.output, exp, myTs, args.cuts, result_class)
 
 
 
