@@ -131,7 +131,15 @@ class TSDomainMapper(explanation.DomainMapper):
         """Normalize : """
         weights = []
         for z in range(0, len(oldweights)):
-            weights.append((oldweights[z]-min(oldweights))/(max(oldweights)-min(oldweights)))
+            if len(oldweights) == 1:
+                newweights = 1
+            else:
+                newweights = (oldweights[z]-min(oldweights))/(max(oldweights)-min(oldweights))
+            if newweights == 0:
+                weights.append(0.1)
+            else:
+                weights.append(newweights)
+        print("ccc")
         print(weights)
         for i in range(0, num_cut):
             weight = -3

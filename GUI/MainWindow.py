@@ -462,6 +462,8 @@ class App(QWidget):
         num_samples = self.txt_LIME_Voisins.value()
         myTSexp = lime_timeseries.TSExplainer()
 
+        if num_features == 0:
+            num_features = num_cuts
 
         if cltype == "_1NN.sav":
             exp = myTSexp.explain_instance(myTs, cl, App.X_test, num_cuts, num_features, num_samples, 0)
