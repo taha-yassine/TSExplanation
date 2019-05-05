@@ -520,11 +520,11 @@ class App(QWidget):
 
     def setIndexLime(self, cb, index):
         if(cb.currentText() == "Charger mon fichier ..."):
-            fileName, App.Y_test  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
+            fileName, _  = QFileDialog.getOpenFileName(self,"Ouvrir un fichier","../Classifier/TimeSeriesFiles","Text files (*.txt)")
             if fileName:
                 QApplication.setOverrideCursor(Qt.WaitCursor)
                 App.fileNameTS = fileName
-                App.X_test,_ = importTS.fileImportTS(App.fileNameTS)
+                App.X_test, App.Y_test = importTS.fileImportTS(App.fileNameTS)
                 index.setMaximum(len(App.X_test))
                 QApplication.restoreOverrideCursor()
                 index.setEnabled(True)
