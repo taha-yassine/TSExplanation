@@ -6,13 +6,14 @@ with open("../GUI/ListeTS.csv","r") as file:
 timeSeries = []
 for ts in listeTS:
     timeSeries.append(ts)
+timeSeries.append('local')
 
 parser = argparse.ArgumentParser()
 parser.add_argument("input_file", type=str, choices=timeSeries, help="TS used to learn the classifier")
 parser.add_argument("classifier_type", type=str, choices=['1NN','1NN-DTW','LS'], help="classifier's type")
 
 parser.add_argument("-o","--output", type=str, help="name of the output file, it will be followed by the <classifier_type>.")
-parser.add_argument("-p", "--perso", action="store_true", help="indicate that the TS file <input_file> is on the computer")
+parser.add_argument("-p", "--perso", type=str, help="indicate that the TS file <input_file> is on the computer")
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné
 
@@ -22,8 +23,8 @@ args = parser.parse_args()
 import importTS
 import LearningClassifier
 
-if args.perso == True:
-    X_train, Y_train = importTS.fileImportTS(args.input_file)
+if args.perso:
+    X_train, Y_train = importTS.fileImportTS(args.perso)
 else:
     X_train, Y_train, _, _= importTS.dataImport(args.input_file)
 

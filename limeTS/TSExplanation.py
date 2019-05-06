@@ -6,13 +6,13 @@ with open("../GUI/ListeTS.csv","r") as file:
 timeSeries = []
 for ts in listeTS:
     timeSeries.append(ts)
-
+timeSeries.append('local')
 sys.path.insert(0, "../Classifier")
 sys.path.insert(0, "../GUI")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("input_file", type=str,choices=timeSeries, help="")
-parser.add_argument("classifier", type=str, help="")
+parser.add_argument("input_file", type=str,choices=timeSeries, help="TS file")
+parser.add_argument("classifier", type=str, help="classifier")
 
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné
@@ -24,6 +24,8 @@ parser.add_argument("-s", "--samples", type=int,  default=1000,
                     help="size of the neighborhood to learn the linear model (default : %(default)s).")
 parser.add_argument("-o", "--output", type=str,
                     help="save the explanation with the name <output>.")
+parser.add_argument("-p", "--perso", type=str, help="indicate that the TS file <input_file> is on the computer")
+
 
 args = parser.parse_args()
 print(args)
@@ -42,21 +44,14 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
 
-"""X_train et Y_train servent à l'entrainement du classifieur. Les ST non étiqueté sont dans X_test."""
+"""if args.perso:
+    X_train, Y_train = importTS.fileImportTS(args.perso)
+else:
+    X_train, Y_train, X_test, Y_test= importTS.dataImport(args.input_file)
+"""
+
 X_train, Y_train, X_test, Y_test = importTS.dataImport(args.input_file)
 
-"""for i in range(30):
-    s = "b"
-    if(Y_train[i]==4):
-        s="r"
-    if(Y_train[i]==1):
-        s="g"
-    if(Y_train[i]==2):
-        s="c"
-    if(Y_train[i]==3):
-        s="y"
-    plt.plot(X_train[i].ravel(),s)
-plt.show()"""
 
 if args.features == 0:
     args.features = args.cuts
