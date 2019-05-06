@@ -13,7 +13,7 @@ parser.add_argument("input_file", type=str, choices=timeSeries, help="TS used to
 parser.add_argument("classifier_type", type=str, choices=['1NN','1NN-DTW','LS'], help="classifier's type")
 
 parser.add_argument("-o","--output", type=str, help="name of the output file, it will be followed by the <classifier_type>.")
-parser.add_argument("-p", "--perso", type=str, help="indicate that the TS file <input_file> is on the computer")
+parser.add_argument("-l", "--local", type=str, help="indicate that the TS file <input_file> is on the computer")
 # default = pas dans la ligne de commande
 # const = dans la ligne mais pas renseigné
 
@@ -23,8 +23,8 @@ args = parser.parse_args()
 import importTS
 import LearningClassifier
 
-if args.perso:
-    X_train, Y_train = importTS.fileImportTS(args.perso)
+if args.local:
+    X_train, Y_train = importTS.fileImportTS(args.local)
 else:
     X_train, Y_train, _, _= importTS.dataImport(args.input_file)
 

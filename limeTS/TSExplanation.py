@@ -24,7 +24,7 @@ parser.add_argument("-s", "--samples", type=int,  default=1000,
                     help="size of the neighborhood to learn the linear model (default : %(default)s).")
 parser.add_argument("-o", "--output", type=str,
                     help="save the explanation with the name <output>.")
-parser.add_argument("-p", "--perso", type=str, help="indicate that the TS file <input_file> is on the computer")
+parser.add_argument("-l", "--local", type=str, help="indicate that the TS file <input_file> is on the computer")
 
 
 args = parser.parse_args()
